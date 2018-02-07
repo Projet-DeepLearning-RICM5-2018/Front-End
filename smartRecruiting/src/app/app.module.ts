@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AddOfferComponent } from './add-offer/add-offer.component';
 import { MainComponent } from './main/main.component';
+import { NoPageComponent } from './no-page/no-page.component';
+import { FooterComponent } from './footer/footer.component';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
   { path: 'offre/:id', component: AddOfferComponent },
   { path: '', component: MainComponent },
-  { path: '**', component: MainComponent }
+  { path: '**', component: NoPageComponent }
 ];
 
 @NgModule({
@@ -19,7 +21,9 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     AddOfferComponent,
-    MainComponent
+    MainComponent,
+    NoPageComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
