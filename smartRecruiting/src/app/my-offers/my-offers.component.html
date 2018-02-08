@@ -1,17 +1,35 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="mt-2 mb-4 col-5 offset-1">
-      <div class="row mb-2">
-        <a role="button" routerLink="" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
+    <!--Colonne 1-->
+    <div class="mt-2 col-1 offset-1">
+      <a role="button" routerLink="" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
+    </div>
+    <div class="col-4 justify-content-center">
+      <div class="row mt-4 mb-2 col-12 justify-content-center">
+        <h2>Mes offres</h2>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
-        <h2>Mes Offres</h2>
+        <ul class="list-group col-10">
+          <li *ngFor="let resultat of resultats"  class="list-group-item d-flex justify-content-between align-items-center">
+            {{resultat.name}}
+            <span class="badge badge-light badge-pill" (click)="searchFormation()"><a role="button" class="btn">Voir</a></span>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="col-5 offset-1" style="background:#eee">
+    <!--Colonne 2-->
+    <div class="col-6" style="background:#eee">
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
         <h2>Résultats</h2>
+      </div>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <ul class="list-group col-10">
+          <li *ngFor="let formation of formations"  class="list-group-item d-flex justify-content-between align-items-center">
+            {{formation.name}}
+            <span class="badge badge-light badge-pill"><a role="button" routerLink="/" class="btn">Voir</a></span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
