@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" routerLink="">
     <div class="row align-items-center">
       <div class="col-sm">
@@ -26,8 +26,8 @@
     </ul>
     <ul class="form-inline my-2 my-lg-0">
     <span *ngIf="!connected">
-      <a class="btn btn-outline-primary btn-margin-right" href="#" role="button">Connexion</a>
-      <a class="btn btn-outline-dark btn-margin-left" href="#" role="button">Inscription</a>
+      <button (click)="connect()" class="btn btn-outline-primary btn-margin-right">Connexion</button>
+      <a class="btn btn-outline-dark btn-margin-left" routerLink="/inscription" role="button">Inscription</a>
     </span>
       <span *ngIf="connected">
      <span class="nav-item dropdown">
@@ -36,8 +36,8 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         <a class="dropdown-item" routerLink="/mes-offres">Mes offres</a>
-        <a class="dropdown-item" routerLink="">Paramètres</a>
-        <a class="dropdown-item" routerLink="">Déconnexion</a>
+        <a class="dropdown-item" routerLink="/parametres/:userId">Paramètres</a>
+        <a class="dropdown-item" routerLink="" (click)="disconnect()">Déconnexion</a>
       </div>
       </span>
     </span>
