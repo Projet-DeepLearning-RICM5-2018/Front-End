@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#!">
+  <a class="navbar-brand" routerLink="">
     <div class="row align-items-center">
       <div class="col-sm">
         <img src="assets/logo.png" width="80"/>
@@ -15,13 +15,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item" *ngIf="admin">
-          <a class="nav-link" href="#">Statistiques</a>
+          <a class="nav-link" routerLink="">Statistiques</a>
         </li>
         <li class="nav-item" *ngIf="admin">
-          <a class="nav-link" href="#">Données</a>
+          <a class="nav-link" routerLink="">Données</a>
         </li>
         <li class="nav-item" *ngIf="admin">
-          <a class="nav-link" href="#">Formations</a>
+          <a class="nav-link" routerLink="">Formations</a>
         </li>
     </ul>
     <ul class="form-inline my-2 my-lg-0">
@@ -35,9 +35,9 @@
         Mon compte
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="/mes-offres">Mes offres</a>
-        <a class="dropdown-item" href="#">Paramètres</a>
-        <a class="dropdown-item" href="#">Déconnexion</a>
+        <a class="dropdown-item" routerLink="/mes-offres">Mes offres</a>
+        <a class="dropdown-item" routerLink="">Paramètres</a>
+        <a class="dropdown-item" routerLink="">Déconnexion</a>
       </div>
       </span>
     </span>
