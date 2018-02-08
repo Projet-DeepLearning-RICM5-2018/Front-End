@@ -1,34 +1,43 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="mt-2 mb-4 col-5 offset-1">
-        <div class="row mb-2">
-          <a role="button" routerLink="" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
-          <div class=" d-flex justify-content-center col-10"><a role="button" routerLink="/offre" class="btn btn-light"> Recommencer </a></div>
-        </div>
-        <form class="row">
-            <div class="row mb-2 col-12 d-flex justify-content-center">
-              <h2>Entrer une offre</h2>
-            </div>
-            <div class="row mb-2 col-12 d-flex justify-content-center">
-                <textarea name="textarea" type ="text" rows="10" cols="50" placeholder="Entrer votre offre."></textarea>
-            </div>
-            <div class="row mb-4 col-12  d-flex justify-content-center">
-                <button type="button" class="btn btn-primary"> Valider </button>
-            </div>
-        </form>
-        <div class='hr'>
-          <span class='hr-title'>OU</span>
-        </div>
-        <form class="row mb-2 col-12 d-flex justify-content-center">
-          <div class="form-group">
-            <input type="file" class="form-control-file" id="exampleFormControlFile1">
-          </div>
-        </form>
+    <!--Colone 1-->
+    <div class="mt-2 col-1 offset-1">
+      <a role="button" routerLink="" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
     </div>
-    <div class="col-5 offset-1" style="background:#eee">
+    <div class="col-4 justify-content-center">
+          <div class="row col-12 mt-2 justify-content-center">
+            <a role="button" routerLink="/offre"class="btn btn-light"> Recommencer </a>
+          </div>
+          <div class="row mb-2 col-12 justify-content-center">
+            <h2>Entrer une offre</h2>
+          </div>
+          <div class="row mb-2 col-12 justify-content-center">
+              <textarea name="textarea" type ="text" rows="10" cols="50" placeholder="Entrer votre offre."></textarea>
+          </div>
+          <div class="row mb-4 col-12 justify-content-center">
+              <button type="button" class="btn btn-primary" (click)="searchFormation()"> Valider </button>
+          </div>
+          <div class="row mb-4 col-12 justify-content-center">
+            <div class='hr col-10'>
+              <span class='hr-title'>OU</span>
+            </div>
+          </div>
+          <div class="row mb-4 col-12 d-flex justify-content-center">
+            <input type="file" class="form-control-file col-8" id="exampleFormControlFile1"/>
+          </div>
+    </div>
+    <div class="col-6" style="background:#eee">
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
         <h2>Résultats</h2>
+      </div>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <ul class="list-group col-10">
+          <li *ngFor="let formation of formations"  class="list-group-item d-flex justify-content-between align-items-center">
+            {{formation.name}}
+            <span class="badge badge-light badge-pill"><a role="button" href="/offre" class="btn">Voir</a></span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

@@ -23,7 +23,7 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     AddOfferComponent,
-    MyOffersComponent
+    MyOffersComponent,
     MainComponent,
     NoPageComponent,
     FooterComponent
