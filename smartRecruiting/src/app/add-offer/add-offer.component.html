@@ -1,20 +1,35 @@
 
-<div class="">
-    <a role="button" href="/" class="btn btn-light offset-1"><img src="assets/open-iconic/svg/chevron-left.svg" height="20" ></a>
-    <a role="button" href="/offre" class="btn btn-light offset-2"> Recommencer </a>
-</div>
-<div class="row">
-  <div class="offset-2 col-4 d-flex justify-content-center">
-    <br/>
-    <div class="row">
-      <textarea name="textarea" rows="10" cols="50" class="col-12">
-        Entrer votre offre.
-      </textarea>
-      
-      <button type="button" class="btn btn-primary col-12"> Valider </button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="mt-2 mb-4 col-5 offset-1">
+        <div class="row mb-2">
+          <a role="button" href="/" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
+          <div class=" d-flex justify-content-center col-10"><a role="button" href="/offre" class="btn btn-light"> Recommencer </a></div>
+        </div>
+        <form class="row">
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <h2>Entrer une offre</h2>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+                <textarea name="textarea" type ="text" rows="10" cols="50" placeholder="Entrer votre offre."></textarea>
+            </div>
+            <div class="row mb-4 col-12  d-flex justify-content-center">
+                <button type="button" class="btn btn-primary"> Valider </button>
+            </div>
+        </form>
+        <div class='hr'>
+          <span class='hr-title'>OU</span>
+        </div>
+        <form class="row mb-2 col-12 d-flex justify-content-center">
+          <div class="form-group">
+            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+          </div>
+        </form>
     </div>
-  </div>
-  <div class="offset-1 col-5">
-    blop
+    <div class="col-5 offset-1" style="background:#eee">
+      <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
+        <h2>Résultats</h2>
+      </div>
+    </div>
   </div>
 </div>
