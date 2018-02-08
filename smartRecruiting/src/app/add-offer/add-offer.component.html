@@ -7,13 +7,13 @@
     </div>
     <div class="col-4 justify-content-center">
           <div class="row col-12 mt-2 justify-content-center">
-            <a role="button" routerLink="/offre"class="btn btn-light"> Recommencer </a>
+            <a role="button" (click)="reload()" class="btn btn-light"> Recommencer </a>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
             <h2>Entrer une offre</h2>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
-              <textarea name="textarea" type ="text" rows="10" cols="50" placeholder="Entrer votre offre."></textarea>
+              <textarea name="textarea" type ="text" rows="10" cols="50" [placeholder]="offre==''?'Entrer une offre':offre"></textarea>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
               <button type="button" class="btn btn-primary" (click)="searchFormation()"> Valider </button>
@@ -31,7 +31,7 @@
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
         <h2>Résultats</h2>
       </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
+      <div *ngIf="displayResults" class="row mb-2 col-12 d-flex justify-content-center">
         <ul class="list-group col-10">
           <li *ngFor="let formation of formations"  class="list-group-item d-flex justify-content-between align-items-center">
             {{formation.name}}

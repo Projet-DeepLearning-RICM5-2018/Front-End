@@ -14,14 +14,17 @@ export class AddOfferComponent implements OnInit {
   ];
   formations = [];
   displayResults=false;
-  
+  offre = "";
+
   searchFormation(): void {
     this.displayResults = true;
     this.formations= this.TestFormations;
   }
 
-
-
+  reload():void{
+    this.offre = ""
+    this.displayResults = false;
+  }
   constructor() {
   }
 
