@@ -7,13 +7,15 @@ import { HeaderComponent } from './header/header.component';
 import { AddOfferComponent } from './add-offer/add-offer.component';
 import { MainComponent } from './main/main.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
+import { NoPageComponent } from './no-page/no-page.component';
+import { FooterComponent } from './footer/footer.component';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
   { path: 'offre/:id', component: AddOfferComponent },
   { path: 'mes-offres', component: MyOffersComponent },
   { path: '', component: MainComponent },
-  { path: '**', component: MainComponent }
+  { path: '**', component: NoPageComponent }
 ];
 
 @NgModule({
@@ -21,8 +23,10 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     AddOfferComponent,
-    MainComponent,
     MyOffersComponent
+    MainComponent,
+    NoPageComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
