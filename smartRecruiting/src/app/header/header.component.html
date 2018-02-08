@@ -12,28 +12,24 @@
   <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div *ngIf="!connected">
-    <div *ngIf="!admin">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Statistiques</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Données</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Formations</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item" *ngIf="admin">
+          <a class="nav-link" href="#">Statistiques</a>
+        </li>
+        <li class="nav-item" *ngIf="admin">
+          <a class="nav-link" href="#">Données</a>
+        </li>
+        <li class="nav-item" *ngIf="admin">
+          <a class="nav-link" href="#">Formations</a>
+        </li>
+    </ul>
     <ul class="form-inline my-2 my-lg-0">
-    <span *ngIf="connected">
+    <span *ngIf="!connected">
       <a class="btn btn-outline-primary btn-margin-right" href="#" role="button">Connexion</a>
       <a class="btn btn-outline-dark btn-margin-left" href="#" role="button">Inscription</a>
     </span>
-      <span *ngIf="!connected">
+      <span *ngIf="connected">
      <span class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Mon compte
