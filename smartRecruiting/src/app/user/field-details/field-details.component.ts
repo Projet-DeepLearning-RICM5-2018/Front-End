@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FieldDetailsComponent implements OnInit {
 
-  link = "/offre/"+idOffre
   contacts = [
     { id: 1, nom:"Otto",prenom:"Mark",role:"Chef",mail:"mail@mail.fr" },
     { id: 1, nom:"Throton",prenom:"Jacob",role:"Secretaire",mail:"mail@mail.fr" },

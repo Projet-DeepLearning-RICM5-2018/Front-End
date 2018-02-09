@@ -15,6 +15,8 @@ import { AdminDataComponent } from './admin/admin-data/admin-data.component';
 import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
 import { FieldDetailsComponent } from './user/field-details/field-details.component';
 
+import { CurrentOfferService } from './services/current-offer.service';
+
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
   { path: 'offre/:id', component: AddOfferComponent },
@@ -36,14 +38,20 @@ const appRoutes: Routes = [
     MyOffersComponent,
     MainComponent,
     NoPageComponent,
-    FooterComponent
+    FooterComponent,
+    FieldDetailsComponent,
+    AdminStatsComponent,
+    AdminDataComponent,
+    AdminFieldComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(appRoutes,{ enableTracing: true }),
   ],
-  providers: [],
+  providers: [
+    CurrentOfferService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
