@@ -13,7 +13,7 @@
             <h2>Entrer une offre</h2>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
-              <textarea name="textarea" type ="text" rows="10" cols="50" [placeholder]="offre==''?'Entrer une offre':offre"></textarea>
+              <textarea name="textarea" type="text" rows="10" cols="50" [(ngModel)]="offre" placeholder="Entrer une offre"></textarea>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
               <button type="button" class="btn btn-primary" (click)="searchFormation()"> Valider </button>
@@ -35,7 +35,7 @@
         <ul class="list-group col-10">
           <li *ngFor="let formation of formations"  class="list-group-item d-flex justify-content-between align-items-center">
             {{formation.name}}
-            <span class="badge badge-light badge-pill"><a role="button" href="/offre" class="btn">Voir</a></span>
+            <span class="badge badge-light badge-pill"><a role="button" routerLink="/formation/{{formation.id}}" class="btn">Voir</a></span>
           </li>
         </ul>
       </div>
