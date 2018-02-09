@@ -13,7 +13,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { AdminStatsComponent } from './admin/admin-stats/admin-stats.component';
 import { AdminDataComponent } from './admin/admin-data/admin-data.component';
 import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
-import { FieldDetailsComponent } from './field-details/field-details.component';
+import { FieldDetailsComponent } from './user/field-details/field-details.component';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
