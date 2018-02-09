@@ -36,7 +36,11 @@ const appRoutes: Routes = [
     MyOffersComponent,
     MainComponent,
     NoPageComponent,
-    FooterComponent
+    FooterComponent,
+    FieldDetailsComponent,
+    AdminStatsComponent,
+    AdminDataComponent,
+    AdminFieldComponent
   ],
   imports: [
     BrowserModule,
