@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { AddOfferComponent } from './add-offer/add-offer.component';
-import { MainComponent } from './main/main.component';
-import { MyOffersComponent } from './my-offers/my-offers.component';
-import { NoPageComponent } from './no-page/no-page.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { AddOfferComponent } from './user/add-offer/add-offer.component';
+import { MainComponent } from './user/main/main.component';
+import { MyOffersComponent } from './user/my-offers/my-offers.component';
+import { NoPageComponent } from './layout/no-page/no-page.component';
+import { FooterComponent } from './layout/footer/footer.component';
 import { AdminStatsComponent } from './admin/admin-stats/admin-stats.component';
 import { AdminDataComponent } from './admin/admin-data/admin-data.component';
 import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
