@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -12,10 +13,12 @@ import { FooterComponent } from './footer/footer.component';
 import { AdminStatsComponent } from './admin/admin-stats/admin-stats.component';
 import { AdminDataComponent } from './admin/admin-data/admin-data.component';
 import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
+import { FieldDetailsComponent } from './field-details/field-details.component';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
   { path: 'offre/:id', component: AddOfferComponent },
+  { path: 'formation/:id', component: FieldDetailsComponent },
   { path: 'mes-offres', component: MyOffersComponent },
   { path: 'admin', redirectTo: 'admin/statistiques', pathMatch: 'full' },
   { path: 'admin/statistiques', component: AdminStatsComponent },
@@ -33,13 +36,11 @@ const appRoutes: Routes = [
     MyOffersComponent,
     MainComponent,
     NoPageComponent,
-    FooterComponent,
-    AdminStatsComponent,
-    AdminDataComponent,
-    AdminFieldComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     RouterModule.forRoot(appRoutes,{ enableTracing: true }),
   ],
   providers: [],

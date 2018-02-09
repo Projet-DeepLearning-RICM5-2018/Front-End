@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-add-offer',
@@ -19,13 +20,14 @@ export class AddOfferComponent implements OnInit {
   searchFormation(): void {
     this.displayResults = true;
     this.formations= this.TestFormations;
+    this.router.navigate(['/offre/1']);
   }
 
   reload():void{
     this.offre = ""
     this.displayResults = false;
   }
-  constructor() {
+  constructor(public router: Router) {
   }
 
   ngOnInit() {

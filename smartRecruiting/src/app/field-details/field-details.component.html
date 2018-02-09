@@ -1,0 +1,45 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <!--Colonne 1-->
+    <div class="mt-2 col-1 offset-1">
+      <a role="button" routerLink="{{link}}" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
+    </div>
+    <div class="col-4 mt-4 justify-content-center">
+          <div class="row mb-2 col-12 justify-content-center">
+            <h2>Formation</h2>
+            <p>Iam virtutem ex consuetudine vitae sermonisque nostri interpretemur nec eam, ut quidam docti, verborum magnificentia metiamur virosque bonos eos, qui habentur, numeremus, Paulos, Catones, Galos, Scipiones, Philos; his communis vita contenta est; eos autem omittamus, qui omnino nusquam reperiuntur.</p>
+          </div>
+          <div class="row mb-4 col-12 justify-content-center">
+              <a role="button" href="" class="btn btn-primary">Site de la formation</a>
+          </div>
+    </div>
+    <div class="col-6" style="background:#eee">
+      <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
+        <h2>Contacts</h2>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="table-responsive col-10">
+          <table class="table table-striped table-light " >
+            <thead>
+              <tr class="table-active">
+                <th>Nom</th>
+                <th>Précom</th>
+                <th>Rôle</th>
+                <th>Mail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let contact of contacts">
+                <td>{{contact.nom}}</td>
+                <td>{{contact.prenom}}</td>
+                <td>{{contact.role}}</td>
+                <td>{{contact.mail}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
