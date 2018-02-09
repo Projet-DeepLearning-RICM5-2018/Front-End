@@ -9,11 +9,18 @@ import { MainComponent } from './main/main.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
 import { NoPageComponent } from './no-page/no-page.component';
 import { FooterComponent } from './footer/footer.component';
+import { AdminStatsComponent } from './admin/admin-stats/admin-stats.component';
+import { AdminDataComponent } from './admin/admin-data/admin-data.component';
+import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
   { path: 'offre/:id', component: AddOfferComponent },
   { path: 'mes-offres', component: MyOffersComponent },
+  { path: 'admin', redirectTo: 'admin/statistiques', pathMatch: 'full' },
+  { path: 'admin/statistiques', component: AdminStatsComponent },
+  { path: 'admin/donnees', component: AdminDataComponent },
+  { path: 'admin/formations', component: AdminFieldComponent },
   { path: '', component: MainComponent },
   { path: '**', component: NoPageComponent }
 ];
@@ -26,7 +33,10 @@ const appRoutes: Routes = [
     MyOffersComponent,
     MainComponent,
     NoPageComponent,
-    FooterComponent
+    FooterComponent,
+    AdminStatsComponent,
+    AdminDataComponent,
+    AdminFieldComponent
   ],
   imports: [
     BrowserModule,
