@@ -13,7 +13,7 @@ export class AdminDataComponent implements OnInit {
   public data: Prediction[];
   public selected: Prediction;
   public fields: Field[];
-  public selectedfield: Field;
+  public selectedfield: string;
 
   private isnew: boolean;
   private RICM: Field = {
@@ -55,6 +55,17 @@ export class AdminDataComponent implements OnInit {
       fields: [this.PRI, this.GGC],
       mark: null,
       inbase: true
+    }, {
+      id: 2,
+      offer: {
+        id: 2,
+        title: 'Recherche licorne',
+        content: 'Je recherche une licorne magique en bonne forme pour m\'emmener au pays magique',
+        descriptor: null
+      },
+      fields: [this.GGC, this.RICM],
+      mark: null,
+      inbase: true
     },
   ];
 
@@ -64,40 +75,59 @@ export class AdminDataComponent implements OnInit {
     this.data = this.TestData;
     this.isnew = false;
     this.fields = this.TestFields;
+    this.selectedfield = '';
   }
 
   addData() {
+    this.clear();
     this.selected = new Prediction();
     this.selected.inbase = true;
     this.selected.offer = new Offer();
+    this.selected.fields = [];
     console.log(this.selected);
     this.isnew = true;
   }
 
-
-  select(donnee) {
+  selectData(donnee) {
+    this.clear();
     this.selected = donnee;
+    this.selectedfield = '';
+  }
+
+  deleteData() {
+    this.data = this.data.filter(obj => obj !== this.selected);
+    this.clear();
   }
 
   addField() {
-    console.log(this.selectedfield);
-    this.selected.fields.push(this.selectedfield);
+
+    function isSelectedField(f) {
+      return f.name === this.selectedfield;
+    }
+
+    if (this.selectedfield !== '') {
+      const field = this.fields.find(isSelectedField, this);
+      if (!this.selected.fields.includes(field)) {
+        this.selected.fields.push(field);
+      }
+    }
   }
 
-  remove(f) {
+  removeField(f) {
     this.selected.fields = this.selected.fields.filter(obj => obj !== f);
   }
 
   save() {
     if (this.isnew) {
       this.data.push(this.selected);
-      this.isnew = false;
     }
-    this.selected = null;
+    this.clear();
   }
 
   clear() {
     this.selected = null;
+    this.isnew = false;
+    this.selectedfield = '';
   }
 
 }
