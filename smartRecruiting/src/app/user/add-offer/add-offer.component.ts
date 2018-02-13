@@ -15,13 +15,17 @@ export class AddOfferComponent implements OnInit {
   displayResults=false;
   offerContent = "";
   uploadFile : File;
+  uploadFileName : string;
 
   searchFormation(): void {
     /*TODO search formation modification objet*/
-    this.currentofferservice.setCurrentOfferContent(this.offerContent);
-    this.currentofferservice.setCurrentFile(this.uploadFile);
-    this.currentofferservice.setDisplayResults(true);
-    this.router.navigate(['/offre/'+this.offerObject.id]);
+    if(this.uploadFile!=undefined || this.offerContent!=""){
+      this.currentofferservice.setCurrentOfferContent(this.offerContent);
+      this.currentofferservice.setCurrentFile(this.uploadFile);
+      this.currentofferservice.setDisplayResults(true);
+      this.router.navigate(['/offre/'+this.offerObject.id]);
+    }
+
   }
 
   reload():void{

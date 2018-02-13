@@ -26,12 +26,14 @@
     </ul>
     <ul class="form-inline my-2 my-lg-0">
     <span *ngIf="!connected">
-      <button (click)="connect()" class="btn btn-outline-primary btn-margin-right">Connexion</button>
-      <a class="btn btn-outline-dark btn-margin-left" routerLink="/inscription" role="button">Inscription</a>
+      <!--Connexion-->
+      <button (click)="connect(login)" class="btn btn-outline-primary btn-margin-right">Connexion</button>
+      <a class="btn btn-outline-dark btn-margin-left" (click)="register(signup)" role="button">Inscription</a>
+
     </span>
       <span *ngIf="connected">
      <span class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Mon compte
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -44,3 +46,72 @@
     </ul>
   </div>
 </nav>
+
+<ng-template #login let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Authentification</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="needs-validation" novalidate>
+      <div class="alert alert-danger" role="alert" *ngIf="!validForm">
+        Des champs sont manquant
+      </div>
+      <div class="form-group">
+        <label for="emailUser">Adresse mail</label>
+        <input type="email" class="form-control" name="emailUser" id="emailUser" [(ngModel)]="emailUser" #name="ngModel" required>
+      </div>
+      <div class="form-group">
+        <label for="passwordUser">Mot de passe</label>
+        <input type="password" class="form-control" name="passwordUser" id="passwordUser" [(ngModel)]="passwordUser" #name="ngModel" required>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="row col-12 justify-content-center">
+      <button type="button" class="btn btn-outline-primary btn-margin-right" (click)="c('blop');register(signup)">S'inscrire</button>
+      <button type="button" class="btn btn-success" (click)="validateConnexion()">Valider</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #signup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Inscription</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" class="form-control" [(ngModel)]="newUser.name" name="name">
+      </div>
+      <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" class="form-control" [(ngModel)]="newUser.surname" name="surname">
+      </div>
+      <div class="form-group">
+        <label>Rôle</label>
+        <input type="text" class="form-control" [(ngModel)]="newUser.role" name="role">
+      </div>
+      <div class="form-group">
+        <label >Email</label>
+        <input type="email" class="form-control" [(ngModel)]="newUser.email" name="email">
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" class="form-control" [(ngModel)]="newUser.password" name="mdp">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="row col-12 justify-content-center">
+      <button type="button" class="btn btn-success col-4" (click)="validateRegistration()">Valider</button>
+    </div>
+
+  </div>
+</ng-template>
