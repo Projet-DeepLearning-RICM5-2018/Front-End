@@ -6,7 +6,7 @@
         <h3>Gestion de la base d'apprentissage</h3>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
-        <button class="btn btn-primary">Ajouter des données</button>
+        <button class="btn btn-primary" (click)="addData()">Ajouter des données</button>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
         <div class="col-10">
@@ -21,39 +21,67 @@
           </div>
         </div>
       </div>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+          <ul class="list-group col-10">
+            <li *ngFor="let donnee of data"  class="list-group-item d-flex justify-content-between align-items-center">
+              {{donnee.offer.title}}
+              <button type="button" class="btn btn-outline-primary" (click)="selectData(donnee)">Modifier</button>
+            </li>
+          </ul>
+      </div>
     </div>
     <!--Colonne 2-->
     <div class="col-6" style="background:#eee">
-      <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
-        <h3>Modification de données</h3>
-      </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
-        <div class="col-10">
-          <textarea class="col-12" name="textarea" type="text" rows="10" placeholder="Texte de l'offre"></textarea>
+      <div class="row">
+        <div class="col-1 align-self-center">
+          <div *ngIf="selected">
+            <a role="button" (click)="clear()"><img src="assets/open-iconic/svg/next.svg" height="25"></a>
+          </div>
         </div>
-      </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
-        <div class="col-10">
-          <div class="input-group mb-3">
-            <select class="form-control">
-              <option>Formation</option>
-              <option>RICM</option>
-              <option>PRI</option>
-              <option>GGC</option>
-            </select>
-            <div class="input-group-append">
-              <button class="btn btn-danger" type="button">
-                Supprimer
-              </button>
+        <div class="col-11">
+          <div *ngIf="selected">
+            <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
+              <h3>Modification de données</h3>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <div class="col-10">
+                <input class="col-12" name="title" type="text" placeholder="Titre de l'offre" [(ngModel)]="selected.offer.title">
+              </div>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <div class="col-10">
+                <textarea class="col-12" name="textarea" type="text" rows="10" placeholder="Texte de l'offre" [(ngModel)]="selected.offer.content"></textarea>
+              </div>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <ul class="list-group col-10">
+                <li *ngFor="let field of selected.fields"  class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{field.name}}</span>
+                  <button type="button" class="btn btn-outline-danger" (click)="removeField(field)">Supprimer</button>
+                </li>
+              </ul>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <div class="col-10">
+                <div class="input-group mb-3">
+                  <select class="form-control" [(ngModel)]="selectedfield">
+                    <option value="">Choisir une formation</option>
+                    <option *ngFor="let f of fields">{{f.name}}</option>
+                  </select>
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="addField()">
+                      Ajouter
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <button class="btn btn-success btn-margin-right" (click)="save()">Sauvegarder</button>
+              <button class="btn btn-danger btn-margin-left" *ngIf="!isnew" (click)="deleteData()">Supprimer</button>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
-          <button class="btn btn-primary">Ajouter une formation</button>
-      </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
-        <button class="btn btn-success">Sauvegarder</button>
       </div>
     </div>
   </div>

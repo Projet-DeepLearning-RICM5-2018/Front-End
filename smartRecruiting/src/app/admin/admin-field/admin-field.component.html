@@ -1,3 +1,86 @@
-<p>
-  admin-field works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <!--Colonne 1-->
+    <div class="col-6 justify-content-center">
+      <div class="row mt-4 mb-2 col-12 justify-content-center">
+        <h3>Gestion des formations</h3>
+      </div>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <button class="btn btn-primary" (click)="addField()">Ajouter une formation</button>
+      </div>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <div class="col-10">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Rechercher une formation" aria-label="Barre de recherche"
+                   aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">
+                <img src="assets/open-iconic/svg/search.svg" height="30">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <ul class="list-group col-10">
+          <li *ngFor="let field of fields"  class="list-group-item d-flex justify-content-between align-items-center">
+            {{field.name}}
+            <button type="button" class="btn btn-outline-primary" (click)="select(field)">Modifier</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--Colonne 2-->
+    <div class="col-6" style="background:#eee">
+      <div class="row">
+        <div class="col-1 align-self-center">
+          <div *ngIf="selected">
+            <a role="button" (click)="clear()"><img src="assets/open-iconic/svg/next.svg" height="25"></a>
+          </div>
+        </div>
+        <div class="col-11">
+          <div *ngIf="selected">
+            <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
+              <h3>Modification de formation</h3>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <div class="col-10">
+                <input class="col-12" name="name" type="text" placeholder="Nom de la formation" [(ngModel)]="selected.name">
+              </div>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <div class="col-10">
+                <textarea class="col-12" name="decription" type="text" rows="10" placeholder="Description de la formation" [(ngModel)]="selected.description"></textarea>
+              </div>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <ul class="list-group col-10">
+                <li *ngFor="let contact of selected.contacts"  class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{contact.name}}</span>
+                  <button type="button" class="btn btn-outline-danger" (click)="remove(contact)">Supprimer</button>
+                </li>
+              </ul>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <div class="col-10">
+                <div class="input-group mb-3">
+                  <select class="form-control" [(ngModel)]="selectedfield">
+                    <option value="">Choisir une formation</option>
+                    <option *ngFor="let f of fields">{{f.name}}</option>
+                  </select>
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="addField()">
+                      Ajouter
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2 col-12 d-flex justify-content-center">
+              <button class="btn btn-success" (click)="save()">Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
