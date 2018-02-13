@@ -3,15 +3,15 @@
   <div class="row">
     <!--Colonne 1-->
     <div class="mt-2 col-1 offset-1">
-      <a role="button" routerLink="{{link}}" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
+      <a role="button" (click)="goBack()" class=""><img src="assets/open-iconic/svg/back.svg" height="25"> </a>
     </div>
     <div class="col-4 mt-4 justify-content-center">
           <div class="row mb-2 col-12 justify-content-center">
-            <h2>Formation</h2>
-            <p>Iam virtutem ex consuetudine vitae sermonisque nostri interpretemur nec eam, ut quidam docti, verborum magnificentia metiamur virosque bonos eos, qui habentur, numeremus, Paulos, Catones, Galos, Scipiones, Philos; his communis vita contenta est; eos autem omittamus, qui omnino nusquam reperiuntur.</p>
+            <h2>{{currentField.name}}</h2>
+            <p>{{currentField.description}}</p>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
-              <a role="button" href="" class="btn btn-primary">Site de la formation</a>
+              <a role="button" href="currentField.website" class="btn btn-primary">Site de la formation</a>
           </div>
     </div>
     <div class="col-6" style="background:#eee">
@@ -27,14 +27,16 @@
                 <th>Précom</th>
                 <th>Rôle</th>
                 <th>Mail</th>
+                <th>Téléphone</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let contact of contacts">
-                <td>{{contact.nom}}</td>
-                <td>{{contact.prenom}}</td>
+              <tr *ngFor="let contact of currentField.contacts">
+                <td>{{contact.name}}</td>
+                <td>{{contact.surname}}</td>
                 <td>{{contact.role}}</td>
-                <td>{{contact.mail}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.phone}}</td>
               </tr>
             </tbody>
           </table>

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Field } from '../../shared/field';
+import { FoundFieldService } from '../../services/found-field.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-field-details',
@@ -7,15 +11,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FieldDetailsComponent implements OnInit {
 
-  contacts = [
-    { id: 1, nom:"Otto",prenom:"Mark",role:"Chef",mail:"mail@mail.fr" },
-    { id: 1, nom:"Throton",prenom:"Jacob",role:"Secretaire",mail:"mail@mail.fr" },
-    { id: 1, nom:"theBird",prenom:"Larry",role:"Directeur",mail:"mail@mail.fr" },
-  ];
+  currentField = new Field();
+  index : number;
 
-  constructor() { }
+  constructor(public route: ActivatedRoute,
+    private foundfieldservice: FoundFieldService,
+    private location: Location) { }
+
+  goBack():void{
+    console.log("IIIIIIIIIIIIIIIIIIIIIIICCCCCCCCCCCCCCCCCCIIIIIIIIIIII");
+    this.location.back();
+  }
+
 
   ngOnInit() {
+    /**TODO requete HTTP*/
+    this.route.params.subscribe(params => {this.index = +params['id'];});
+    this.currentField = this.foundfieldservice.getFieldFound(this.index);
+
   }
 
 }

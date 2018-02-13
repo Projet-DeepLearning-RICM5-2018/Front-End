@@ -16,6 +16,7 @@ import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
 import { FieldDetailsComponent } from './user/field-details/field-details.component';
 
 import { CurrentOfferService } from './services/current-offer.service';
+import { FoundFieldService } from './services/found-field.service';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     CurrentOfferService,
+    FoundFieldService,
   ],
   bootstrap: [AppComponent]
 })

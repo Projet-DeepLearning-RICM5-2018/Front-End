@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { CurrentOfferService } from '../../services/current-offer.service';
 import { Offer } from '../../shared/offer';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-add-offer',
@@ -11,38 +10,34 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class AddOfferComponent implements OnInit {
 
-  TestFormations = [
-    { id: 1, name: 'Cras justo odio' },
-    { id: 2, name: 'Dapibus ac facilisis in' },
-    { id: 3, name: 'Morbi leo risus' },
-  ];
-
   offerObject : Offer;
   formations = [];
   displayResults=false;
   offerContent = "";
-  subscription:Subscription;
+  uploadFile : File;
 
   searchFormation(): void {
-    this.displayResults = true;
-    this.formations = this.TestFormations;
-    this.offerObject.content = this.offerContent;
+    /*TODO search formation modification objet*/
     this.currentofferservice.setCurrentOfferContent(this.offerContent);
-    console.log(this.offerContent);
-    console.log(this.offerObject);
+    this.currentofferservice.setCurrentFile(this.uploadFile);
+    this.currentofferservice.setDisplayResults(true);
     this.router.navigate(['/offre/'+this.offerObject.id]);
   }
 
   reload():void{
     this.offerContent = "";
-    this.displayResults = false;
+    this.currentofferservice.setCurrentOfferContent("");
+    this.currentofferservice.setCurrentFile(null);
+    this.currentofferservice.setDisplayResults(false);
+    this.router.navigate(['/offre/']);
   }
 
   getCurrentOffer(): void {
-    this.subscription = this.currentofferservice.currentOffer$.subscribe(item => this.offerObject = item)
+    this.currentofferservice.currentOffer$.subscribe(item => this.offerObject = item)
+    this.currentofferservice.displayResults$.subscribe(item => this.displayResults = item)
+    this.currentofferservice.listeFieldFound$.subscribe(item => this.formations = item)
+    this.currentofferservice.uplodedFile$.subscribe(item => this.uploadFile = item)
     this.offerContent = this.offerObject.content;
-    console.log(this.offerObject);
-    console.log(this.offerObject.content);
   }
 
   constructor(public router: Router, private currentofferservice: CurrentOfferService) {
@@ -50,6 +45,13 @@ export class AddOfferComponent implements OnInit {
 
   ngOnInit() {
     this.getCurrentOffer();
+  }
+
+  onFileChange(event){
+    var files = event.srcElement.files;
+    if(files.length>0){
+      this.uploadFile = files[0];
+    }
   }
 
 }
