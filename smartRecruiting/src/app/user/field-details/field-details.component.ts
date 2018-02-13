@@ -12,14 +12,14 @@ import {Location} from '@angular/common';
 export class FieldDetailsComponent implements OnInit {
 
   currentField = new Field();
-  index : number;
+  index: number;
 
   constructor(public route: ActivatedRoute,
     private foundfieldservice: FoundFieldService,
     private location: Location) { }
 
-  goBack():void{
-    console.log("IIIIIIIIIIIIIIIIIIIIIIICCCCCCCCCCCCCCCCCCIIIIIIIIIIII");
+  goBack() {
+    console.log('IIIIIIIIIIIIIIIIIIIIIIICCCCCCCCCCCCCCCCCCIIIIIIIIIIII');
     this.location.back();
   }
 
