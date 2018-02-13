@@ -18,19 +18,19 @@ export class MyOffersComponent implements OnInit {
     { id: 3, name: 'Morbi leo risus' },
   ];
 
-  resultats = [];
+  results = [];
   formations = [];
-  displayResults=false;
+  displayResults = false;
 
   searchFormation(): void {
     this.displayResults = true;
-    this.formations= this.TestFormations;
+    this.formations = this.TestFormations;
   }
 
   constructor() { }
 
   ngOnInit() {
-    this.resultats = this.TestRes;
+    this.results = this.TestRes;
   }
 
 }

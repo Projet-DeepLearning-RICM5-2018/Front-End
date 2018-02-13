@@ -18,28 +18,18 @@
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
         <h2>Contacts</h2>
       </div>
-      <div class="d-flex justify-content-center">
-        <div class="table-responsive col-10">
-          <table class="table table-striped table-light " >
-            <thead>
-              <tr class="table-active">
-                <th>Nom</th>
-                <th>Précom</th>
-                <th>Rôle</th>
-                <th>Mail</th>
-                <th>Téléphone</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let contact of currentField.contacts">
-                <td>{{contact.name}}</td>
-                <td>{{contact.surname}}</td>
-                <td>{{contact.role}}</td>
-                <td>{{contact.email}}</td>
-                <td>{{contact.phone}}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
+        <div class="col-10">
+          <div *ngFor="let contact of currentField.contacts" class="list-group">
+            <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{contact.name}} {{contact.surname}}</h5>
+                <small>{{contact.role}}</small>
+              </div>
+              <p class="mb-1">{{contact.email}}</p>
+              <p class="mb-1">{{contact.phone}}</p>
+            </a>
+          </div>
         </div>
       </div>
     </div>
