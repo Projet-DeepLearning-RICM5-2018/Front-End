@@ -1,0 +1,14 @@
+dist: trusty
+sudo: required
+
+addons:
+  sonarcloud:
+    organization: "ant38-github"
+    token:
+      secure: "xqoqnqlqZPyLV7UcdU29QS6AAO3Qcx9NQJqh0KYukMWjIt9PEvJscbb5OUt8KAYiElwG8PHa+BY8mnelGBTxK92UVA2pnwB4aJz9fItlHbPRtxyvipadRdE9RxOshdYfODraa3HTGNHSO+wE+U5hke3j6qA+XUknDBYRaO24eFImO8lRqtQ1D9EtlI1GSsVgR0MEPz2n41HB7pKbMEJAFcTL7hp9fCl89VeXqD2XPQVSyyGF2b80AIS82zYDHyG6TrJCEyYZRbtYjqlH05lxIvzRXViSaznb2k3y+KFoojTMpuwH94kblNsVOLfo7W70wsa79sJVvGjQkERwwSlmrKPnBiGObxxsXdgIXNqfaaoue96vfaA3IhbObIfFphfxlk4HOn8eXQHjd/m3EFPuvQtWTLsRmQBddPY0tTIcR5C1qzj487L5gfOpkvot87QgnD/xQ2hSOhmeG1V480pAuYCQa28BVWWH+N2Y7UssUCit+oVl5omrTaZK3dx2WytlWrWilg4jRY5N1qWA3oLLIq48dAKuySHuAB/icXGm7RvG4u11AtIzVFdflcImHemnhtIvDfSxus0b7ys86xj/EeRxrPt0DqTRx5On2C40wQIwAxWN/WwwDz24xcyej2kBw6KBM+kg11/sPbQJletYoWBrYQF4UHJWlzJCD8t7LZ0="
+
+jdk:
+  - oraclejdk8
+
+script:
+  - sonar-scanner
