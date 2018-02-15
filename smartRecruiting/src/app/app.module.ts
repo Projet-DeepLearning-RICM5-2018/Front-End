@@ -18,16 +18,19 @@ import { FieldDetailsComponent } from './user/field-details/field-details.compon
 
 import { CurrentOfferService } from './services/current-offer.service';
 import { FoundFieldService } from './services/found-field.service';
+import { AuthentificationService } from './services/authentification.service';
+import { UserAuthGuardService } from './services/user-auth-guard.service';
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
   { path: 'offre/:id', component: AddOfferComponent },
   { path: 'formation/:id', component: FieldDetailsComponent },
-  { path: 'mes-offres', component: MyOffersComponent },
-  { path: 'admin', redirectTo: 'admin/statistiques', pathMatch: 'full' },
-  { path: 'admin/statistiques', component: AdminStatsComponent },
-  { path: 'admin/donnees', component: AdminDataComponent },
-  { path: 'admin/formations', component: AdminFieldComponent },
+  { path: 'mes-offres', component: MyOffersComponent, canActivate: [UserAuthGuardService] },
+  { path: 'admin', redirectTo: 'admin/statistiques', pathMatch: 'full', canActivate: [AdminAuthGuardService] },
+  { path: 'admin/statistiques', component: AdminStatsComponent, canActivate: [AdminAuthGuardService] },
+  { path: 'admin/donnees', component: AdminDataComponent, canActivate: [AdminAuthGuardService] },
+  { path: 'admin/formations', component: AdminFieldComponent, canActivate: [AdminAuthGuardService] },
   { path: '', component: MainComponent },
   { path: '**', component: NoPageComponent }
 ];
@@ -56,6 +59,9 @@ const appRoutes: Routes = [
   providers: [
     CurrentOfferService,
     FoundFieldService,
+    AuthentificationService,
+    UserAuthGuardService,
+    AdminAuthGuardService,
   ],
   bootstrap: [AppComponent]
 })

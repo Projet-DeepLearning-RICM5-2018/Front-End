@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../../shared/user';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AuthentificationService } from '../../services/authentification.service';
 
 @Component({
   selector: 'app-header',
@@ -23,19 +24,15 @@ export class HeaderComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { }
+  constructor(private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private authentificationservice:AuthentificationService) { }
 
   ngOnInit() {
-    this.connected = false;
-    this.admin = false;
     this.initForm();
+    this.authentificationservice.connected$.subscribe(item => this.connected = item)
+    this.authentificationservice.admin$.subscribe(item => this.admin = item)
   }
-
-  get name() {return this.form.get('name');}
-  get surname() {return this.form.get('surname');}
-  get role() {return this.form.get('role');}
-  get email() {return this.form.get('email');}
-  get password() {return this.form.get('password');}
 
   initForm():void{
     this.form = new FormGroup({
@@ -47,6 +44,12 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  get name() {return this.form.get('name');}
+  get surname() {return this.form.get('surname');}
+  get role() {return this.form.get('role');}
+  get email() {return this.form.get('email');}
+  get password() {return this.form.get('password');}
+
   connect(login) {
     this.modalLog = this.modalService.open(login);
     this.modalLog.result.then((result) => {
@@ -56,9 +59,22 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  validateConnexion(){
+    /**TODO*/
+    if( this.emailUser=="" || this.passwordUser==""){
+        this.validForm = false;
+    }
+    else{
+      if(this.authentificationservice.connexionUser(this.emailUser, this.passwordUser)){
+        this.authentificationservice.setConnected(true);
+        this.authentificationservice.setAdmin(true);
+        this.modalLog.close();
+      }
+    }
+  }
+
   register(signup) {
     /**TODO*/
-
     this.modalSign = this.modalService.open(signup);
     this.modalSign.result.then((result) => {
       console.log("close");
@@ -70,26 +86,18 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  validateConnexion(){
-    /**TODO*/
-    if( this.emailUser=="" || this.passwordUser==""){
-        this.validForm = false;
-    }
-    else{
-      this.connected = true;
-      this.admin = true;
-      this.modalLog.close();
-    }
-
-  }
-
   validateRegistration(){
-    console.log(this.newUser);
+    if(this.authentificationservice.connexionUser(this.emailUser, this.passwordUser)){
+      this.authentificationservice.setConnected(true);
+      this.authentificationservice.setAdmin(false);
+      this.modalSign.close();
+    }
   }
 
   disconnect() {
-    this.connected = false;
-    this.admin = false;
+    this.authentificationservice.disconect();
+    this.authentificationservice.setConnected(false);
+    this.authentificationservice.setAdmin(false);
   }
 
 
