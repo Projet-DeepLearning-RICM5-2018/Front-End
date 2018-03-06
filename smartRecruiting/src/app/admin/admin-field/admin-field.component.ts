@@ -101,9 +101,7 @@ export class AdminFieldComponent implements OnInit {
           contact => c.id = contact.id
         );
       } else {
-        this.contactService.updateContact(this.selectedField.id, c).subscribe(
-          data => this.updateContact(data)
-        );
+        this.contactService.updateContact(this.selectedField.id, c);
       }
     }
     this.showContact = true;
