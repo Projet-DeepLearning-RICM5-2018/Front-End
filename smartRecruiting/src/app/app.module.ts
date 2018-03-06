@@ -23,7 +23,6 @@ import { AuthentificationService } from './services/authentification.service';
 import { UserAuthGuardService } from './services/user-auth-guard.service';
 import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 
-import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
