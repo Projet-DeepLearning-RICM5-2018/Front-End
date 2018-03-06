@@ -10,12 +10,21 @@ export class FieldService {
     private http: HttpClient,
   ) { }
 
+  getAllFields() {
+    return this.http.get(this.fieldsRoute);
+  }
+
+  getField(fieldId) {
+    return this.http.get(this.fieldsRoute + '/' + fieldId);
+  }
+
   createField(field) {
     const body = JSON.stringify({
       'name': field.name,
       'description': field.description,
       'descriptor': '',
-      'website': field.website
+      'website': field.website,
+      'contacts' : field.contacts
     });
     return this.http.post(this.fieldsRoute, body);
   }
@@ -25,7 +34,8 @@ export class FieldService {
       'name': field.name,
       'description': field.description,
       'descriptor': '',
-      'website': field.website
+      'website': field.website,
+      'contacts' : field.contacts
     });
     return this.http.put(this.fieldsRoute + '/' + field.id, body);
   }

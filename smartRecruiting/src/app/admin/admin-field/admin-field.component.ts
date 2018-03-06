@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Field} from '../../shared/field';
 import {Contact} from '../../shared/contact';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {FieldService} from "../../services/field.service";
+import {FieldService} from '../../services/field.service';
+import {ContactService} from '../../services/contact.service';
 
 @Component({
   selector: 'app-admin-field',
@@ -12,13 +12,12 @@ import {FieldService} from "../../services/field.service";
 })
 export class AdminFieldComponent implements OnInit {
 
-  fieldsRoute = 'http://localhost:5555/fields';
-
   public fields: any;
   public selectedField: Field;
   public currentContact: Contact;
   public showContact: boolean;
-  public isnew: boolean;
+  public isNewField: boolean;
+  public isNewContact: boolean;
 
   private Contact1: Contact = {
     id: 1,
@@ -32,16 +31,17 @@ export class AdminFieldComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private http: HttpClient,
     private fieldService: FieldService,
+    private contactService: ContactService,
   ) { }
 
   ngOnInit() {
-    this.http.get(this.fieldsRoute).subscribe(data => this.fields = data);
+    this.fieldService.getAllFields().subscribe(data => this.fields = data);
     this.selectedField = null;
     this.currentContact = null;
     this.showContact = false;
-    this.isnew = false;
+    this.isNewField = false;
+    this.isNewContact = false;
     this.initForm();
   }
 
@@ -53,15 +53,15 @@ export class AdminFieldComponent implements OnInit {
     });
   }
 
-  get name() {return this.form.get('name');}
-  get description() {return this.form.get('description');}
-  get website() {return this.form.get('website');}
+  get name() {return this.form.get('name'); }
+  get description() {return this.form.get('description'); }
+  get website() {return this.form.get('website'); }
 
   addField() {
     this.selectedField = new Field();
     this.selectedField.contacts = [];
     this.showContact = false;
-    this.isnew = true;
+    this.isNewField = true;
   }
 
   selectField(f) {
@@ -70,6 +70,7 @@ export class AdminFieldComponent implements OnInit {
   }
 
   addContact() {
+    this.isNewContact = true;
     this.showContact = true;
     const newcontact = new Contact();
     if (!this.selectedField.contacts) {
@@ -80,7 +81,9 @@ export class AdminFieldComponent implements OnInit {
   }
 
   editContact(c) {
+    this.isNewContact = false;
     this.currentContact = c;
+    console.log(c);
   }
 
   isCurrentContact(c) {
@@ -88,14 +91,40 @@ export class AdminFieldComponent implements OnInit {
   }
 
   saveContact(c) {
-    this.removeContact(c);
-    this.selectedField.contacts.push(c);
+    if (this.isNewField) {
+      if (!this.isNewContact) {
+        this.updateContact(c);
+      }
+    } else {
+      if (this.isNewContact) {
+        this.contactService.createContact(this.selectedField.id, c).subscribe(
+          contact => c.id = contact.id
+        );
+      } else {
+        this.contactService.updateContact(this.selectedField.id, c).subscribe(
+          data => this.updateContact(data)
+        );
+      }
+    }
     this.showContact = true;
     this.currentContact = null;
   }
 
+  updateContact(c) {
+    const updateItem = this.selectedField.contacts.find(value => value.id = c.id);
+    const index = this.selectedField.contacts.indexOf(updateItem);
+    this.selectedField.contacts[index] = c;
+  }
+
   removeContact(c) {
-    this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c);
+    if (this.isNewField) {
+      this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c);
+    } else {
+      console.log(c);
+      this.contactService.deleteContact(c.id).subscribe(
+        res => this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c)
+      );
+    }
     if (this.selectedField.contacts.length <= 0) {
       this.showContact = false;
     }
@@ -103,7 +132,7 @@ export class AdminFieldComponent implements OnInit {
 
   saveField() {
     const f = this.selectedField;
-    if (this.isnew) {
+    if (this.isNewField) {
       this.fieldService.createField(f).subscribe(
         field => this.fields.push(field));
     } else {
@@ -125,7 +154,7 @@ export class AdminFieldComponent implements OnInit {
     this.selectedField = null;
     this.currentContact = null;
     this.showContact = false;
-    this.isnew = false;
+    this.isNewField = false;
   }
 
 }

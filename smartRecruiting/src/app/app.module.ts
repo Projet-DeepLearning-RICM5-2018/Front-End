@@ -24,6 +24,7 @@ import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 import { FieldService } from './services/field.service';
 
 import { HttpClientModule } from '@angular/common/http';
+import { ContactService } from './services/contact.service';
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
@@ -67,6 +68,7 @@ const appRoutes: Routes = [
     UserAuthGuardService,
     AdminAuthGuardService,
     FieldService,
+    ContactService,
   ],
   bootstrap: [AppComponent]
 })
