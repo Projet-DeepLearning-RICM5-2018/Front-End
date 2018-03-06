@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {URL_API} from '../shared/constants';
 
 @Injectable()
 export class FieldService {
 
-  private fieldsRoute = 'http://localhost:5555/fields';
+  private fieldsRoute = URL_API + '/fields';
 
   constructor(
     private http: HttpClient,
