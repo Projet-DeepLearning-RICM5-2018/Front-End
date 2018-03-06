@@ -98,7 +98,7 @@ export class AdminFieldComponent implements OnInit {
     } else {
       if (this.isNewContact) {
         this.contactService.createContact(this.selectedField.id, c).subscribe(
-          contact => c.id = contact.id
+          contact => c = contact
         );
       } else {
         this.contactService.updateContact(this.selectedField.id, c);
