@@ -11,18 +11,24 @@ import { AuthentificationService } from '../../services/authentification.service
 })
 export class HeaderComponent implements OnInit {
 
+  //Boolean use for display
   public connected : boolean;
   public admin : boolean;
+
+  //Data for form
   public emailUser : string = "";
   public passwordUser : string = "";
   public newUser : User = {id:1, name: "", surname:"", role:"", email:"", password: "", isAdmin:false};
-
+  form: FormGroup;
+  //Boolean to check issue
   public validForm : boolean = true;
+  public logError : boolean = false;
+  public erreurServeur : boolean = false;
+  public alreadyExist : boolean = false;
 
+  //Modals
   private modalLog: NgbModalRef;
   private modalSign: NgbModalRef;
-
-  form: FormGroup;
 
   constructor(private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -34,6 +40,7 @@ export class HeaderComponent implements OnInit {
     this.authentificationservice.admin$.subscribe(item => this.admin = item)
   }
 
+  //Init the form to set required value
   initForm():void{
     this.form = new FormGroup({
       'name': new FormControl(null, Validators.required),
@@ -44,60 +51,92 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  //Getter setter for the form validators
   get name() {return this.form.get('name');}
   get surname() {return this.form.get('surname');}
   get role() {return this.form.get('role');}
   get email() {return this.form.get('email');}
   get password() {return this.form.get('password');}
 
+  //Open the connexion modal
   connect(login) {
     this.modalLog = this.modalService.open(login);
-    this.modalLog.result.then((result) => {
-      console.log("close");
-    }, (reason) => {
-      console.log("dissmiss");
+    this.modalLog.result.then(
+      (result) => {console.log("close");},
+      (reason) => {console.log("dissmiss");});
+  }
+
+  //Open the registration modal
+  register(signup) {
+    this.modalSign = this.modalService.open(signup);
+    this.modalSign.result.then(
+      (result) => {console.log("close");},
+      (reason) => {
+        this.initForm();
+        this.newUser = {id:1, name: "", surname:"", role:"", email:"", password: "", isAdmin:false};
+        console.log("dissmiss");
     });
   }
 
+  //Try to connect User or display error in the dom element
   validateConnexion(){
-    /**TODO*/
     if( this.emailUser=="" || this.passwordUser==""){
         this.validForm = false;
     }
     else{
-      if(this.authentificationservice.connexionUser(this.emailUser, this.passwordUser)){
-        this.authentificationservice.setConnected(true);
-        this.authentificationservice.setAdmin(true);
-        this.modalLog.close();
-      }
+      this.authentificationservice.connexionUser(this.emailUser, this.passwordUser)
+        .subscribe(
+          data => {
+            this.authentificationservice.setConnexionUser(data);
+            this.disabledDisplayingIssues();
+            this.modalLog.close();
+          },
+          error => {
+            console.log(error);
+            if(error.status==404){this.logError = true;}
+            else{this.erreurServeur = true;}
+          }
+        );
     }
   }
 
-  register(signup) {
-    /**TODO*/
-    this.modalSign = this.modalService.open(signup);
-    this.modalSign.result.then((result) => {
-      console.log("close");
-    }, (reason) => {
-      console.log(this.newUser)
-      this.initForm();
-      this.newUser = {id:1, name: "", surname:"", role:"", email:"", password: "", isAdmin:false};
-      console.log("dissmiss");
-    });
+  //set error boolean to False
+  disabledDisplayingIssues(){
+    this.validForm = true;
+    this.logError = false;
+    this.erreurServeur = false;
+    this.alreadyExist = false;
   }
 
+ //Try to register User or display error in the dom element
   validateRegistration(){
-    if(this.authentificationservice.connexionUser(this.emailUser, this.passwordUser)){
-      this.authentificationservice.setConnected(true);
-      this.authentificationservice.setAdmin(false);
-      this.modalSign.close();
+    this.authentificationservice.registrationUser(this.newUser)
+      .subscribe(
+        data => {
+          this.authentificationservice.setConnexionUser(data);
+          this.disabledDisplayingIssues();
+          this.initForm();
+          this.newUser = {id:1, name: "", surname:"", role:"", email:"", password: "", isAdmin:false};
+          this.modalSign.close();
+        },
+        error => {
+          console.log(error);
+          if(error.status==404){this.alreadyExist = true;}
+          else{this.erreurServeur = true;}
+        });
     }
-  }
 
+  //disconnect a user
   disconnect() {
-    this.authentificationservice.disconect();
-    this.authentificationservice.setConnected(false);
-    this.authentificationservice.setAdmin(false);
+    this.authentificationservice.disconect().subscribe(
+      data => {
+        this.authentificationservice.initConnexionUser();
+        console.log("Disconnect")
+      },
+      error => {
+        console.log("Error")
+      }
+    );
   }
 
 
