@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {URL_API} from '../shared/constants';
 
 @Injectable()
 export class ContactService {
 
-  private contactsRoute = 'http://localhost:5555/contacts';
+  private contactsRoute = URL_API + '/contacts';
 
   constructor(
     private http: HttpClient,
