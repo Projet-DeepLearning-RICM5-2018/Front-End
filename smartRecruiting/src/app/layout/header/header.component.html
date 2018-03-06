@@ -47,6 +47,7 @@
   </div>
 </nav>
 
+<!--Authentification-->
 <ng-template #login let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Authentification</h4>
@@ -55,6 +56,12 @@
     </button>
   </div>
   <div class="modal-body">
+    <div class="alert alert-danger" *ngIf="logError" role="alert">
+      Cet utilisateur n'existe pas ou vous vous êtes trompez en rentrant vos identifiants.
+    </div>
+    <div class="alert alert-danger" *ngIf="erreurServeur" role="alert">
+      Une erreur c'est produite sur le serveur reessayez plus tard.
+    </div>
     <form class="needs-validation" novalidate>
       <div class="alert alert-danger" role="alert" *ngIf="!validForm">
         Des champs sont manquant
@@ -85,6 +92,12 @@
     </button>
   </div>
   <div class="modal-body">
+    <div class="alert alert-danger" *ngIf="alreadyExist" role="alert">
+      Cet utilisateur exist déjà.
+    </div>
+    <div class="alert alert-danger" *ngIf="erreurServeur" role="alert">
+      Une erreur c'est produite sur le serveur reessayez plus tard.
+    </div>
     <form  class="form-horizontal" [formGroup]="form" (ngSubmit)="validateRegistration()">
       <div class="form-group">
         <label>Nom*</label>
