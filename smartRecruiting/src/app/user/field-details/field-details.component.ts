@@ -19,7 +19,6 @@ export class FieldDetailsComponent implements OnInit {
     private location: Location) { }
 
   goBack() {
-    console.log('IIIIIIIIIIIIIIIIIIIIIIICCCCCCCCCCCCCCCCCCIIIIIIIIIIII');
     this.location.back();
   }
 

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { CurrentOfferService } from '../../services/current-offer.service';
+import { PredictionService } from '../../services/prediction.service';
+import { AuthentificationService } from '../../services/authentification.service';
 import { Offer } from '../../shared/offer';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-offer',
@@ -10,52 +12,86 @@ import { Offer } from '../../shared/offer';
 })
 export class AddOfferComponent implements OnInit {
 
-  offerObject : Offer;
-  formations = [];
-  displayResults=false;
-  offerContent = "";
-  uploadFile : File;
-  uploadFileName : string;
+  public offerObject : Offer;
+  public formations = [];
 
-  searchFormation(): void {
-    /*TODO search formation modification objet*/
-    if(this.uploadFile!=undefined || this.offerContent!=""){
-      this.currentofferservice.setCurrentOfferContent(this.offerContent);
-      this.currentofferservice.setCurrentFile(this.uploadFile);
-      this.currentofferservice.setDisplayResults(true);
-      this.router.navigate(['/offre/'+this.offerObject.id]);
-    }
+  //For display
+  public displayResults = false;
+  public isConnected : boolean;
 
-  }
+  //Form
+  public offerContent = "";
+  public uploadFile : File;
+  public uploadFileName : string;
 
-  reload():void{
-    this.offerContent = "";
-    this.currentofferservice.setCurrentOfferContent("");
-    this.currentofferservice.setCurrentFile(null);
-    this.currentofferservice.setDisplayResults(false);
-    this.router.navigate(['/offre/']);
-  }
+  private modalWarning: NgbModalRef;
 
-  getCurrentOffer(): void {
-    this.currentofferservice.currentOffer$.subscribe(item => this.offerObject = item)
-    this.currentofferservice.displayResults$.subscribe(item => this.displayResults = item)
-    this.currentofferservice.listeFieldFound$.subscribe(item => this.formations = item)
-    this.currentofferservice.uplodedFile$.subscribe(item => this.uploadFile = item)
-    this.offerContent = this.offerObject.content;
-  }
-
-  constructor(public router: Router, private currentofferservice: CurrentOfferService) {
+  constructor(
+    public router: Router,
+    private _predictionservice: PredictionService,
+    private _authentificationservice : AuthentificationService,
+    private modalService: NgbModal,) {
   }
 
   ngOnInit() {
     this.getCurrentOffer();
+    this.listenerUserConnexion();
   }
 
+  getPrediction(): void {
+    if(this.uploadFile!=undefined || this.offerContent!=""){//if there is a pdf or string offer
+      var request = this._predictionservice.saveOfferAndGetPrediction(this.offerContent, this.uploadFile, this.isConnected);
+      /**TODO : promise subscribe*/
+      this._predictionservice.setDisplayResults(true);
+      this.router.navigate(['/offre/'+this.offerObject.id]);
+    }
+  }
+
+  //Clear the differrent field
+  reload():void{
+    this.offerContent = "";
+    this._predictionservice.setCurrentOfferContent("");
+    this._predictionservice.setCurrentFile(null);
+    this._predictionservice.setDisplayResults(false);
+    this.router.navigate(['/offre/']);
+  }
+
+  //Init the different field
+  getCurrentOffer(): void {
+    this._predictionservice.currentOffer$.subscribe(item => this.offerObject = item)
+    this._predictionservice.displayResults$.subscribe(item => this.displayResults = item)
+    this._predictionservice.listeFieldFound$.subscribe(item => this.formations = item)
+    this._predictionservice.uplodedFile$.subscribe(item => this.uploadFile = item)
+    this.offerContent = this.offerObject.content;
+  }
+
+  //Subscribe to the connected boolean, if user connects after lauch prediction the prediction is saved in the BDD
+  listenerUserConnexion(){
+    this._authentificationservice.connected$.subscribe(item =>{
+      this.isConnected = item
+      if(this.isConnected && this.formations.length!=0){
+        console.log("Test if offer already exist ...");
+        console.log("Save in database");
+        console.log("else do nothing");
+        /**TODO*/
+        this._predictionservice.saveAnOfferAndAPrediction();
+      }
+      else{console.log("Don't save")}
+    });
+  }
+
+  //Open the connexion modal
+  open(warning) {
+    this.modalWarning = this.modalService.open(warning);
+    this.modalWarning.result.then(
+      (result) => {console.log("close");},
+      (reason) => {console.log("dissmiss");});
+  }
+
+  //Load File
   onFileChange(event){
     var files = event.srcElement.files;
-    if(files.length>0){
-      this.uploadFile = files[0];
-    }
+    if(files.length>0){this.uploadFile = files[0];}
   }
 
 }

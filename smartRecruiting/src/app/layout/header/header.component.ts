@@ -62,7 +62,11 @@ export class HeaderComponent implements OnInit {
   connect(login) {
     this.modalLog = this.modalService.open(login);
     this.modalLog.result.then(
-      (result) => {console.log("close");},
+      (result) => {
+        console.log("close");
+        this.emailUser = "";
+        this.passwordUser = "";
+      },
       (reason) => {console.log("dissmiss");});
   }
 
