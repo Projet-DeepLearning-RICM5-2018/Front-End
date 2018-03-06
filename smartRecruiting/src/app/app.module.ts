@@ -17,7 +17,7 @@ import { AdminDataComponent } from './admin/admin-data/admin-data.component';
 import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
 import { FieldDetailsComponent } from './user/field-details/field-details.component';
 
-import { CurrentOfferService } from './services/current-offer.service';
+import { PredictionService } from './services/prediction.service';
 import { FoundFieldService } from './services/found-field.service';
 import { AuthentificationService } from './services/authentification.service';
 import { UserAuthGuardService } from './services/user-auth-guard.service';
@@ -60,7 +60,7 @@ const appRoutes: Routes = [
     HttpClientModule,
   ],
   providers: [
-    CurrentOfferService,
+    PredictionService,
     FoundFieldService,
     AuthentificationService,
     UserAuthGuardService,

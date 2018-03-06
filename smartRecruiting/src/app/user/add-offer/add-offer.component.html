@@ -7,7 +7,7 @@
     </div>
     <div class="col-4 justify-content-center">
           <div class="row col-12 mt-2 justify-content-center">
-            <a role="button" (click)="reload()" class="btn btn-light"> Recommencer </a>
+            <button type="button" (click)="isConnected?reload():open(warning)" class="btn btn-primary" [disabled]="formations.length==0"> Recommencer </button>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
             <h2>Entrer une offre</h2>
@@ -16,8 +16,8 @@
               <textarea name="textarea" type="text" rows="10" cols="50" [(ngModel)]="offerContent" placeholder="Entrer une offre"></textarea>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
-              <button type="button" class="btn btn-primary" (click)="searchFormation()"> Valider </button>
-          </div>
+              <button type="button" class="btn btn-primary" (click)="getPrediction()"> Valider </button>
+          </div><!--
           <div class="row mb-4 col-12 justify-content-center">
             <div class='hr col-10'>
               <span class='hr-title'>OU</span>
@@ -25,8 +25,9 @@
           </div>
           <div class="row mb-4 col-12 d-flex justify-content-center">
             <input type="file" class="form-control-file col-8" [(ngModel)]="uploadFileName" (change)="onFileChange($event)"/>
-          </div>
+          </div>-->
     </div>
+    <!--Colonne 2-->
     <div class="col-6" style="background:#eee">
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
         <h2>Résultats</h2>
@@ -41,4 +42,26 @@
       </div>
     </div>
   </div>
+
+  <!--Warning-->
+  <ng-template #warning let-c="close" let-d="dissmiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Attention</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert">
+        Attention vous n'êtes pas connecté si vous cliquez sur recommencer votre prédiction et votre offre seront effacées!
+      </div>
+      <div class="modal-footer">
+        <div class="row col-12 justify-content-center">
+          <button type="button" class="btn btn-outline-primary btn-margin-right" (click)="c('')">Annuler</button>
+          <button type="button" class="btn btn-success" (click)="c('');reload()">Recommencer?</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
 </div>
