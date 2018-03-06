@@ -21,6 +21,7 @@ import { FoundFieldService } from './services/found-field.service';
 import { AuthentificationService } from './services/authentification.service';
 import { UserAuthGuardService } from './services/user-auth-guard.service';
 import { AdminAuthGuardService } from './services/admin-auth-guard.service';
+import { FieldService } from './services/field.service';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
     AuthentificationService,
     UserAuthGuardService,
     AdminAuthGuardService,
+    FieldService,
   ],
   bootstrap: [AppComponent]
 })

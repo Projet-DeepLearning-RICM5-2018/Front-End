@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Field} from '../../shared/field';
 import {Contact} from '../../shared/contact';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FieldService} from "../../services/field.service";
 
 @Component({
   selector: 'app-admin-field',
@@ -9,7 +12,9 @@ import {Contact} from '../../shared/contact';
 })
 export class AdminFieldComponent implements OnInit {
 
-  public fields: Field[];
+  fieldsRoute = 'http://localhost:5555/fields';
+
+  public fields: any;
   public selectedField: Field;
   public currentContact: Contact;
   public showContact: boolean;
@@ -24,42 +29,33 @@ export class AdminFieldComponent implements OnInit {
     phone: '0123456789'
   };
 
-  private RICM: Field = {
-    id: 1,
-    name: 'RICM',
-    description: 'Fausse filière',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: [this.Contact1]
-  };
-  private PRI: Field = {
-    id: 2,
-    name: 'PRI',
-    description: 'Prévention des risques',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-  private GGC: Field = {
-    id: 3,
-    name: 'GGC',
-    description: 'Géotechniques',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
+  form: FormGroup;
 
-  private TestFields = [this.RICM, this.PRI, this.GGC];
-
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+    private fieldService: FieldService,
+  ) { }
 
   ngOnInit() {
-    this.fields = this.TestFields;
+    this.http.get(this.fieldsRoute).subscribe(data => this.fields = data);
     this.selectedField = null;
     this.currentContact = null;
     this.showContact = false;
     this.isnew = false;
+    this.initForm();
   }
+
+  initForm() {
+    this.form = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'description': new FormControl(null, Validators.required),
+      'website': new FormControl(null, Validators.required)
+    });
+  }
+
+  get name() {return this.form.get('name');}
+  get description() {return this.form.get('description');}
+  get website() {return this.form.get('website');}
 
   addField() {
     this.selectedField = new Field();
@@ -70,12 +66,13 @@ export class AdminFieldComponent implements OnInit {
 
   selectField(f) {
     this.selectedField = f;
-    this.showContact = (f.contacts !== null && f.contacts.length > 0);
+    this.showContact = (f.contacts && f.contacts.length > 0);
   }
+
   addContact() {
     this.showContact = true;
     const newcontact = new Contact();
-    if (this.selectedField.contacts === null) {
+    if (!this.selectedField.contacts) {
       this.selectedField.contacts = [];
     }
     this.selectedField.contacts.push(newcontact);
@@ -105,14 +102,22 @@ export class AdminFieldComponent implements OnInit {
   }
 
   saveField() {
+    const f = this.selectedField;
     if (this.isnew) {
-      this.fields.push(this.selectedField);
+      this.fieldService.createField(f).subscribe(
+        field => this.fields.push(field));
+    } else {
+      this.fieldService.updateField(f).subscribe(data => console.log('coucou!'));
     }
     this.clear();
   }
 
   deleteField() {
-    this.fields = this.fields.filter(obj => obj !== this.selectedField);
+    const to_delete = this.selectedField;
+    this.fieldService.deleteField(to_delete).subscribe(
+      data => this.fields = this.fields.filter(obj => obj !== to_delete)
+    );
+    // this.fields = this.fields.filter(obj => obj !== this.selectedField)
     this.clear();
   }
 

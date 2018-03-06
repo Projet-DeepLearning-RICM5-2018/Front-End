@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.http.get(this.test_route).subscribe(data => console.log(data));
+    // this.http.get(this.test_route).subscribe(data => console.log(data));
   }
 
 }
