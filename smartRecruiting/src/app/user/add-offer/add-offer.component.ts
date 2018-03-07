@@ -45,10 +45,16 @@ export class AddOfferComponent implements OnInit {
 
   getPrediction(): void {
     if((this.uploadFile!=undefined || this.offerContent!="") && this.offerTitle!=''){//if there is a pdf or string offer
-      var request = this._predictionservice.saveOfferAndGetPrediction(this.offerContent, this.uploadFile, this.isConnected);
-      /**TODO : promise subscribe*/
-      this._predictionservice.setDisplayResults(true);
-      this.router.navigate(['/offre/'+this.offerObject.id]);
+      var request = this._predictionservice.getPrediction(this.offerTitle,this.offerContent, this.uploadFile)
+      .subscribe(
+        data => {
+          console.log(data);
+          this._predictionservice.setListeFieldFound([data.field]);
+          this._predictionservice.setDisplayResults(true);
+          this.router.navigate(['/offre/'+this.offerObject.id]);
+        },
+        error => {}
+      );
     }
   }
 
@@ -73,10 +79,9 @@ export class AddOfferComponent implements OnInit {
   //Subscribe to the connected boolean, if user connects after lauch prediction the prediction is saved in the BDD
   listenerUserConnexion(){
     this._authentificationservice.connectedUser$.subscribe(item =>{
-      this.isConnected = item!=undefined
+      this.isConnected = (item!=undefined)
       if(this.isConnected && this.formations.length!=0){
-        /**TODO*/
-        //this._predictionservice.saveAnOfferAndAPrediction(this.offerContent,this.offerTitle,);
+        this._predictionservice.saveAnOfferAndAPrediction(this.offerContent,this.offerTitle,this.formations[0].id);
       }
       else{console.log("Don't save")}
     });
