@@ -36,8 +36,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this._authentificationservice.connected$.subscribe(item => this.connected = item)
-    this._authentificationservice.admin$.subscribe(item => this.admin = item)
+    this._authentificationservice.connectedUser$.subscribe(item => {this.connected = item!=undefined})
+    this._authentificationservice.connectedUser$.subscribe(item => {
+      if(item){this.admin = item.is_admin;}
+      else{this.admin = false;}
+    });
   }
 
   //Init the form to set required value

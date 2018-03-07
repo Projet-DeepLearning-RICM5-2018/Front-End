@@ -20,35 +20,65 @@ httpOptions = {
 @Injectable()
 export class AuthentificationService {
 
-  public connected = new BehaviorSubject<boolean>(false);
-  public admin = new BehaviorSubject<boolean>(false);
-  public connectedUser = new BehaviorSubject<User>(undefined);
-  public tokenUser = new BehaviorSubject<string>("");
+  public admin = new BehaviorSubject<boolean>(this.initIsAdmin());
+  public connectedUser = new BehaviorSubject<any>(this.initConnectedUser());
+  public tokenUser = new BehaviorSubject<string>(this.initTokenUser());
 
   public globalLink = URL_API;
 
-  connected$ = this.connected.asObservable();
   admin$ = this.admin.asObservable();
   connectedUser$ = this.connectedUser.asObservable();
   tokenUser$ = this.tokenUser.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  //Getter and setter
-  getConnected(): BehaviorSubject<boolean>{return this.connected;}
-  setConnected(isCo:boolean): void {this.connected.next(isCo);}
+  public getAdmin(): BehaviorSubject<boolean>{return this.admin}
 
-  getAdmin(): BehaviorSubject<boolean>{return this.admin}
-  setAdmin(isAdmin:boolean): void {this.admin.next(isAdmin);}
+  public setAdmin(isAdmin:boolean): void {
+    this.admin.next(isAdmin);
+    localStorage.setItem('isAdmin', this.admin.value);
+  }
 
-  getConnectedUser(): BehaviorSubject<User>{return this.connectedUser;}
-  setConnectedUser(user:User): void {this.connectedUser.next(user);}
+  private initIsAdmin(){
+    if(localStorage.getItem("isAdmin")){
+      return localStorage.getItem("isAdmin")
+    }
+    else{
+      return this.admin;
+    }
+  }
 
-  getTokenUser(): BehaviorSubject<string>{return this.tokenUser}
-  setTokenUser(token:string): void {this.tokenUser.next(token);}
+  public getConnectedUser(): BehaviorSubject<any>{return this.connectedUser;}
+  public setConnectedUser(user:User): void {
+    this.connectedUser.next(user);
+    localStorage.setItem('conenctedUser', this.connectedUser.value);
+  }
+  private initConnectedUser(){
+    if(localStorage.getItem("conenctedUser")){
+      return localStorage.getItem("conenctedUser")
+    }
+    else{
+      return this.connectedUser;
+    }
+  }
+
+  public getTokenUser(): BehaviorSubject<string>{return this.tokenUser}
+  public setTokenUser(token:string): void {
+    this.tokenUser.next(token);
+    localStorage.setItem('token', this.tokenUser.value);
+  }
+  private initTokenUser(){
+    if(localStorage.getItem("token")){
+      return localStorage.getItem("token")
+    }
+    else{
+      return this.tokenUser;
+    }
+  }
 
   //Send a connexion request to the back-end
   //return an observable
+
   connexionUser(mail:string, psw : string) {
     var body = JSON.stringify({
             emailUser: mail,
@@ -60,15 +90,16 @@ export class AuthentificationService {
 
   //Init the different field of the service
   initConnexionUser(){
-    this.setConnected(false);
-    this.setConnectedUser(undefined);
-    this.setTokenUser("");
-    this.setAdmin(false);
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("conenctedUser");
+    localStorage.removeItem("token");
+    this.connectedUser.next(undefined);
+    this.tokenUser.next('');
+    this.admin.next(false);
   }
 
   //Set the different field of the service
   setConnexionUser(data){
-    this.setConnected(true);
     this.setConnectedUser(data.user);
     this.setTokenUser(data.token);
     this.setAdmin(data.user.is_admin==1);
@@ -95,7 +126,6 @@ export class AuthentificationService {
         'Authorization' : 'Bearer '+ this.tokenUser.value,
       })
     };
-
     return this.http.post(this.globalLink+"/auth/logout",{},httpOptions);
   }
 
