@@ -36,13 +36,15 @@ export class OfferService {
   }
 
   getAllOffers() {
-    const token = this._authentificationService.getTokenUser().value;
-    const httpOptions = this.buildHttpOptions(token);
+    var token = this._authentificationService.getTokenUser().value;
+    var httpOptions = this.buildHttpOptions(token);
     return this.http.get(this.offersRoute, httpOptions);
   }
 
 
-  getOfferForConnectedClient(id: number, token: string) {
+  getOfferForConnectedClient() {
+    var token = this._authentificationService.getTokenUser().value;
+    var id = this._authentificationService.getConnectedUser().value.id;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization' : 'Bearer ' + token

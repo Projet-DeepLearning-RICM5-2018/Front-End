@@ -47,9 +47,8 @@ export class MyOffersComponent implements OnInit {
     private _fieldservice : FieldService) { }
 
   ngOnInit() {
-    var id = this._authentificationservice.getConnectedUser().value.id;
-    var token = this._authentificationservice.getTokenUser().value;
-    this._offerservice.getOfferForConnectedClient(id,token)
+
+    this._offerservice.getOfferForConnectedClient()
     .subscribe(
       data => {
         this.predictions = data;
@@ -62,9 +61,8 @@ export class MyOffersComponent implements OnInit {
 
   selectPrediction(p): void {
     //fields
-    var token = this._authentificationservice.getTokenUser().value;
     this.selectedPrediction = p;
-
+    console.log(this.selectedPrediction)
     this._fieldservice.getAllFieldByOffer(this.selectedPrediction.id)
     .subscribe(
       data => {

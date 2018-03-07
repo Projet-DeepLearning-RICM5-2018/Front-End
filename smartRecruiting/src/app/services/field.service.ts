@@ -48,7 +48,7 @@ export class FieldService {
   }
 
    getAllFieldByOffer(idO) {
-    var token = this._authentificationservice
+    var token = this._authentificationservice.getTokenUser().value;
     var httpOptions = {
       headers: new HttpHeaders({
         'Authorization' : 'Bearer '+token
