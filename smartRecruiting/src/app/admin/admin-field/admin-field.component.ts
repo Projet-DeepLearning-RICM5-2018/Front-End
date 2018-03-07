@@ -139,11 +139,22 @@ export class AdminFieldComponent implements OnInit {
     }
   }
 
+  addNewFieldToAll(field) {
+    this.allFields.push(field);
+    this.initFields(this.allFields);
+  }
+
+  deleteFieldToAll(field) {
+    this.allFields = this.allFields.filter(obj => obj !== field);
+    this.initFields(this.allFields);
+  }
+
   saveField() {
     const f = this.selectedField;
     if (this.isNewField) {
       this.fieldService.createField(f).subscribe(
-        field => this.allFields.push(field));
+        field => this.addNewFieldToAll(field)
+      );
     } else {
       this.fieldService.updateField(f).subscribe(data => console.log('coucou!'));
     }
@@ -153,7 +164,7 @@ export class AdminFieldComponent implements OnInit {
   deleteField() {
     const to_delete = this.selectedField;
     this.fieldService.deleteField(to_delete).subscribe(
-      data => this.allFields = this.allFields.filter(obj => obj !== to_delete)
+      data => this.deleteFieldToAll(to_delete)
     );
     this.clear();
   }
