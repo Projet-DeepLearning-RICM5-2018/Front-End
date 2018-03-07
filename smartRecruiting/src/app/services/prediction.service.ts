@@ -65,7 +65,8 @@ export class PredictionService {
   }
 
   //Save offer
-  saveOfferAndGetPrediction(strOffer, fileOffer, connected){
+  getPrediction(title, strOffer, fileOffer){
+    var content = ''
     if(fileOffer!=undefined){
       console.log("Extraire les données du fichier avant de sauvegarder dans la BDD")
       this.setCurrentFile(fileOffer);
@@ -73,11 +74,17 @@ export class PredictionService {
     else{
       console.log("Save str BDD")
       this.setCurrentOfferContent(strOffer);
+      content = strOffer;
     }
     console.log("Launch Prediction")
-    /**TODO*/
-    this.setListeFieldFound([oneField]);
-    return undefined;
+    let user = this._authentificationservice.getConnectedUser().value;
+    let body = JSON.stringify({
+        'title': title,
+        'content': content,
+        'descriptor' : "",
+        'id_user': user.id,
+      });
+    return this.http.post(this.globalLink+'/generatePrediction',body,this.createHeader())
   }
 
   //Save offer and a prediction
@@ -87,10 +94,11 @@ export class PredictionService {
       'title': title,
       'content': content,
       'id_user': user.id,
-      'id_field': user.idField,
+      'id_field': idField,
       'inbase' : false
     });
 
-    this.http.post(this.globalLink+'/offers_link',this.createHeader())
+    this.http.post(this.globalLink+'/offers_link',body,this.createHeader())
   }
+
 }
