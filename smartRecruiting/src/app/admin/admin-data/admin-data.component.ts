@@ -11,7 +11,8 @@ import {OfferService} from '../../services/offer.service';
 })
 export class AdminDataComponent implements OnInit {
 
-  public data: Prediction[];
+  public offers: any;
+  public selectedOffer: any;
   public selected: Prediction;
   public fields: Field[];
   public selectedfield: string;
@@ -75,8 +76,7 @@ export class AdminDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.offerService.getAllOffers().subscribe(offers => this.data = offers);
-    this.data = this.TestData;
+    this.offerService.getAllOffers().subscribe(offers => this.offers = offers);
     this.isnew = false;
     this.fields = this.TestFields;
     this.selectedfield = '';
@@ -92,14 +92,14 @@ export class AdminDataComponent implements OnInit {
     this.isnew = true;
   }
 
-  selectData(donnee) {
+  selectOffer(offer) {
     this.clear();
-    this.selected = donnee;
+    this.selectedOffer = offer;
     this.selectedfield = '';
   }
 
   deleteData() {
-    this.data = this.data.filter(obj => obj !== this.selected);
+    this.offers = this.offers.filter(obj => obj !== this.selected);
     this.clear();
   }
 
@@ -123,7 +123,7 @@ export class AdminDataComponent implements OnInit {
 
   save() {
     if (this.isnew) {
-      this.data.push(this.selected);
+      this.offers.push(this.selected);
     }
     this.clear();
   }
