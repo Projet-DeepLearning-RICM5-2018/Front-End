@@ -8,9 +8,8 @@ export class AdminAuthGuardService implements CanActivate {
   constructor(private auth: AuthentificationService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.auth.getConnected() && this.auth.getAdmin()) {
-      console.log(localStorage.getItem('token'));
-      console.log(this.auth.getAdmin);
+    let user = this.auth.getConnectedUser().value;
+    if (user && user.is_admin) {
       return true;
     }
     else {

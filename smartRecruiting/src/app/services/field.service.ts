@@ -9,9 +9,7 @@ export class FieldService {
 
   private genericRoute = URL_API;
   private fieldsRoute = this.genericRoute + '/fields';
-
-
-
+  
   constructor(
     private http: HttpClient,
     private _authentificationservice : AuthentificationService,

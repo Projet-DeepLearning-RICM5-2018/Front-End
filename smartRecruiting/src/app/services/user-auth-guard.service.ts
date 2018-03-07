@@ -8,9 +8,8 @@ export class UserAuthGuardService implements CanActivate {
   constructor(private auth: AuthentificationService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.auth.getConnected()) {
-      console.log(this.auth.getConnected());
-      console.log(this.auth.getAdmin());
+    let user = this.auth.getConnectedUser().value;
+    if (user) {
       return true;
     }
     else {

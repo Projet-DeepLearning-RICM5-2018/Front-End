@@ -67,12 +67,9 @@ export class AddOfferComponent implements OnInit {
 
   //Subscribe to the connected boolean, if user connects after lauch prediction the prediction is saved in the BDD
   listenerUserConnexion(){
-    this._authentificationservice.connected$.subscribe(item =>{
-      this.isConnected = item
+    this._authentificationservice.connectedUser$.subscribe(item =>{
+      this.isConnected = item!=undefined
       if(this.isConnected && this.formations.length!=0){
-        console.log("Test if offer already exist ...");
-        console.log("Save in database");
-        console.log("else do nothing");
         /**TODO*/
         this._predictionservice.saveAnOfferAndAPrediction();
       }
