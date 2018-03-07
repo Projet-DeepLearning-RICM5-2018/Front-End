@@ -3,6 +3,7 @@ import {Prediction} from '../../shared/prediction';
 import {Offer} from '../../shared/offer';
 import {Field} from '../../shared/field';
 import {OfferService} from '../../services/offer.service';
+import {FieldService} from '../../services/field.service';
 
 @Component({
   selector: 'app-admin-data',
@@ -13,125 +14,92 @@ export class AdminDataComponent implements OnInit {
 
   public offers: any;
   public selectedOffer: any;
-  public selected: Prediction;
-  public fields: Field[];
+  public fields_of_offer: any;
+  public all_fields: any;
   public selectedfield: string;
 
+  public editingField: boolean;
+  public modifiedField: boolean;
   private isnew: boolean;
-  private RICM: Field = {
-    id: 1,
-    name: 'RICM',
-    description: 'Fausse filière',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-  private PRI: Field = {
-    id: 2,
-    name: 'PRI',
-    description: 'Prévention des risques',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-  private GGC: Field = {
-    id: 3,
-    name: 'GGC',
-    description: 'Géotechniques',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-
-  private TestFields = [this.RICM, this.PRI, this.GGC];
-
-  private TestData = [
-    {
-      id: 1,
-      offer: {
-        id: 1,
-        title: 'Offre 12',
-        content: 'Bonjour madame la baronne. Nous recherchons une personne capable de faire le ménage.',
-        descriptor: null
-      },
-      fields: [this.PRI, this.GGC],
-      mark: null,
-      inbase: true
-    }, {
-      id: 2,
-      offer: {
-        id: 2,
-        title: 'Recherche licorne',
-        content: 'Je recherche une licorne magique en bonne forme pour m\'emmener au pays magique',
-        descriptor: null
-      },
-      fields: [this.GGC, this.RICM],
-      mark: null,
-      inbase: true
-    },
-  ];
 
   constructor(
-    private offerService: OfferService
+    private _offerService: OfferService,
+    private _fieldService: FieldService
   ) { }
 
   ngOnInit() {
-    this.offerService.getAllOffers().subscribe(offers => this.offers = offers);
-    this.isnew = false;
-    this.fields = this.TestFields;
-    this.selectedfield = '';
+    this._offerService.getAllOffers().subscribe(offers => this.offers = offers);
+    this._fieldService.getAllFields().subscribe(data => this.all_fields = data);
   }
 
   addData() {
     this.clear();
-    this.selected = new Prediction();
-    this.selected.inbase = true;
-    this.selected.offer = new Offer();
-    this.selected.fields = [];
-    console.log(this.selected);
+    this.selectedOffer = new Offer();
+    this.fields_of_offer = [new Field()];
+    this.editingField = true;
     this.isnew = true;
   }
 
   selectOffer(offer) {
     this.clear();
     this.selectedOffer = offer;
-    this.selectedfield = '';
+    this._fieldService.getFieldByOffer(offer.id).subscribe(
+      returned_offers => this.fields_of_offer = returned_offers);
   }
 
   deleteData() {
-    this.offers = this.offers.filter(obj => obj !== this.selected);
+    this.offers = this.offers.filter(obj => obj !== this.selectedOffer);
     this.clear();
   }
 
-  addField() {
-
+  validateField() {
     function isSelectedField(f) {
       return f.name === this.selectedfield;
     }
 
     if (this.selectedfield !== '') {
-      const field = this.fields.find(isSelectedField, this);
-      if (!this.selected.fields.includes(field)) {
-        this.selected.fields.push(field);
-      }
+      const field = this.all_fields.find(isSelectedField, this);
+      this._fieldService.getField(field.id).subscribe(
+        f => this.fields_of_offer = [f]
+      );
     }
+    this.editingField = false;
+    this.modifiedField = true;
+    this.selectedfield = '';
   }
 
-  removeField(f) {
-    this.selected.fields = this.selected.fields.filter(obj => obj !== f);
+  editField() {
+    this.editingField = true;
   }
 
   save() {
     if (this.isnew) {
-      this.offers.push(this.selected);
+      // Creates the offer and the associated prediction. Returns ths id of the created offer.
+      this._offerService.addOfferAndPrediction(this.selectedOffer, this.fields_of_offer[0].id);
+        // .subscribe(id => this.selectedOffer.id = id);
+      this.offers.push(this.selectedOffer);
+    } else {
+      if (this.modifiedField) { // If the field changed
+        // Update it
+        this._offerService.updatePredictionOfOffer(this.selectedOffer.id, this.fields_of_offer[0].id).subscribe(
+          data => console.log(data)
+        );
+      }
+      // Update the offer's text and title
+      this._offerService.updateOffer(this.selectedOffer).subscribe(
+        data => console.log(data)
+      );
     }
     this.clear();
   }
 
   clear() {
-    this.selected = null;
+    this.selectedOffer = null;
+    this.fields_of_offer = null;
     this.isnew = false;
     this.selectedfield = '';
+    this.editingField = false;
+    this.modifiedField = false;
   }
 
 }
