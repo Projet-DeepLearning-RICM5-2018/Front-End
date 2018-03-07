@@ -23,9 +23,9 @@
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
           <ul class="list-group col-10">
-            <li *ngFor="let donnee of data"  class="list-group-item d-flex justify-content-between align-items-center">
-              {{donnee.offer.title}}
-              <button type="button" class="btn btn-outline-primary" (click)="selectData(donnee)">Modifier</button>
+            <li *ngFor="let offer of offers"  class="list-group-item d-flex justify-content-between align-items-center">
+              {{offer.title}}
+              <button type="button" class="btn btn-outline-primary" (click)="selectOffer(offer)">Modifier</button>
             </li>
           </ul>
       </div>
