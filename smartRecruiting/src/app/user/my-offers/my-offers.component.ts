@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Field} from '../../shared/field';
 import {Prediction} from '../../shared/prediction';
-import { AuthentificationService } from '../../services/authentification.service';
 import { OfferService } from '../../services/offer.service';
 import { FieldService } from '../../services/field.service';
 
@@ -44,7 +43,6 @@ export class MyOffersComponent implements OnInit {
   };
 
   constructor(
-    private _authentificationservice : AuthentificationService,
     private _offerservice : OfferService,
     private _fieldservice : FieldService) { }
 
@@ -67,13 +65,13 @@ export class MyOffersComponent implements OnInit {
     var token = this._authentificationservice.getTokenUser().value;
     this.selectedPrediction = p;
 
-    this._fieldservice.getAllFieldByOffer(this.selectedPrediction.id, token)
+    this._fieldservice.getAllFieldByOffer(this.selectedPrediction.id)
     .subscribe(
       data => {
         console.log(data)
         this.fields = data;
       },
-      error => {}
+      error => {console.log(error);this.fields = [];}
     );
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {URL_API} from '../shared/constants';
+import { AuthentificationService } from './authentification.service';
 
 @Injectable()
 export class FieldService {
@@ -9,6 +10,7 @@ export class FieldService {
 
   constructor(
     private http: HttpClient,
+    private _authentificationservice : AuthentificationService,
   ) { }
 
   getAllFields() {
@@ -45,7 +47,8 @@ export class FieldService {
     return this.http.delete(this.fieldsRoute + '/' + field.id);
   }
 
-   getAllFieldByOffer(idO, token) {
+   getAllFieldByOffer(idO) {
+    var token = this._authentificationservice
     var httpOptions = {
       headers: new HttpHeaders({
         'Authorization' : 'Bearer '+token

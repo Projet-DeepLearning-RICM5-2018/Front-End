@@ -32,12 +32,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private authentificationservice:AuthentificationService) { }
+    private _authentificationservice:AuthentificationService) { }
 
   ngOnInit() {
     this.initForm();
-    this.authentificationservice.connected$.subscribe(item => this.connected = item)
-    this.authentificationservice.admin$.subscribe(item => this.admin = item)
+    this._authentificationservice.connected$.subscribe(item => this.connected = item)
+    this._authentificationservice.admin$.subscribe(item => this.admin = item)
   }
 
   //Init the form to set required value
@@ -88,10 +88,10 @@ export class HeaderComponent implements OnInit {
         this.validForm = false;
     }
     else{
-      this.authentificationservice.connexionUser(this.emailUser, this.passwordUser)
+      this._authentificationservice.connexionUser(this.emailUser, this.passwordUser)
         .subscribe(
           data => {
-            this.authentificationservice.setConnexionUser(data);
+            this._authentificationservice.setConnexionUser(data);
             this.disabledDisplayingIssues();
             this.modalLog.close();
           },
@@ -114,10 +114,10 @@ export class HeaderComponent implements OnInit {
 
  //Try to register User or display error in the dom element
   validateRegistration(){
-    this.authentificationservice.registrationUser(this.newUser)
+    this._authentificationservice.registrationUser(this.newUser)
       .subscribe(
         data => {
-          this.authentificationservice.setConnexionUser(data);
+          this._authentificationservice.setConnexionUser(data);
           this.disabledDisplayingIssues();
           this.initForm();
           this.newUser = {id:1, name: "", surname:"", role:"", email:"", password: "", isAdmin:false};
@@ -132,9 +132,9 @@ export class HeaderComponent implements OnInit {
 
   //disconnect a user
   disconnect() {
-    this.authentificationservice.disconect().subscribe(
+    this._authentificationservice.disconect().subscribe(
       data => {
-        this.authentificationservice.initConnexionUser();
+        this._authentificationservice.initConnexionUser();
         console.log("Disconnect")
       },
       error => {
