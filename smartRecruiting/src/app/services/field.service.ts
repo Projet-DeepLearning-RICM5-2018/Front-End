@@ -15,16 +15,20 @@ export class FieldService {
     private _authentificationservice : AuthentificationService,
   ) { }
 
-  createHeader(){
+  createHeader() {
     return {
       headers: new HttpHeaders({
-        'Authorization' : 'Bearer '+this._authentificationservice.getTokenUser().value
+        'Authorization' : 'Bearer ' + this._authentificationservice.getTokenUser().value
       })
     };
   }
 
   getAllFields() {
     return this.http.get(this.fieldsRoute, this.createHeader());
+  }
+
+  getAllFieldsName() {
+    return this.http.get(this.fieldsRoute + '/nameonly', this.createHeader());
   }
 
   getField(fieldId) {
@@ -58,7 +62,7 @@ export class FieldService {
   }
 
    getFieldByOffer(idO) {
-    var route = this.genericRoute+'/searchFieldsByOffer/'+idO;
+    var route = this.genericRoute + '/searchFieldsByOffer/' + idO;
     return this.http.get(route, this.createHeader());
   }
 

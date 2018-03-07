@@ -13,73 +13,56 @@ export class OfferService {
     private _authentificationService: AuthentificationService
   ) { }
 
-
-  buildHttpOptions(token) {
+  createHeader() {
     return {
       headers: new HttpHeaders({
-        'Authorization' : 'Bearer ' + token
+        'Authorization' : 'Bearer ' + this._authentificationService.getTokenUser().value
       })
     };
   }
 
   getAllOffers() {
-    let token = this._authentificationService.getTokenUser().value;
-    let httpOptions = this.buildHttpOptions(token);
-    return this.http.get(this.offersRoute, httpOptions);
+    return this.http.get(this.offersRoute, this.createHeader());
   }
 
   addOfferAndPrediction(offer, id_field) {
-    // TODO
-    console.log(offer);
-    console.log(id_field);
+    console.log(this._authentificationService.getConnectedUser().value);
+    let body = JSON.stringify({
+      'title' : offer.title,
+      'content' : offer.content,
+      'id_user' : this._authentificationService.getConnectedUser().value.id,
+      'id_field' : id_field,
+      'inbase' : true }
+    )
+    return this.http.post(this.offersRoute + '/link', body, this.createHeader());
   }
 
   updateOffer(offer) {
-    let token = this._authentificationService.getTokenUser().value;
-    let httpOptions = this.buildHttpOptions(token);
-
     let body = JSON.stringify({
         'title': offer.title,
         'content': offer.content
       }
-    )
-    return this.http.put(this.offersRoute + '/' + offer.id, body, httpOptions);
+    );
+    return this.http.put(this.offersRoute + '/' + offer.id, body, this.createHeader());
   }
 
   updatePredictionOfOffer(id_offer, id_field) {
-    let token = this._authentificationService.getTokenUser().value;
-    let httpOptions = this.buildHttpOptions(token);
-
     let body = JSON.stringify({
         'id_offer': id_offer,
         'id_field': id_field
       }
-    )
-    return this.http.post(this.offersRoute + '/update_prediction_by_id_offer', body, httpOptions);
+    );
+    return this.http.post(this.globalLink + '/update_prediction_by_id_offer', body, this.createHeader());
   }
 
 
   getOfferForConnectedClient() {
-    let token = this._authentificationService.getTokenUser().value;
     let id = this._authentificationService.getConnectedUser().value.id;
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization' : 'Bearer ' + token
-      })
-    };
-
-    return this.http.get(this.globalLink + '/searchOffersByUser/' + id, httpOptions);
+    return this.http.get(this.globalLink + '/searchOffersByUser/' + id, this.createHeader());
   }
 
   deleteOffer(id: number) {
-    let token = this._authentificationService.getTokenUser().value;
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization' : 'Bearer ' + token
-      })
-    };
-
-    return this.http.delete(this.offersRoute + '/' + id, httpOptions);
+    return this.http.delete(this.offersRoute + '/' + id, this.createHeader());
   }
 
 }
