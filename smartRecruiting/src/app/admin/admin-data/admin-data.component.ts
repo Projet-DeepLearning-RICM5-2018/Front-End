@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Prediction} from '../../shared/prediction';
 import {Offer} from '../../shared/offer';
 import {Field} from '../../shared/field';
+import {OfferService} from '../../services/offer.service';
 
 @Component({
   selector: 'app-admin-data',
@@ -69,9 +70,12 @@ export class AdminDataComponent implements OnInit {
     },
   ];
 
-  constructor() { }
+  constructor(
+    private offerService: OfferService
+  ) { }
 
   ngOnInit() {
+    this.offerService.getAllOffers().subscribe(offers => this.data = offers);
     this.data = this.TestData;
     this.isnew = false;
     this.fields = this.TestFields;
