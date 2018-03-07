@@ -24,6 +24,8 @@ import { UserAuthGuardService } from './services/user-auth-guard.service';
 import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 import { FieldService } from './services/field.service';
 import { ContactService } from './services/contact.service';
+import { OfferService } from './services/offer.service';
+
 
 const appRoutes: Routes = [
   { path: 'offre', component: AddOfferComponent },
@@ -68,6 +70,7 @@ const appRoutes: Routes = [
     AdminAuthGuardService,
     FieldService,
     ContactService,
+    OfferService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {URL_API} from '../shared/constants';
 
 @Injectable()
@@ -45,6 +45,14 @@ export class FieldService {
     return this.http.delete(this.fieldsRoute + '/' + field.id);
   }
 
+   getAllFieldByOffer(idO, token) {
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization' : 'Bearer '+token
+      })
+    };
+
+    return this.http.get(URL_API+'searchFieldsByOffer/'+idO,httpOptions);
+  }
+
 }
-
-

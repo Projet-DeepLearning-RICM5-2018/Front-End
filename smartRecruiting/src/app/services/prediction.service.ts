@@ -4,11 +4,10 @@ import { Field } from '../shared/field';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import { FIELDS } from '../shared/mock-data';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, tap, retry } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-
+import { URL_API } from '../shared/constants'
 
 const oneField = {id: 1,
   name: 'Cras justo odio',

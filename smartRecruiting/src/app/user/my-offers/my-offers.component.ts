@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Field} from '../../shared/field';
 import {Prediction} from '../../shared/prediction';
+import { AuthentificationService } from '../../services/authentification.service';
+import { OfferService } from '../../services/offer.service';
+import { FieldService } from '../../services/field.service';
 
 @Component({
   selector: 'app-my-offers',
@@ -9,8 +12,8 @@ import {Prediction} from '../../shared/prediction';
 })
 export class MyOffersComponent implements OnInit {
 
-  public predictions: Prediction[];
-  public fields: Field[];
+  public predictions: any;
+  public fields: any;
   public selectedPrediction: Prediction ;
   public selectedField: string;
   public modifyingPrediction: boolean;
@@ -40,45 +43,38 @@ export class MyOffersComponent implements OnInit {
     contacts: null
   };
 
-  private TestFields = [this.RICM, this.PRI, this.GGC];
-
-  private TestData = [
-    {
-      id: 1,
-      offer: {
-        id: 1,
-        title: 'Offre 12',
-        content: 'Bonjour madame la baronne. Nous recherchons une personne capable de faire le ménage.',
-        descriptor: null
-      },
-      fields: [this.PRI, this.GGC],
-      mark: null,
-      inbase: false
-    }, {
-      id: 2,
-      offer: {
-        id: 2,
-        title: 'Recherche licorne',
-        content: 'Je recherche une licorne magique en bonne forme pour m\'emmener au pays magique',
-        descriptor: null
-      },
-      fields: [this.GGC, this.RICM],
-      mark: null,
-      inbase: false
-    },
-  ];
-
-  constructor() { }
+  constructor(
+    private _authentificationservice : AuthentificationService,
+    private _offerservice : OfferService,
+    private _fieldservice : FieldService) { }
 
   ngOnInit() {
-    this.predictions = this.TestData;
-    this.fields = this.TestFields;
+    var id = this._authentificationservice.getConnectedUser().value.id;
+    var token = this._authentificationservice.getTokenUser().value;
+    this._offerservice.getOfferForConnectedClient(id,token)
+    .subscribe(
+      data => {
+        this.predictions = data;
+      },
+      error => {}
+    );
     this.modifyingPrediction = false;
     this.selectedField = '';
   }
 
   selectPrediction(p): void {
+    //fields
+    var token = this._authentificationservice.getTokenUser().value;
     this.selectedPrediction = p;
+
+    this._fieldservice.getAllFieldByOffer(this.selectedPrediction.id, token)
+    .subscribe(
+      data => {
+        console.log(data)
+        this.fields = data;
+      },
+      error => {}
+    );
   }
 
   modifyPrediction() {

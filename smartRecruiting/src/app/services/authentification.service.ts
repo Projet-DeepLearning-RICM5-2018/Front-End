@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { catchError, map, tap, retry } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { URL_API } from '../shared/constants'
 
 /*
 httpOptions = {
@@ -24,7 +25,7 @@ export class AuthentificationService {
   public connectedUser = new BehaviorSubject<User>(undefined);
   public tokenUser = new BehaviorSubject<string>("");
 
-  public globalLink = "http://localhost:5555";
+  public globalLink = URL_API;
 
   connected$ = this.connected.asObservable();
   admin$ = this.admin.asObservable();
