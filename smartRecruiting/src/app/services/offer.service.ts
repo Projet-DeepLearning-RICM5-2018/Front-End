@@ -54,4 +54,15 @@ export class OfferService {
     return this.http.get(this.globalLink + '/searchOffersByUser/' + id, httpOptions);
   }
 
+  deleteOffer(id:number) {
+    var token = this._authentificationService.getTokenUser().value;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization' : 'Bearer ' + token
+      })
+    };
+
+    return this.http.delete(this.offersRoute+'/' + id, httpOptions);
+  }
+
 }

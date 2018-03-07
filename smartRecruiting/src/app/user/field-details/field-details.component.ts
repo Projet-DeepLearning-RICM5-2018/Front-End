@@ -27,7 +27,13 @@ export class FieldDetailsComponent implements OnInit {
   ngOnInit() {
     /**TODO requete HTTP*/
     this.route.params.subscribe(params => {this.index = +params['id'];});
-    this.currentField = this._fieldservice.getField(this.index);
+    this.currentField = this._fieldservice.getField(this.index)
+    .subscribe(
+      data => {
+        this.currentField = data;
+      },
+      error => {console.log(error); this.currentField = {};}
+    );
 
   }
 

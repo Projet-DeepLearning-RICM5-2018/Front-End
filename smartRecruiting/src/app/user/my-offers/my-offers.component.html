@@ -14,6 +14,7 @@
           <li *ngFor="let prediction of predictions"  class="list-group-item d-flex justify-content-between align-items-center">
             {{prediction.title}}
             <span class="badge badge-light badge-pill" (click)="selectPrediction(prediction)"><a role="button" class="btn">Voir</a></span>
+            <span class="badge badge-light badge-pill" (click)="deleteOffer(prediction)"><a role="button" class="btn">Supprimer</a></span>
           </li>
         </ul>
       </div>
@@ -36,9 +37,9 @@
         </div>
         <div class="row mb-2 col-12 d-flex justify-content-center">
           <ul class="list-group col-10">
-            <li *ngFor="let field of selectedPrediction.fields"  class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let field of fields"  class="list-group-item d-flex justify-content-between align-items-center">
               {{field.name}}
-              <span *ngIf="!modifyingPrediction" class="badge badge-light badge-pill"><a role="button" routerLink="/formation/1" class="btn">Voir</a></span>
+              <span *ngIf="!modifyingPrediction" class="badge badge-light badge-pill"><a role="button" routerLink="/formation/{{field.id}}" class="btn">Voir</a></span>
               <button *ngIf="modifyingPrediction" class="btn btn-outline-danger" (click)="removeField(field)">Supprimer</button>
             </li>
           </ul>

@@ -62,11 +62,9 @@ export class MyOffersComponent implements OnInit {
   selectPrediction(p): void {
     //fields
     this.selectedPrediction = p;
-    console.log(this.selectedPrediction)
     this._fieldservice.getFieldByOffer(this.selectedPrediction.id)
     .subscribe(
       data => {
-        console.log(data)
         this.fields = data;
       },
       error => {console.log(error); this.fields = [];}
@@ -106,6 +104,21 @@ export class MyOffersComponent implements OnInit {
 
   clear() {
     this.selectedField = '';
+  }
+
+  deleteOffer(offer){
+    if(this.selectedPrediction && offer.id==this.selectedPrediction.id){
+      this.fields = [];
+      this.selectedPrediction = undefined;
+    }
+
+    this._offerservice.deleteOffer(offer.id).subscribe(
+      data => {
+        var index = this.predictions.findIndex(it => it.id == offer.id);
+        this.predictions.splice(index, 1);
+      },
+      error => {}
+    );
   }
 
 }
