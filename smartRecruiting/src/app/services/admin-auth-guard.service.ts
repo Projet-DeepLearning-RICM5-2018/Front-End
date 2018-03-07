@@ -9,7 +9,8 @@ export class AdminAuthGuardService implements CanActivate {
 
   canActivate(): boolean {
     let user = this.auth.getConnectedUser().value;
-    if (user && user.is_admin) {
+    let admin = this.auth.getAdmin().value;
+    if (user && admin) {
       return true;
     }
     else {
