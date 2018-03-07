@@ -37,9 +37,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this._authentificationservice.connectedUser$.subscribe(item => {this.connected = item!=undefined})
-    this._authentificationservice.connectedUser$.subscribe(item => {
-      if(item){this.admin = item.is_admin;}
+    this._authentificationservice.admin$.subscribe(item => {
+      console.log(item)
+      if(item){this.admin = item;}
       else{this.admin = false;}
+      console.log(this.admin);
     });
   }
 
