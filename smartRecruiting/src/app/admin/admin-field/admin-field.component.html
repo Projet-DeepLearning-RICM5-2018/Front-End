@@ -11,8 +11,8 @@
       <div class="row mb-2 col-12 d-flex justify-content-center">
         <div class="col-10">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Rechercher une formation" aria-label="Barre de recherche"
-                   aria-describedby="basic-addon2">
+            <input #searchWords type="text" class="form-control" placeholder="Rechercher une formation" aria-label="Barre de recherche"
+                   aria-describedby="basic-addon2" [(ngModel)]="search" (input)="filterFields(searchWords.value)">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button">
                 <img src="assets/open-iconic/svg/search.svg" height="30">

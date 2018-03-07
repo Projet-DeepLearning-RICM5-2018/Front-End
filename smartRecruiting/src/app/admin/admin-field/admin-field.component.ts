@@ -16,17 +16,10 @@ export class AdminFieldComponent implements OnInit {
   public selectedField: Field;
   public currentContact: Contact;
   public showContact: boolean;
-  public isNewField: boolean;
-  public isNewContact: boolean;
 
-  private Contact1: Contact = {
-    id: 1,
-    name: 'Jeanne',
-    surname: 'Ellaihou',
-    email: 'mail@to',
-    role: 'Administrateur',
-    phone: '0123456789'
-  };
+  private allFields: any;
+  private isNewField: boolean;
+  private isNewContact: boolean;
 
   form: FormGroup;
 
@@ -35,8 +28,16 @@ export class AdminFieldComponent implements OnInit {
     private contactService: ContactService,
   ) { }
 
+
+  initFields(fields) {
+    this.allFields = fields;
+    this.fields = Object.assign([], this.allFields);
+  }
+
   ngOnInit() {
-    this.fieldService.getAllFields().subscribe(data => this.fields = data);
+    this.fieldService.getAllFields().subscribe(
+      data => this.initFields(data)
+    );
     this.selectedField = null;
     this.currentContact = null;
     this.showContact = false;
@@ -51,6 +52,16 @@ export class AdminFieldComponent implements OnInit {
       'description': new FormControl(null, Validators.required),
       'website': new FormControl(null, Validators.required)
     });
+  }
+
+  filterFields(value) {
+    if (!value) {
+      this.fields = Object.assign([], this.allFields);
+    } else {
+      this.fields = Object.assign([], this.allFields).filter(
+        item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+      );
+    }
   }
 
   get name() {return this.form.get('name'); }
@@ -132,7 +143,7 @@ export class AdminFieldComponent implements OnInit {
     const f = this.selectedField;
     if (this.isNewField) {
       this.fieldService.createField(f).subscribe(
-        field => this.fields.push(field));
+        field => this.allFields.push(field));
     } else {
       this.fieldService.updateField(f).subscribe(data => console.log('coucou!'));
     }
@@ -142,9 +153,8 @@ export class AdminFieldComponent implements OnInit {
   deleteField() {
     const to_delete = this.selectedField;
     this.fieldService.deleteField(to_delete).subscribe(
-      data => this.fields = this.fields.filter(obj => obj !== to_delete)
+      data => this.allFields = this.allFields.filter(obj => obj !== to_delete)
     );
-    // this.fields = this.fields.filter(obj => obj !== this.selectedField)
     this.clear();
   }
 
