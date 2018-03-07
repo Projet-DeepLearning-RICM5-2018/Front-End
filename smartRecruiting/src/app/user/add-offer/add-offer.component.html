@@ -13,10 +13,13 @@
             <h2>Entrer une offre</h2>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
+              <input type="text" [(ngModel)]="offerTitle" placeholder="Entrer le nom de l'offre"/>
+          </div>
+          <div class="row mb-2 col-12 justify-content-center">
               <textarea name="textarea" type="text" rows="10" cols="50" [(ngModel)]="offerContent" placeholder="Entrer une offre"></textarea>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
-              <button type="button" class="btn btn-primary" (click)="getPrediction()"> Valider </button>
+              <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="getPrediction()"> Valider </button>
           </div><!--
           <div class="row mb-4 col-12 justify-content-center">
             <div class='hr col-10'>

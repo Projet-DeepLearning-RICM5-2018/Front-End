@@ -36,12 +36,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this._authentificationservice.connectedUser$.subscribe(item => {this.connected = item!=undefined})
+    this._authentificationservice.connectedUser$.subscribe(item =>
+      {
+        this.connected = item!=undefined})
     this._authentificationservice.admin$.subscribe(item => {
-      console.log(item)
       if(item){this.admin = item;}
       else{this.admin = false;}
-      console.log(this.admin);
     });
   }
 
@@ -68,22 +68,22 @@ export class HeaderComponent implements OnInit {
     this.modalLog = this.modalService.open(login);
     this.modalLog.result.then(
       (result) => {
-        console.log("close");
+        console.log("");
         this.emailUser = "";
         this.passwordUser = "";
       },
-      (reason) => {console.log("dissmiss");});
+      (reason) => {console.log("");});
   }
 
   //Open the registration modal
   register(signup) {
     this.modalSign = this.modalService.open(signup);
     this.modalSign.result.then(
-      (result) => {console.log("close");},
+      (result) => {console.log("");},
       (reason) => {
         this.initForm();
         this.newUser = {id:1, name: "", surname:"", role:"", email:"", password: "", isAdmin:false};
-        console.log("dissmiss");
+        console.log("");
     });
   }
 
@@ -140,10 +140,10 @@ export class HeaderComponent implements OnInit {
     this._authentificationservice.disconect().subscribe(
       data => {
         this._authentificationservice.initConnexionUser();
-        console.log("Disconnect")
+        console.log("")
       },
       error => {
-        console.log("Error")
+        console.log("")
       }
     );
   }

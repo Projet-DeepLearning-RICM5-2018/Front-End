@@ -21,6 +21,7 @@ export class AddOfferComponent implements OnInit {
 
   //Form
   public offerContent = "";
+  public offerTitle = "";
   public uploadFile : File;
   public uploadFileName : string;
 
@@ -38,8 +39,12 @@ export class AddOfferComponent implements OnInit {
     this.listenerUserConnexion();
   }
 
+  isValid(){
+    return ((this.uploadFile!=undefined || this.offerContent!="") && this.offerTitle!='')
+  }
+
   getPrediction(): void {
-    if(this.uploadFile!=undefined || this.offerContent!=""){//if there is a pdf or string offer
+    if((this.uploadFile!=undefined || this.offerContent!="") && this.offerTitle!=''){//if there is a pdf or string offer
       var request = this._predictionservice.saveOfferAndGetPrediction(this.offerContent, this.uploadFile, this.isConnected);
       /**TODO : promise subscribe*/
       this._predictionservice.setDisplayResults(true);
@@ -71,7 +76,7 @@ export class AddOfferComponent implements OnInit {
       this.isConnected = item!=undefined
       if(this.isConnected && this.formations.length!=0){
         /**TODO*/
-        this._predictionservice.saveAnOfferAndAPrediction();
+        //this._predictionservice.saveAnOfferAndAPrediction(this.offerContent,this.offerTitle,);
       }
       else{console.log("Don't save")}
     });

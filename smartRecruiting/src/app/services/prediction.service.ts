@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { catchError, map, tap, retry } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { URL_API } from '../shared/constants'
+import { AuthentificationService } from './authentification.service';
 
 const oneField = {id: 1,
   name: 'Cras justo odio',
@@ -22,6 +23,8 @@ const oneField = {id: 1,
 
 @Injectable()
 export class PredictionService {
+
+  private globalLink = URL_API;
   private currentOffer = new BehaviorSubject<Offer>({id: 1,title: "",content: "",descriptor: "",});
   private displayResults = new BehaviorSubject<boolean>(false);
   private listeFieldFound = new BehaviorSubject<Field[]>([]);
@@ -32,7 +35,8 @@ export class PredictionService {
   listeFieldFound$ = this.listeFieldFound.asObservable();
   uplodedFile$ = this.uplodedFile.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+  private _authentificationservice : AuthentificationService) {}
 
   //Getter - setter
   getCurrentOffer(): BehaviorSubject<Offer>{return this.currentOffer;}
@@ -46,12 +50,19 @@ export class PredictionService {
   getCurrentFile(): BehaviorSubject<File>{return this.uplodedFile;}
   setCurrentFile(newFile:File): void {this.uplodedFile.next(newFile);}
 
-
   getDisplayResults(): BehaviorSubject<boolean>{return this.displayResults;}
   setDisplayResults(newValue:boolean): void {this.displayResults.next(newValue);}
 
   getListeFieldFound(): BehaviorSubject<Field[]>{return this.listeFieldFound;}
   setListeFieldFound(fields){this.listeFieldFound.next(fields);}
+
+  createHeader(){
+    return {
+      headers: new HttpHeaders({
+        'Authorization' : 'Bearer '+this._authentificationservice.getTokenUser().value
+      })
+    };
+  }
 
   //Save offer
   saveOfferAndGetPrediction(strOffer, fileOffer, connected){
@@ -70,8 +81,16 @@ export class PredictionService {
   }
 
   //Save offer and a prediction
-  saveAnOfferAndAPrediction(){
-    /**TODO*/
+  saveAnOfferAndAPrediction(title, content, idField){
+  let user = this._authentificationservice.getConnectedUser().value;
+  let body = JSON.stringify({
+      'title': title,
+      'content': content,
+      'id_user': user.id,
+      'id_field': user.idField,
+      'inbase' : false
+    });
 
+    this.http.post(this.globalLink+'/offers_link',this.createHeader())
   }
 }

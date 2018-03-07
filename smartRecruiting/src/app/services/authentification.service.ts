@@ -51,11 +51,13 @@ export class AuthentificationService {
   public getConnectedUser(): BehaviorSubject<any>{return this.connectedUser;}
   public setConnectedUser(user:User): void {
     this.connectedUser.next(user);
-    localStorage.setItem('conenctedUser', this.connectedUser.value);
+    localStorage.setItem('connectedUser', JSON.stringify(this.connectedUser.value));
   }
+
   private initConnectedUser(){
-    if(localStorage.getItem("conenctedUser")){
-      return localStorage.getItem("conenctedUser")
+    if(localStorage.getItem("connectedUser")){
+      let retrievObject = localStorage.getItem("connectedUser");
+      return JSON.parse(retrievObject);
     }
     else{
       return this.connectedUser;
@@ -91,7 +93,7 @@ export class AuthentificationService {
   //Init the different field of the service
   initConnexionUser(){
     localStorage.removeItem("isAdmin");
-    localStorage.removeItem("conenctedUser");
+    localStorage.removeItem("connectedUser");
     localStorage.removeItem("token");
     this.connectedUser.next(undefined);
     this.tokenUser.next('');
