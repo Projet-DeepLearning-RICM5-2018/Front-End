@@ -6,7 +6,8 @@ import { AuthentificationService } from './authentification.service';
 @Injectable()
 export class FieldService {
 
-  private fieldsRoute = URL_API + '/fields';
+  private genericRoute = URL_API;
+  private fieldsRoute = this.genericRoute + '/fields';
 
   constructor(
     private http: HttpClient,
@@ -47,15 +48,15 @@ export class FieldService {
     return this.http.delete(this.fieldsRoute + '/' + field.id);
   }
 
-   getAllFieldByOffer(idO) {
+   getFieldByOffer(idO) {
     var token = this._authentificationservice.getTokenUser().value;
     var httpOptions = {
       headers: new HttpHeaders({
         'Authorization' : 'Bearer '+token
       })
     };
-
-    return this.http.get(URL_API+'searchFieldsByOffer/'+idO,httpOptions);
+    var route = this.genericRoute+'/searchFieldsByOffer/'+idO;
+    return this.http.get(route,httpOptions);
   }
 
 }

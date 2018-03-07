@@ -63,13 +63,13 @@ export class MyOffersComponent implements OnInit {
     //fields
     this.selectedPrediction = p;
     console.log(this.selectedPrediction)
-    this._fieldservice.getAllFieldByOffer(this.selectedPrediction.id)
+    this._fieldservice.getFieldByOffer(this.selectedPrediction.id)
     .subscribe(
       data => {
         console.log(data)
         this.fields = data;
       },
-      error => {console.log(error);this.fields = [];}
+      error => {console.log(error); this.fields = [];}
     );
   }
 
