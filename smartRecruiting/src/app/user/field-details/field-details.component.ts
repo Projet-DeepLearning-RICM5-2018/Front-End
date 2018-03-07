@@ -12,7 +12,7 @@ import { FieldService } from '../../services/field.service';
 })
 export class FieldDetailsComponent implements OnInit {
 
-  currentField = new Field();
+  currentField : any;
   index: number;
 
   constructor(public route: ActivatedRoute,
