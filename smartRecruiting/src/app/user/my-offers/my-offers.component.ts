@@ -17,34 +17,10 @@ export class MyOffersComponent implements OnInit {
   public selectedField: string;
   public modifyingPrediction: boolean;
 
-  private RICM: Field = {
-    id: 1,
-    name: 'RICM',
-    description: 'Fausse filière',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-  private PRI: Field = {
-    id: 2,
-    name: 'PRI',
-    description: 'Prévention des risques',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-  private GGC: Field = {
-    id: 3,
-    name: 'GGC',
-    description: 'Géotechniques',
-    website: 'polytech-grenoble.fr',
-    descriptor: null,
-    contacts: null
-  };
-
   constructor(
-    private _offerservice : OfferService,
-    private _fieldservice : FieldService) { }
+    private _offerservice: OfferService,
+    private _fieldservice: FieldService
+  ) { }
 
   ngOnInit() {
 
@@ -107,14 +83,14 @@ export class MyOffersComponent implements OnInit {
   }
 
   deleteOffer(offer){
-    if(this.selectedPrediction && offer.id==this.selectedPrediction.id){
+    if (this.selectedPrediction && offer.id === this.selectedPrediction.id){
       this.fields = [];
       this.selectedPrediction = undefined;
     }
 
     this._offerservice.deleteOffer(offer.id).subscribe(
       data => {
-        var index = this.predictions.findIndex(it => it.id == offer.id);
+        var index = this.predictions.findIndex(it => it.id === offer.id);
         this.predictions.splice(index, 1);
       },
       error => {}
