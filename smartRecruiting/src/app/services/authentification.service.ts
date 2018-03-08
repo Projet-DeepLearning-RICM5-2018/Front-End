@@ -96,7 +96,7 @@ export class AuthentificationService {
   setConnexionUser(data) {
     this.setConnectedUser(data.user);
     this.setTokenUser(data.token);
-    this.setAdmin(data.user.is_admin === 1);
+    this.setAdmin(data.user.is_admin);
   }
 
   // Send a registration request to the back-end
