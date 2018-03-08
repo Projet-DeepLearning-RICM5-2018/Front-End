@@ -7,7 +7,7 @@
     </div>
     <div class="col-5 justify-content-center">
           <div class="row col-12 mt-2 justify-content-center">
-            <button type="button" (click)="isConnected?reload():open(warning)" class="btn btn-primary" [disabled]="formations.length==0"> Recommencer </button>
+            <button type="button" (click)="isConnected?reload():open(warning)" class="btn btn-myprimary" [disabled]="formations.length==0"> Recommencer </button>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
             <h2>Entrer une offre</h2>
@@ -16,10 +16,10 @@
               <input type="text" [(ngModel)]="offerTitle" class="form-control" placeholder="Entrer le nom de l'offre"/>
           </div>
           <div class="row mb-2 col-12 justify-content-center">
-              <textarea name="textarea" class="form-control" type="text" rows="20" [(ngModel)]="offerContent" placeholder="Entrer une offre"></textarea>
+              <textarea name="textarea" class="form-control" type="text" rows="15" [(ngModel)]="offerContent" placeholder="Entrer une offre"></textarea>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
-              <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="getPrediction()"> Valider </button>
+              <button type="button" class="btn btn-myprimary" [disabled]="!isValid()" (click)="getPrediction()"> Valider </button>
           </div><!--
           <div class="row mb-4 col-12 justify-content-center">
             <div class='hr col-10'>
@@ -60,8 +60,8 @@
       </div>
       <div class="modal-footer">
         <div class="row col-12 justify-content-center">
-          <button type="button" class="btn btn-outline-primary btn-margin-right" (click)="c('')">Annuler</button>
-          <button type="button" class="btn btn-success" (click)="c('');reload()">Recommencer?</button>
+          <button type="button" class="btn btn-outline-myprimary btn-margin-right" (click)="c('')">Annuler</button>
+          <button type="button" class="btn btn-mysuccess" (click)="c('');reload()">Recommencer?</button>
         </div>
       </div>
     </div>

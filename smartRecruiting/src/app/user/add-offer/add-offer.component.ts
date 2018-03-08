@@ -12,7 +12,6 @@ import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-boots
 })
 export class AddOfferComponent implements OnInit {
 
-  public offerObject : Offer;
   public formations = [];
 
   //For display
@@ -31,14 +30,15 @@ export class AddOfferComponent implements OnInit {
     public router: Router,
     private _predictionservice: PredictionService,
     private _authentificationservice : AuthentificationService,
-    private modalService: NgbModal,) {
-  }
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit() {
-    this.getCurrentOffer();
-    this.listenerUserConnexion();
+    this.linkFieldWithService();
+    this.initListenerUserConnexion();
   }
 
+  //verify if the field or complete
   isValid(){
     return ((this.uploadFile!=undefined || this.offerContent!="") && this.offerTitle!='')
   }
@@ -49,9 +49,12 @@ export class AddOfferComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this._predictionservice.setListeFieldFound(data);
+          this._predictionservice.setListeFieldFound([data]);
           this._predictionservice.setDisplayResults(true);
-          this.router.navigate(['/offre/'+this.offerObject.id]);
+          if(this.isConnected){
+            console.log("Save because connect");
+            this.savePrediction();
+          }
         },
         error => {}
       );
@@ -60,31 +63,41 @@ export class AddOfferComponent implements OnInit {
 
   //Clear the differrent field
   reload():void{
-    this.offerContent = "";
-    this._predictionservice.setCurrentOfferContent("");
-    this._predictionservice.setCurrentFile(null);
-    this._predictionservice.setDisplayResults(false);
-    this.router.navigate(['/offre/']);
+    this._predictionservice.reInitValue();
   }
 
   //Init the different field
-  getCurrentOffer(): void {
-    this._predictionservice.currentOffer$.subscribe(item => this.offerObject = item)
+  linkFieldWithService(): void {
+    this._predictionservice.currentOffer$.subscribe(item =>{
+      this.offerContent = item.content;
+      this.offerTitle = item.title;
+    });
     this._predictionservice.displayResults$.subscribe(item => this.displayResults = item)
-    this._predictionservice.listeFieldFound$.subscribe(item => this.formations = item)
+    this._predictionservice.listeFieldFound$.subscribe(item => {this.formations = item})
     this._predictionservice.uplodedFile$.subscribe(item => this.uploadFile = item)
-    this.offerContent = this.offerObject.content;
   }
 
   //Subscribe to the connected boolean, if user connects after lauch prediction the prediction is saved in the BDD
-  listenerUserConnexion(){
-    this._authentificationservice.connectedUser$.subscribe(item =>{
-      this.isConnected = (item!=undefined)
-      if(this.isConnected && this.formations.length!=0){
-        this._predictionservice.saveAnOfferAndAPrediction(this.offerContent,this.offerTitle,this.formations[0].id);
+  initListenerUserConnexion(){
+    this._authentificationservice.isConnected$.subscribe(item =>{
+      this.isConnected = item
+      console.log("Connecté : " + this.isConnected)
+      let isResult = (this.formations.length!=0)
+      console.log("Result : " + isResult)
+      let isResultSaved = (this._predictionservice.getCurrentOfferIsSaved().value)
+      console.log("Dejà save? : " + isResultSaved)
+      if(item && isResult && !isResultSaved){
+        console.log("Save")
+        this.savePrediction();
       }
       else{console.log("Don't save")}
     });
+  }
+
+  savePrediction(){
+    this._predictionservice.setCurrentOfferIsSaved(true)
+    this._predictionservice.saveAnOfferAndAPrediction(this.offerTitle,this.offerContent,this.formations[0].id)
+      .subscribe(data => {console.log("Saved")}, error =>{console.log("retry");console.log(error);});
   }
 
   //Open the connexion modal

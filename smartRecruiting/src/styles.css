@@ -5,3 +5,134 @@
 .btn-margin-right {
   margin-right: 3px;
 }
+
+/*======================FONTS=================================*/
+body{
+  font-family: 'Roboto';
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Dosis';
+}
+/*======================BOUTON=================================*/
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+/*____ PRIMARY ____*/
+.btn-myprimary {
+    background: #00CECB;
+    border-color: #00CECB;
+    color: #FFFFEA;
+}
+
+.btn-myprimary:hover, .btn-myprimary:focus,.btn-myprimary:active:focus , .btn-myprimary:active, .open > .dropdown-toggle.btn-myprimary {
+    background: #0DE5E2;
+    border-color: #00CECB;
+    color: #FFFFEA;
+}
+
+.btn-myprimary:disabled {
+    background: #636363;
+    border-color: #FFFFEA;
+}
+/*____ PRIMARY-OUTLINE ____*/
+
+.btn-outline-myprimary {
+    background: none;
+    border-color: #00CECB;
+    color: #00CECB;
+}
+
+.btn-outline-myprimary:hover, .btn-outline-myprimary:focus,.btn-outline-myprimary:active:focus , .btn-outline-myprimary:active, .open > .dropdown-toggle.btn-outline-myprimary {
+    background: #00CECB;
+    border-color: #00CECB;
+    color: #FFFFEA;
+}
+
+/*____ SUCCESS ____*/
+.btn-mysuccess {
+    background: #FFCF45;
+    border-color: #FFCF45;
+    color: #636363;
+}
+
+.btn-mysuccess:hover, .btn-mysuccess:focus,.btn-mysuccess:active:focus , .btn-mysuccess:active, .open > .dropdown-toggle.btn-mysuccess {
+    background: #FFCF45;
+    border-color: #FFCF45;
+}
+
+.btn-mysuccess:disabled {
+    background: #636363;
+    border-color: #FFFFEA;
+}
+
+/*____ DANGER ____*/
+.btn-mydanger {
+    background: #E85653;
+    border-color: #E85653;
+    color: #FFFFEA;
+}
+
+.btn-mydanger:hover, .btn-mydanger:focus,.btn-mydanger:active:focus , .btn-mydanger:active, .open > .dropdown-toggle.btn-mydanger {
+    background: #E85653;
+    border-color: #E85653;
+}
+
+/*____ DANGER-OUTLINE ____*/
+
+.btn-outline-mydanger {
+    background: none;
+    border-color: #E85653;
+    color: #E85653;
+}
+
+.btn-outline-mydanger:hover, .btn-outline-mydanger:focus,.btn-outline-mydanger:active:focus , .btn-outline-mydanger:active, .open > .dropdown-toggle.btn-outline-mydanger {
+    background: #E85653;
+    border-color: #E85653;
+    color: #FFFFEA;
+}
+
+/*____ DARK-OUTLINE ____*/
+
+.btn-outline-mydark {
+    background: none;
+    border-color: #636363;
+    color: #636363;
+}
+
+.btn-outline-mydark:hover, .btn-outline-mydark:focus,.btn-outline-mydark:active:focus , .btn-outline-mydark:active, .open > .dropdown-toggle.btn-outline-mydark {
+    background: #636363;
+    border-color: #636363;
+    color: #FFFFEA;
+}
+
+/*======================ALERTS=================================*/
+/*danger*/
+
+.alert-danger{
+  background: none;
+  border-color: #E85653;
+  color: #E85653;
+}
+
+.alert-success{
+  background: #FFCF45;
+  border-color: #636363;
+  color: #636363;
+}
+
+/*======================OTHERS=================================*/
+
+/*a*/
+a, a:link {
+    color: #00CECB;
+}
+
+a:hover, a:active  {
+    color: #0DE5E2;
+}
+
+
+/*jumbotron*/

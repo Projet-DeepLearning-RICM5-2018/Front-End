@@ -3,6 +3,7 @@ import {Field} from '../../shared/field';
 import {Prediction} from '../../shared/prediction';
 import { OfferService } from '../../services/offer.service';
 import { FieldService } from '../../services/field.service';
+import { UserOfferService } from '../../services/user-offer.service';
 
 @Component({
   selector: 'app-my-offers',
@@ -11,87 +12,109 @@ import { FieldService } from '../../services/field.service';
 })
 export class MyOffersComponent implements OnInit {
 
-  public predictions: any;
+  public offers: any;
   public fields: any;
-  public selectedPrediction: Prediction ;
+  public selectedOffer: any;
   public selectedField: string;
   public modifyingPrediction: boolean;
+  public displayResults: boolean;
 
   constructor(
-    private _offerservice: OfferService,
-    private _fieldservice: FieldService
+    private _offerService: OfferService,
+    private _fieldService: FieldService,
+    private _userofferService: UserOfferService
   ) { }
 
   ngOnInit() {
+    //subscribe and get saved data
+    this.selectedOffer = this._userofferService.getSelectedOffer()?this._userofferService.getSelectedOffer():undefined;
+    this.selectedField = this._userofferService.getAssociatedField()?this._userofferService.getAssociatedField():undefined;
+    this.displayResults = this.selectedOffer?true:false;
 
-    this._offerservice.getOfferForConnectedClient()
-    .subscribe(
-      data => {
-        this.predictions = data;
-      },
-      error => {}
-    );
+
+    let list = this._userofferService.getCurrentOffersList()
+    if(list){
+      this.offers = list;
+    }
+    else{
+      this._offerService.getOfferForConnectedClient().subscribe(
+          data => {
+            this.offers = data;
+            this._userofferService.setCurrentOffersList(this.offers);
+          },
+          error => {}
+      );
+    }
     this.modifyingPrediction = false;
     this.selectedField = '';
   }
 
-  selectPrediction(p): void {
+  //Select an offer and get the associated field
+  selectOffer(o): void {
     //fields
-    this.selectedPrediction = p;
-    this._fieldservice.getFieldByOffer(this.selectedPrediction.id)
+    this.selectedOffer = o;
+    this._userofferService.setSelectedOffer(this.selectedOffer);
+    this.displayResults = true;
+    this._fieldService.getFieldByOffer(this.selectedOffer.id)
     .subscribe(
       data => {
         this.fields = data;
+        this._userofferService.setAssociatedField(this.fields);
       },
       error => {console.log(error); this.fields = [];}
     );
   }
 
+  //Allow user to modify the offer/field
   modifyPrediction() {
     this.modifyingPrediction = true;
   }
 
+  //Add prediction in learning base
   validatePrediction() {
-    this.selectedPrediction.inbase = true;
+    this.selectedOffer.inbase = true;
   }
 
-  addField() {
 
+  addField() {
     function isSelectedField(f) {
-      return f.name === this.selectedField;
+      return f.name === this.fields;
     }
 
-    if (this.selectedField !== '') {
+    if (this.fields !== '') {
       const field = this.fields.find(isSelectedField, this);
-      if (!this.selectedPrediction.fields.includes(field)) {
-        this.selectedPrediction.fields.push(field);
+      if (!this.selectedOffer.fields.includes(field)) {
+        this.selectedOffer.fields.push(field);
       }
     }
   }
 
   removeField(f) {
-    this.selectedPrediction.fields = this.selectedPrediction.fields.filter(obj => obj !== f);
+    this.selectedOffer.fields = this.selectedOffer.fields.filter(obj => obj !== f);
   }
 
   save() {
-    this.selectedField = ';'
+    this.fields = ';'
     this.modifyingPrediction = false;
   }
 
   clear() {
-    this.selectedField = '';
+    this.fields = '';
   }
 
+  //
   deleteOffer(offer){
-    if (this.selectedPrediction && offer.id === this.selectedPrediction.id){
-      this.fields = [];
-      this.selectedPrediction = undefined;
+    if (this.selectedOffer && offer.id === this.selectedOffer.id){
+      this._userofferService.setSelectedOffer(undefined);
+      this._userofferService.setAssociatedField([]);
+      this.selectedOffer = undefined;
+      this.fields = undefined;
     }
-
-    this._offerservice.deleteOffer(offer.id).subscribe(
+    console.log(offer);
+    this._offerService.deleteOffer(offer.id).subscribe(
       data => {
-        var index = this.predictions.findIndex(it => it.id === offer.id);
-        this.predictions.splice(index, 1);
+        var index = this.offers.findIndex(it => it.id === offer.id);
+        this.offers.splice(index, 1);
       },
       error => {}
     );
