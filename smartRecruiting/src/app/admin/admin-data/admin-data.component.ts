@@ -28,7 +28,12 @@ export class AdminDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._offerService.getAllOffers().subscribe(offers => this.offers = offers);
+    this._offerService.getAllOffers().subscribe(
+      offers => {
+        this.offers = offers;
+        this.offers.sort((a, b) => b.id - a.id);
+      }
+    );
     this._fieldService.getAllFields().subscribe(data => this.all_fields = data);
   }
 
@@ -48,7 +53,10 @@ export class AdminDataComponent implements OnInit {
   }
 
   deleteData() {
-    this.offers = this.offers.filter(obj => obj !== this.selectedOffer);
+    let offer = this.selectedOffer;
+    this._offerService.deleteOffer(this.selectedOffer.id).subscribe(
+      this.offers = this.offers.filter(obj => obj !== offer)
+    );
     this.clear();
   }
 
@@ -74,10 +82,14 @@ export class AdminDataComponent implements OnInit {
 
   save() {
     if (this.isnew) {
+      let offer = this.selectedOffer;
       // Creates the offer and the associated prediction. Returns ths id of the created offer.
-      this._offerService.addOfferAndPrediction(this.selectedOffer, this.fields_of_offer[0].id);
-        // .subscribe(id => this.selectedOffer.id = id);
-      this.offers.push(this.selectedOffer);
+      this._offerService.addOfferAndPrediction(this.selectedOffer, this.fields_of_offer[0].id).subscribe(
+        id => {
+          offer.id = id;
+          this.offers.unshift(offer);
+        }
+      );
     } else {
       if (this.modifiedField) { // If the field changed
         // Update it

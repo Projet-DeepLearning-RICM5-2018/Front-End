@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Field } from '../../shared/field';
-import { FoundFieldService } from '../../services/found-field.service';
-import {Location} from '@angular/common';
+import {  ActivatedRoute} from '@angular/router';
+import { Location } from '@angular/common';
 import { FieldService } from '../../services/field.service';
 
 @Component({
@@ -15,8 +13,9 @@ export class FieldDetailsComponent implements OnInit {
   currentField : any;
   index: number;
 
-  constructor(public route: ActivatedRoute,
-    private _fieldservice : FieldService,
+  constructor(
+    public route: ActivatedRoute,
+    private _fieldservice: FieldService,
     private location: Location) { }
 
   goBack() {
