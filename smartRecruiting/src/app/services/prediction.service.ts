@@ -54,7 +54,9 @@ export class PredictionService {
   setDisplayResults(newValue:boolean): void {this.displayResults.next(newValue);}
 
   getListeFieldFound(): BehaviorSubject<Field[]>{return this.listeFieldFound;}
-  setListeFieldFound(fields){this.listeFieldFound.next(fields);}
+  setListeFieldFound(fields){
+    console.log(fields);
+    this.listeFieldFound.next(fields);}
 
   createHeader(){
     return {

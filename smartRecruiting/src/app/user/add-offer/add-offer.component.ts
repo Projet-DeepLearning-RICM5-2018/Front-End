@@ -49,7 +49,7 @@ export class AddOfferComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this._predictionservice.setListeFieldFound([data.field]);
+          this._predictionservice.setListeFieldFound(data);
           this._predictionservice.setDisplayResults(true);
           this.router.navigate(['/offre/'+this.offerObject.id]);
         },
