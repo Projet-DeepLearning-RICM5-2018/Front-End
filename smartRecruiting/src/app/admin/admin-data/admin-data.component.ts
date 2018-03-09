@@ -4,6 +4,7 @@ import {Offer} from '../../shared/offer';
 import {Field} from '../../shared/field';
 import {OfferService} from '../../services/offer.service';
 import {FieldService} from '../../services/field.service';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-data',
@@ -23,10 +24,12 @@ export class AdminDataComponent implements OnInit {
   public editingData: boolean;
   private isnew: boolean;
 
+  private modalDanger: NgbModalRef;
 
   private pageNumber: number;
 
   constructor(
+    private modalService: NgbModal,
     private _offerService: OfferService,
     private _fieldService: FieldService
   ) { }
@@ -166,6 +169,19 @@ export class AdminDataComponent implements OnInit {
     this.editingField = false;
     this.modifiedField = false;
     this.editingData = false;
+  }
+
+  openDangerPopUp(danger){
+    this.modalDanger = this.modalService.open(danger);
+    this.modalDanger.result.then(
+      (result) => {
+        if(result=="yes"){
+          this.deleteData();
+        }
+      },
+      (reason) => {console.log('');}
+    );
+
   }
 
 }

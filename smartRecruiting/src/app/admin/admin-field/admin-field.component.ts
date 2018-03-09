@@ -4,6 +4,7 @@ import {Contact} from '../../shared/contact';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FieldService} from '../../services/field.service';
 import {ContactService} from '../../services/contact.service';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-field',
@@ -23,7 +24,11 @@ export class AdminFieldComponent implements OnInit {
 
   form: FormGroup;
 
+  private modalDanger: NgbModalRef;
+  private message : string;
+
   constructor(
+    private modalService: NgbModal,
     private fieldService: FieldService,
     private contactService: ContactService,
   ) { }
@@ -156,7 +161,7 @@ export class AdminFieldComponent implements OnInit {
         field => this.addNewFieldToAll(field)
       );
     } else {
-      this.fieldService.updateField(f).subscribe(data => console.log('coucou!'));
+      this.fieldService.updateField(f).subscribe(data => console.log('Saved'));
     }
     this.clear();
   }
@@ -174,6 +179,24 @@ export class AdminFieldComponent implements OnInit {
     this.currentContact = null;
     this.showContact = false;
     this.isNewField = false;
+  }
+
+  openDangerPopUp(danger,text,contact){
+    this.message = text;
+    this.modalDanger = this.modalService.open(danger);
+    this.modalDanger.result.then(
+      (result) => {
+        if(result=="yes"){
+          if(contact){
+            this.removeContact(contact);
+          }else{
+            this.deleteField();
+          }
+        }
+      },
+      (reason) => {console.log('');}
+    );
+
   }
 
 }
