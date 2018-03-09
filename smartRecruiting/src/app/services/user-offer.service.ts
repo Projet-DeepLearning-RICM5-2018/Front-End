@@ -20,4 +20,12 @@ export class UserOfferService {
   getAssociatedField(): any{return this.associatedField.value;}
   setAssociatedField(newValue): void {this.associatedField.next(newValue);}
 
+  addAnOffer(offer){
+    var list = this.currentOffersList.value
+    if(list){
+      list.push(offer)
+      this.setCurrentOffersList(list);
+    }
+  }
+
 }
