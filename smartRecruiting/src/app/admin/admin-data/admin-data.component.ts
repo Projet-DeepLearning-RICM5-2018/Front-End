@@ -12,9 +12,8 @@ import {FieldService} from '../../services/field.service';
 })
 export class AdminDataComponent implements OnInit {
 
-  public offers: any;
-  public selectedOffer: any;
-  public fields_of_offer: any;
+  public data: any;
+  public selectedData: any;
   public all_fields: any;
   public selectedfield: string;
   public pagesNumbers: any;
@@ -38,18 +37,12 @@ export class AdminDataComponent implements OnInit {
       res => {
         console.log(res);
         this.pagesNumbers = Array.from(new Array(res.nb_pages), (val, index) => index + 1);
-        console.log(this.pagesNumbers);
+        this.data = res.data;
       }, error2 => {
         this.pagesNumbers = Array.from(new Array(5), (val, index) => index + 1);
       }
     );
-    this._offerService.getAllOffers().subscribe(
-      offers => {
-        this.offers = offers;
-        this.offers.sort((a, b) => b.id - a.id);
-      }
-    );
-    this._fieldService.getAllFields().subscribe(data => this.all_fields = data);
+    this._fieldService.getAllFieldsName().subscribe(data => this.all_fields = data);
   }
 
   // Gestion de pages //
@@ -77,7 +70,9 @@ export class AdminDataComponent implements OnInit {
     console.log(this.pageNumber);
     this._offerService.getOffersPage(this.pageNumber).subscribe(
       res => {
-        this.offers = res.data;
+        this.pagesNumbers = Array.from(new Array(res.nb_pages), (val, index) => index + 1);
+        this.data = res.data;
+        console.log(res);
       }, error2 => {
         this.pagesNumbers = Array.from(new Array(5), (val, index) => index + 1);
       }
@@ -88,18 +83,18 @@ export class AdminDataComponent implements OnInit {
 
   addData() {
     this.clear();
-    this.selectedOffer = new Offer();
-    this.fields_of_offer = [new Field()];
+    this.selectedData = {'offer': new Offer(), 'field': new Field()}
     this.editingField = true;
     this.editingData = true;
     this.isnew = true;
   }
 
-  selectOffer(offer) {
+  selectData(data) {
     this.clear();
-    this.selectedOffer = offer;
-    this._fieldService.getFieldByOffer(offer.id).subscribe(
-      returned_offers => this.fields_of_offer = returned_offers);
+    this.selectedData = data;
+    this._fieldService.getFieldByOffer(data.offer.id).subscribe(
+      returned_offers => this.data.field = returned_offers[0]);
+
   }
 
   editData() {
@@ -107,9 +102,12 @@ export class AdminDataComponent implements OnInit {
   }
 
   deleteData() {
-    let offer = this.selectedOffer;
-    this._offerService.deleteOffer(this.selectedOffer.id).subscribe(
-      this.offers = this.offers.filter(obj => obj !== offer)
+    let data = this.selectedData;
+    this._offerService.deleteOffer(this.selectedData.offer.id).subscribe(
+      res => {
+        this.data = this.data.filter(obj => obj !== data);
+        this.goToCurrentPage();
+      }
     );
     this.clear();
   }
@@ -122,7 +120,7 @@ export class AdminDataComponent implements OnInit {
     if (this.selectedfield !== '') {
       const field = this.all_fields.find(isSelectedField, this);
       this._fieldService.getField(field.id).subscribe(
-        f => this.fields_of_offer = [f]
+        f => this.selectedData.field = f
       );
     }
     this.editingField = false;
@@ -136,23 +134,25 @@ export class AdminDataComponent implements OnInit {
 
   save() {
     if (this.isnew) {
-      let offer = this.selectedOffer;
+      let data = this.selectedData;
       // Creates the offer and the associated prediction. Returns ths id of the created offer.
-      this._offerService.addOfferAndPrediction(this.selectedOffer, this.fields_of_offer[0].id).subscribe(
+      this._offerService.addOfferAndPrediction(this.selectedData.offer, this.selectedData.field.id).subscribe(
         id => {
-          offer.id = id;
-          this.offers.unshift(offer);
+          data.offer.id = id;
+          this.data.unshift(data);
+          this.goToCurrentPage();
         }
       );
+      this.isnew = false;
     } else {
       if (this.modifiedField) { // If the field changed
         // Update it
-        this._offerService.updatePredictionOfOffer(this.selectedOffer.id, this.fields_of_offer[0].id).subscribe(
+        this._offerService.updatePredictionOfOffer(this.selectedData.offer.id, this.selectedData.field.id).subscribe(
           data => console.log(data)
         );
       }
       // Update the offer's text and title
-      this._offerService.updateOffer(this.selectedOffer).subscribe(
+      this._offerService.updateOffer(this.selectedData.offer).subscribe(
         data => console.log(data)
       );
     }
@@ -160,8 +160,7 @@ export class AdminDataComponent implements OnInit {
   }
 
   clear() {
-    this.selectedOffer = null;
-    this.fields_of_offer = null;
+    this.selectedData = null;
     this.isnew = false;
     this.selectedfield = '';
     this.editingField = false;

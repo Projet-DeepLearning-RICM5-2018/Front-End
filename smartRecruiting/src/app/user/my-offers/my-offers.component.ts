@@ -14,6 +14,7 @@ export class MyOffersComponent implements OnInit {
 
   public offers: any;
   public fields: any;
+  public allFields: any;
   public selectedOffer: any;
   public selectedField: string;
   public modifyingPrediction: boolean;
@@ -26,17 +27,21 @@ export class MyOffersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //subscribe and get saved data
-    this.selectedOffer = this._userofferService.getSelectedOffer()?this._userofferService.getSelectedOffer():undefined;
-    this.selectedField = this._userofferService.getAssociatedField()?this._userofferService.getAssociatedField():undefined;
-    this.displayResults = this.selectedOffer?true:false;
+    // subscribe and get saved data
+    this.selectedOffer = this._userofferService.getSelectedOffer() ? this._userofferService.getSelectedOffer() : undefined;
+    this.selectedField = this._userofferService.getAssociatedField() ? this._userofferService.getAssociatedField() : undefined;
+    this.displayResults = !!this.selectedOffer;
 
+    this._fieldService.getAllFieldsName().subscribe(
+      res => {
+        this.allFields = res;
+      }
+    )
 
-    let list = this._userofferService.getCurrentOffersList()
-    if(list){
+    let list = this._userofferService.getCurrentOffersList();
+    if (list) {
       this.offers = list;
-    }
-    else{
+    } else {
       this._offerService.getOfferForConnectedClient().subscribe(
           data => {
             this.offers = data;
@@ -49,9 +54,10 @@ export class MyOffersComponent implements OnInit {
     this.selectedField = '';
   }
 
-  //Select an offer and get the associated field
+  // Select an offer and get the associated field
   selectOffer(o): void {
-    //fields
+    this.clear();
+    // fields
     this.selectedOffer = o;
     this._userofferService.setSelectedOffer(this.selectedOffer);
     this.displayResults = true;
@@ -65,41 +71,37 @@ export class MyOffersComponent implements OnInit {
     );
   }
 
-  //Allow user to modify the offer/field
+  // Allow user to modify the field
   modifyPrediction() {
     this.modifyingPrediction = true;
+    this.selectedField = this.fields[0].name;
   }
 
-  //Add prediction in learning base
+  // Add prediction in learning base
   validatePrediction() {
+    // TODO
     this.selectedOffer.inbase = true;
   }
 
 
-  addField() {
+  saveField() {
     function isSelectedField(f) {
-      return f.name === this.fields;
+      return f.name === this.selectedField;
     }
 
-    if (this.fields !== '') {
-      const field = this.fields.find(isSelectedField, this);
-      if (!this.selectedOffer.fields.includes(field)) {
-        this.selectedOffer.fields.push(field);
-      }
+    if (this.selectedField !== '') {
+      const field = this.allFields.find(isSelectedField, this);
+      this._offerService.updatePredictionOfOffer(this.selectedOffer.id, field.id).subscribe(
+        res => {
+          this.fields = [field];
+        }, error2 => {}
+      );
+      this.modifyingPrediction = false;
     }
-  }
-
-  removeField(f) {
-    this.selectedOffer.fields = this.selectedOffer.fields.filter(obj => obj !== f);
-  }
-
-  save() {
-    this.fields = ';'
-    this.modifyingPrediction = false;
   }
 
   clear() {
-    this.fields = '';
+    this.modifyingPrediction = false;
   }
 
   //

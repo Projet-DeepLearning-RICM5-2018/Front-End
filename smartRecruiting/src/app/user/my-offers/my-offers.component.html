@@ -9,13 +9,17 @@
       <div class="row mt-4 mb-2 col-12 justify-content-center">
         <h2>Mes offres</h2>
       </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
+      <div class="row mb-2 col-12 d-flex justify-content-center" style="overflow: auto; height:700px;">
         <ul class="list-group col-12">
-          <li *ngFor="let offer of offers"  class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="col-8">{{offer.title}}</div>
-            <div class="col-4 pr-0 d-flex justify-content-end">
-              <span class="badge btn-myprimary badge-pill mr-2" (click)="selectOffer(offer)"><a role="button" class="btn"><i class="fas fa-eye"></i></a></span>
-              <span class="badge btn-mydanger badge-pill" (click)="deleteOffer(offer)"><a role="button" class="btn"><i class="fas fa-trash-alt"></i></a></span>
+          <li *ngFor="let offer of offers"  class="list-group-item justify-content-between align-items-center">
+            <div class="row">
+              <div class="col-8">{{offer.title}}</div>
+              <div class="col-2">
+                <span class="badge btn-myprimary badge-pill mr-2" (click)="selectOffer(offer)"><a role="button" class="btn"><i class="fas fa-eye"></i></a></span>
+              </div>
+              <div class="col-2">
+                <span class="badge btn-mydanger badge-pill" (click)="deleteOffer(offer)"><a role="button" class="btn"><i class="fas fa-trash-alt"></i></a></span>
+              </div>
             </div>
           </li>
         </ul>
@@ -30,23 +34,24 @@
               <h4>{{selectedOffer.title}}</h4>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{selectedOffer.content}}
+              <div style="overflow: auto; height:400px;">
+                {{selectedOffer.content}}
+              </div>
           </li>
           </ul>
         </div>
         <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
           <h4>Résultats</h4>
         </div>
-        <div class="row mb-2 col-12 d-flex justify-content-center">
-          <ul class="list-group col-10">
-            <li *ngFor="let field of fields"  class="list-group-item d-flex justify-content-between align-items-center">
-              {{field.name}}
-              <span *ngIf="!modifyingPrediction" class="badge badge-light badge-pill"><a role="button" routerLink="/formation/{{field.id}}" class="btn">Voir</a></span>
-              <button *ngIf="modifyingPrediction" class="btn btn-outline-mydanger" (click)="removeField(field)">Supprimer</button>
-            </li>
-          </ul>
-        </div>
         <div *ngIf="!modifyingPrediction">
+          <div class="row mb-2 col-12 d-flex justify-content-center">
+            <ul class="list-group col-10">
+              <li *ngFor="let field of fields"  class="list-group-item d-flex justify-content-between align-items-center">
+                {{field.name}}
+                <span class="badge badge-light badge-pill"><a role="button" routerLink="/formation/{{field.id}}" class="btn">Voir</a></span>
+              </li>
+            </ul>
+          </div>
           <div *ngIf="!selectedOffer.inbase">
             <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
               Donnez votre feedback sur cette prédiction ?
@@ -65,21 +70,14 @@
         <div *ngIf="modifyingPrediction">
           <div class="row mb-2 col-12 d-flex justify-content-center">
             <div class="col-10">
-              <div class="input-group mb-3">
-                <select class="form-control" [(ngModel)]="selectedField">
-                  <option value="">Choisir une formation</option>
-                  <option *ngFor="let f of fields">{{f.name}}</option>
-                </select>
-                <div class="input-group-append">
-                  <button class="btn btn-myprimary" type="button" (click)="addField()">
-                    Ajouter
-                  </button>
-                </div>
-              </div>
+              <select class="form-control" [(ngModel)]="selectedField">
+                <option value="">Choisir une formation</option>
+                <option *ngFor="let f of allFields">{{f.name}}</option>
+              </select>
             </div>
           </div>
           <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
-            <button class="btn btn-myprimary" (click)="save()">Sauvegarder</button>
+            <button class="btn btn-myprimary" (click)="saveField()">Sauvegarder</button>
           </div>
         </div>
       </div>
