@@ -97,7 +97,15 @@ export class AddOfferComponent implements OnInit {
   savePrediction(){
     this._predictionservice.setCurrentOfferIsSaved(true)
     this._predictionservice.saveAnOfferAndAPrediction(this.offerTitle,this.offerContent,this.formations[0].id)
-      .subscribe(data => {console.log("Saved")}, error =>{console.log("retry");console.log(error);});
+      .subscribe(data => {
+        var newOffer = {
+          id: data,
+          title: this.offerTitle,
+          content: this.offerContent,
+          descriptor: "",
+        }
+        this._predictionservice.savedData(newOffer)
+      }, error =>{console.log("retry");console.log(error);});
   }
 
   //Open the connexion modal

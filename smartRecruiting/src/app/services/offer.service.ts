@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { URL_API } from '../shared/constants';
 import {AuthentificationService} from './authentification.service';
 
+
 @Injectable()
 export class OfferService {
 
@@ -73,8 +74,6 @@ export class OfferService {
     );
     return this.http.post(this.globalLink + '/update_prediction_by_id_offer', body, this.createHeader());
   }
-
-
 
   getOfferForConnectedClient() {
     let id = this._authentificationService.getConnectedUser().value.id;

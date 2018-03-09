@@ -9,7 +9,7 @@ import { catchError, map, tap, retry } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { URL_API } from '../shared/constants'
 import { AuthentificationService } from './authentification.service';
-
+import {UserOfferService} from './user-offer.service';
 
 @Injectable()
 export class PredictionService {
@@ -29,6 +29,7 @@ export class PredictionService {
   currentOfferIsSaved$ = this.currentOfferIsSaved.asObservable();
 
   constructor(
+    private _userofferService : UserOfferService,
     private http: HttpClient,
     private _authentificationservice : AuthentificationService
   ) {}
@@ -78,8 +79,6 @@ export class PredictionService {
           'id_field': idField,
           'inbase' : false
         });
-        console.log(user);
-        console.log(body);
         return this.http.post(this.globalLink + '/offers/link', body, this.createHeader())
     }
     return undefined
@@ -99,6 +98,10 @@ export class PredictionService {
     this.setDisplayResults(false);
     this.setListeFieldFound([]);
     this.setCurrentOfferIsSaved(false);
+  }
+
+  savedData(offer){
+    this._userofferService.addAnOffer(offer);
   }
 
 }
