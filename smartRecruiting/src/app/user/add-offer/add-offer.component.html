@@ -19,7 +19,7 @@
               <textarea name="textarea" class="form-control" type="text" rows="15" [(ngModel)]="offerContent" placeholder="Entrer une offre"></textarea>
           </div>
           <div class="row mb-4 col-12 justify-content-center">
-              <button type="button" class="btn btn-myprimary" [disabled]="!isValid()" (click)="getPrediction()"> Valider </button>
+              <button type="button" class="btn btn-myprimary" [disabled]="!isValid()||formations.length!=0" (click)="getPrediction()"> Valider </button>
           </div><!--
           <div class="row mb-4 col-12 justify-content-center">
             <div class='hr col-10'>

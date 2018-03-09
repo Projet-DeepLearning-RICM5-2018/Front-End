@@ -4,6 +4,7 @@ import {Prediction} from '../../shared/prediction';
 import { OfferService } from '../../services/offer.service';
 import { FieldService } from '../../services/field.service';
 import { UserOfferService } from '../../services/user-offer.service';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-my-offers',
@@ -19,7 +20,10 @@ export class MyOffersComponent implements OnInit {
   public modifyingPrediction: boolean;
   public displayResults: boolean;
 
+  private modalDanger: NgbModalRef;
+
   constructor(
+    private modalService: NgbModal,
     private _offerService: OfferService,
     private _fieldService: FieldService,
     private _userofferService: UserOfferService
@@ -118,6 +122,19 @@ export class MyOffersComponent implements OnInit {
       },
       error => {}
     );
+  }
+
+  openDangerPopUp(danger,offer){
+    this.modalDanger = this.modalService.open(danger);
+    this.modalDanger.result.then(
+      (result) => {
+        if(result=="yes"){
+          this.deleteOffer(offer);
+        }
+      },
+      (reason) => {console.log('');}
+    );
+
   }
 
 }
