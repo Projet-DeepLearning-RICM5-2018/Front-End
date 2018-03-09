@@ -21,7 +21,7 @@ export class AdminFieldComponent implements OnInit {
   private isNewField: boolean;
   private isNewContact: boolean;
 
-  Fieldform: FormGroup;
+  form: FormGroup;
 
   constructor(
     private fieldService: FieldService,
@@ -47,7 +47,7 @@ export class AdminFieldComponent implements OnInit {
   }
 
   initForm() {
-    this.Fieldform = new FormGroup({
+    this.form = new FormGroup({
       'name': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
       'website': new FormControl(null, Validators.required)
@@ -64,9 +64,9 @@ export class AdminFieldComponent implements OnInit {
     }
   }
 
-  get name() {return this.Fieldform.get('name'); }
-  get description() {return this.Fieldform.get('description'); }
-  get website() {return this.Fieldform.get('website'); }
+  get name() {return this.form.get('name'); }
+  get description() {return this.form.get('description'); }
+  get website() {return this.form.get('website'); }
 
   addField() {
     this.selectedField = new Field();

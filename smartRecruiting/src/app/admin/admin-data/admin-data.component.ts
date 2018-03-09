@@ -17,14 +17,10 @@ export class AdminDataComponent implements OnInit {
   public fields_of_offer: any;
   public all_fields: any;
   public selectedfield: string;
-  public pagesNumbers: any;
 
-  public editingData: boolean;
   public editingField: boolean;
   public modifiedField: boolean;
   private isnew: boolean;
-
-  private pageNumber: number;
 
   constructor(
     private _offerService: OfferService,
@@ -32,14 +28,6 @@ export class AdminDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pageNumber = 1;
-    this._offerService.getOffersPage(this.pageNumber).subscribe(
-      res => {
-        console.log(res);
-        this.pagesNumbers = Array.from(new Array(res.nb_pages), (val, index) => index + 1);
-        console.log(this.pagesNumbers);
-      }
-    )
     this._offerService.getAllOffers().subscribe(
       offers => {
         this.offers = offers;
@@ -49,42 +37,10 @@ export class AdminDataComponent implements OnInit {
     this._fieldService.getAllFields().subscribe(data => this.all_fields = data);
   }
 
-
-  // Gestion de pages //
-
-  previousPage() {
-    if (this.pageNumber > 1) {
-      this.pageNumber = this.pageNumber - 1;
-      this.goToCurrentPage();
-    }
-  }
-
-  nextPage() {
-    if (this.pageNumber < this.pagesNumbers.length) {
-      this.pageNumber = this.pageNumber + 1;
-      this.goToCurrentPage();
-    }
-  }
-
-  goToPage(nbPage) {
-    this.pageNumber = nbPage;
-    this.goToCurrentPage();
-  }
-
-  private goToCurrentPage() {
-    console.log(this.pageNumber);
-    this._offerService.getOffersPage(this.pageNumber).subscribe(
-      res => {
-        this.offers = res.data;
-      }
-    );
-  }
-
   addData() {
     this.clear();
     this.selectedOffer = new Offer();
     this.fields_of_offer = [new Field()];
-    this.editingData = true;
     this.editingField = true;
     this.isnew = true;
   }
@@ -94,9 +50,6 @@ export class AdminDataComponent implements OnInit {
     this.selectedOffer = offer;
     this._fieldService.getFieldByOffer(offer.id).subscribe(
       returned_offers => this.fields_of_offer = returned_offers);
-  }
-  editData() {
-    this.editingData = true;
   }
 
   deleteData() {
@@ -149,8 +102,7 @@ export class AdminDataComponent implements OnInit {
         data => console.log(data)
       );
     }
-    this.editingData = false;
-    // this.clear();
+    this.clear();
   }
 
   clear() {
@@ -160,7 +112,6 @@ export class AdminDataComponent implements OnInit {
     this.selectedfield = '';
     this.editingField = false;
     this.modifiedField = false;
-    this.editingData = false;
   }
 
 }
