@@ -5,6 +5,7 @@ import {Field} from '../../shared/field';
 import {OfferService} from '../../services/offer.service';
 import {FieldService} from '../../services/field.service';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-admin-data',
@@ -25,8 +26,9 @@ export class AdminDataComponent implements OnInit {
   private isnew: boolean;
 
   private modalDanger: NgbModalRef;
-
   private pageNumber: number;
+
+  form: FormGroup;
 
   constructor(
     private modalService: NgbModal,
@@ -46,7 +48,18 @@ export class AdminDataComponent implements OnInit {
       }
     );
     this._fieldService.getAllFieldsName().subscribe(data => this.all_fields = data);
+    this.initForm();
   }
+
+  initForm() {
+    this.form = new FormGroup({
+      'title': new FormControl(null, Validators.required),
+      'content': new FormControl(null, Validators.required),
+    });
+  }
+
+  get title() {return this.form.get('title'); }
+  get content() {return this.form.get('content'); }
 
   // Gestion de pages //
 
@@ -133,9 +146,13 @@ export class AdminDataComponent implements OnInit {
 
   editField() {
     this.editingField = true;
+    this.selectedfield = this.selectedData.field.name;
   }
 
   save() {
+    if (this.editingField) {
+      this.validateField();
+    }
     if (this.isnew) {
       let data = this.selectedData;
       // Creates the offer and the associated prediction. Returns ths id of the created offer.
@@ -160,6 +177,7 @@ export class AdminDataComponent implements OnInit {
       );
     }
     this.editingData = false;
+    this.editingField = false;
   }
 
   clear() {
@@ -175,11 +193,11 @@ export class AdminDataComponent implements OnInit {
     this.modalDanger = this.modalService.open(danger);
     this.modalDanger.result.then(
       (result) => {
-        if(result=="yes"){
+        if (result === 'yes' ) {
           this.deleteData();
         }
       },
-      (reason) => {console.log('');}
+      (reason) => {console.log(''); }
     );
 
   }
