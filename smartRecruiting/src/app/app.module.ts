@@ -16,7 +16,6 @@ import { AdminStatsComponent } from './admin/admin-stats/admin-stats.component';
 import { AdminDataComponent } from './admin/admin-data/admin-data.component';
 import { AdminFieldComponent } from './admin/admin-field/admin-field.component';
 import { FieldDetailsComponent } from './user/field-details/field-details.component';
-import { MyParamsComponent } from './user/my-params/my-params.component';
 
 import { PredictionService } from './services/prediction.service';
 import { FoundFieldService } from './services/found-field.service';
@@ -27,8 +26,7 @@ import { FieldService } from './services/field.service';
 import { ContactService } from './services/contact.service';
 import { OfferService } from './services/offer.service';
 import { UserOfferService } from './services/user-offer.service';
-import { UserService } from './services/user.service';
-
+import { MyParamsComponent } from './user/my-params/my-params.component';
 
 
 const appRoutes: Routes = [
@@ -36,7 +34,6 @@ const appRoutes: Routes = [
   { path: 'offre/:id', component: AddOfferComponent },
   { path: 'formation/:id', component: FieldDetailsComponent },
   { path: 'mes-offres', component: MyOffersComponent, canActivate: [UserAuthGuardService] },
-  { path: 'parametres', component: MyParamsComponent, canActivate: [UserAuthGuardService] },
   { path: 'admin', redirectTo: 'admin/statistiques', pathMatch: 'full', canActivate: [AdminAuthGuardService] },
   { path: 'admin/statistiques', component: AdminStatsComponent, canActivate: [AdminAuthGuardService] },
   { path: 'admin/donnees', component: AdminDataComponent, canActivate: [AdminAuthGuardService] },
@@ -78,7 +75,6 @@ const appRoutes: Routes = [
     ContactService,
     OfferService,
     UserOfferService,
-    UserService,
   ],
   bootstrap: [AppComponent]
 })
