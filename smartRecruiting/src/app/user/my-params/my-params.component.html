@@ -1,56 +1,96 @@
 
 <div class="container-fluid">
-  <div class="alert alert-danger" *ngIf="erreurServeur" role="alert">
-    Une erreur c'est produite sur le serveur reessayez plus tard.
-  </div>
-  <div class="row col-12">
-    <label class="col-4">Email</label>
-    <p>{{userAccount.email}}<p>
-  </div>
-  <div class="row col-12">
-    <label class="col-4">Nom</label>
-    <div *ngIf="modyfing">
-      <input type="text" class="form-control" [(ngModel)]="userAccount.name" formControlName="name">
+
+  <div class="row d-flex justify-content-center">
+
+    <div class="row mt-2 col-12 d-flex justify-content-center">
+      <h1 class="offset-1 col-7"> Paramètres du compte </h1>
+      <div class="col-4 d-flex justify-content-end mt-2">
+        <button class="btn mr-2 btn-mywarning" *ngIf="!modyfing" (click)="modifierUser()" data-toggle="tooltip" data-placement="bottom" title="Modifier">
+          <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button class="btn mr-2 btn-mydanger"  *ngIf="!modyfing" (click)="openDangerPopUp(danger)" data-toggle="tooltip" data-placement="bottom" title="Supprimer">
+          <i class="fas fa-eraser"></i>
+        </button>
+        <button class="btn mr-2 btn-mysuccess" *ngIf="modyfing" (click)="save()" data-toggle="tooltip" data-placement="bottom" title="Sauvegarder">
+          <i class="fas fa-save"></i>
+        </button>
+        <button class="btn mr-2 btn-mysecondary" *ngIf="modyfing" (click)="annuler()" data-toggle="tooltip" data-placement="bottom" title="Annuler">
+           <i class="fas fa-times"></i>
+        </button>
+      </div>
     </div>
-    <div *ngIf="!modyfing">
-      <p>{{userAccount.name}}<p>
+    <!-- issue -->
+    <div class="row col-12 alert alert-danger" *ngIf="erreurServeur" role="alert">
+      Une erreur c'est produite sur le serveur reessayez plus tard.
     </div>
-  </div>
-  <div class="row col-12">
-    <label class="col-4">Prénom</label>
-    <div *ngIf="modyfing">
-      <input type="text" class="form-control" [(ngModel)]="userAccount.surname" formControlName="surname">
+    <div class="row col-12 alert alert-danger" *ngIf="motDePasseNonIdentique" role="alert">
+      Les deux mots de passe ne sont pas identique
     </div>
-    <div *ngIf="!modyfing">
-        <p>{{userAccount.surname}}<p>
+
+    <!--field-->
+    <div class="row mt-2 offset-1 col-10">
+      <label class="col-4">Email</label>
+      <div class="col-5 d-flex justify-content-center">
+        <p>{{userAccount.email}}<p>
+      </div>
     </div>
-  </div>
-  <div class="row col-12">
-    <label class="col-4">Rôle</label>
-    <div *ngIf="modyfing">
-      <input type="text" class="form-control" [(ngModel)]="userAccount.role" formControlName="role">
+    <div class="row offset-1 col-10">
+      <label class="col-4">Nom</label>
+      <div class="col-5" *ngIf="modyfing">
+        <input type="text" class="form-control" [(ngModel)]="userAccount.name">
+      </div>
+      <div class="col-5 d-flex justify-content-center" *ngIf="!modyfing">
+        <p>{{userAccount.name}}<p>
+      </div>
     </div>
-    <div *ngIf="!modyfing">
-      <p>{{userAccount.role}}<p>
+
+    <div class="row mt-2 offset-1 col-10">
+      <label class="col-4">Prénom</label>
+      <div class="col-5" *ngIf="modyfing">
+        <input type="text" class="form-control" [(ngModel)]="userAccount.surname">
+      </div>
+      <div class="col-5 d-flex justify-content-center" *ngIf="!modyfing">
+          <p>{{userAccount.surname}}<p>
+      </div>
     </div>
-  </div>
-  <div>
-    <div class="row col-12" *ngIf="modyfing">
+
+    <div class="row mt-2 offset-1 col-10">
+      <label class="col-4">Rôle</label>
+      <div class="col-5" *ngIf="modyfing">
+        <input type="text" class="form-control" [(ngModel)]="userAccount.role">
+      </div>
+      <div class="col-5 d-flex justify-content-center" *ngIf="!modyfing">
+        <p>{{userAccount.role}}<p>
+      </div>
+    </div>
+
+    <div class="row mt-2 offset-1 col-10" *ngIf="modyfing">
       <label class="col-4">Mot de passe</label>
-      <div *ngIf="modyfing">
-      <input type="password" class="form-control" [(ngModel)]="userAccount.password" formControlName="password">
-      </div>
+      <div class="col-5"><input type="password" class="form-control" [(ngModel)]="userAccount.password"></div>
     </div>
-    <div class="row col-12" *ngIf="modyfing">
+    <div class="row offset-1 col-10 mt-2 mb-2" *ngIf="modyfing">
       <label class="col-4">Confirmer le nouveau mot de passe</label>
-      <div *ngIf="modyfing">
-      <input type="password" class="form-control" [(ngModel)]="userAccount.password" formControlName="password">
-      </div>
+      <div class="col-5"><input type="password" class="form-control" [(ngModel)]="verifPassword"></div>
     </div>
-  </div>
-  <div class="row col-12 justify-content-center">
-    <button class="btn btn-mysuccess col-4" *ngIf="modyfing" (click)="modyfing==true">Modifier</button>
-    <button class="btn btn-mysuccess col-4" *ngIf="!modyfing" (click)="annuler()">Annuler</button>
-    <button class="btn btn-mydanger col-4"  (click)="modyfing==true">Supprimer</button>
+
   </div>
 </div>
+
+<ng-template #danger let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title"> Attention </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Etes-vous sûre de vouloir supprimer votre compte?
+  </div>
+  <div class="modal-footer">
+    <div class="row col-12 d-flex justify-content-center">
+        <button type="button" class="btn btn-mydanger mr-2" (click)="c('yes')"> Supprimer </button>
+        <button type="button" class="btn btn-mysecondary" (click)="c('no')"> Annuler </button>
+    </div>
+  </div>
+</ng-template>

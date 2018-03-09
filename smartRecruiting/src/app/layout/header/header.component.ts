@@ -30,7 +30,8 @@ export class HeaderComponent implements OnInit {
   private modalLog: NgbModalRef;
   private modalSign: NgbModalRef;
 
-  constructor(private modalService: NgbModal,
+  constructor(
+    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _authentificationservice: AuthentificationService) { }
 
@@ -94,7 +95,7 @@ export class HeaderComponent implements OnInit {
       this._authentificationservice.connexionUser(this.emailUser, this.passwordUser)
         .subscribe(
           data => {
-            this._authentificationservice.setConnexionUser(data);
+            this._authentificationservice.setConnexionData(data);
             this.disabledDisplayingIssues();
             this.modalLog.close();
           },
@@ -120,7 +121,7 @@ export class HeaderComponent implements OnInit {
     this._authentificationservice.registrationUser(this.newUser)
       .subscribe(
         data => {
-          this._authentificationservice.setConnexionUser(data);
+          this._authentificationservice.setConnexionData(data);
           this.disabledDisplayingIssues();
           this.initForm();
           this.newUser = {id:1, name: '', surname:'', role:'', email:'', password: '', isAdmin:false};
@@ -137,7 +138,7 @@ export class HeaderComponent implements OnInit {
   disconnect() {
     this._authentificationservice.disconnect().subscribe(
       data => {
-        this._authentificationservice.initConnexionUser();
+        this._authentificationservice.cleanUserConnexionData();
         console.log('');
       },
       error => {
