@@ -68,6 +68,7 @@ export class MyOffersComponent implements OnInit {
     this._fieldService.getFieldByOffer(this.selectedOffer.id)
     .subscribe(
       data => {
+        this.selectedOffer.inbase = data[0].inbase;
         this.fields = data;
         this._userofferService.setAssociatedField(this.fields);
       },
@@ -84,7 +85,10 @@ export class MyOffersComponent implements OnInit {
   // Add prediction in learning base
   validatePrediction() {
     // TODO
-    this.selectedOffer.inbase = true;
+    this._offerService.putOfferInBase(this.selectedOffer.id).subscribe(
+      res => this.selectedOffer.inbase = true
+    );
+
   }
 
 
@@ -126,7 +130,7 @@ export class MyOffersComponent implements OnInit {
     );
   }
 
-  openDangerPopUp(danger,offer){
+  openDangerPopUp(danger, offer) {
     this.modalDanger = this.modalService.open(danger);
     this.modalDanger.result.then(
       (result) => {

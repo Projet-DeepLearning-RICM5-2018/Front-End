@@ -65,6 +65,16 @@ export class OfferService {
     return this.http.post(this.globalLink + '/update_prediction_by_id_offer', body, this.createHeader());
   }
 
+  putOfferInBase(id_offer) {
+    let body = JSON.stringify({
+        'id_offer': id_offer,
+        'in_base': 1
+      }
+    );
+    return this.http.post(this.globalLink + '/update_prediction_by_id_offer', body, this.createHeader());
+  }
+
+
 
   getOfferForConnectedClient() {
     let id = this._authentificationService.getConnectedUser().value.id;
