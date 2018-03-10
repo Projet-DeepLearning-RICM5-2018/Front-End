@@ -45,7 +45,7 @@
             </div>
             <div class="row mb-2 col-12 d-flex justify-content-center">
               <div class="col-10">
-                <form  class="form-horizontal" [formGroup]="form" (ngSubmit)="validateRegistration()">
+                <form  class="form-horizontal" [formGroup]="Fieldform" (ngSubmit)="validateRegistration()">
                   <div class="form-group">
                     <label>Nom de la formation*</label>
                     <input type="text" class="form-control"[(ngModel)]="selectedField.name" formControlName="name">
@@ -87,8 +87,8 @@
                       </div>
                     </div>
                     <ng-template #EditContact>
-                      <div class="row">
-                        <div class="col-9">
+                      <div class="row mb-2 justify-content-center">
+                        <div class="col-10">
                           Prénom
                           <input class="form-control" [(ngModel)]="contact.name">
                           Nom
@@ -100,11 +100,9 @@
                           Téléphone
                           <input class="form-control" [(ngModel)]="contact.phone">
                         </div>
-                        <div class="col-1 align-items-end">
-                          <div class="row mb-2 col-12 d-flex">
-                            <button class="btn btn-success" (click)="saveContact(contact)">Sauvegarder</button>
-                          </div>
-                        </div>
+                      </div>
+                      <div class="row justify-content-center">
+                        <button class="btn btn-success" (click)="saveContact(contact)">Sauvegarder</button>
                       </div>
                     </ng-template>
                   </a>
@@ -115,7 +113,7 @@
               <button class="btn btn-primary" (click)="addContact()">Ajouter un contact</button>
             </div>
             <div class="row mb-2 col-12 d-flex justify-content-center">
-              <button class="btn btn-success btn-margin-right" (click)="saveField()" [disabled]="!form.valid">Sauvegarder</button>
+              <button class="btn btn-success btn-margin-right" (click)="saveField()" [disabled]="!Fieldform.valid">Sauvegarder</button>
               <button *ngIf="!isnew" class="btn btn-danger btn-margin-left" (click)="deleteField()">Supprimer</button>
             </div>
           </div>

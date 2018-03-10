@@ -25,6 +25,15 @@ export class OfferService {
     return this.http.get(this.offersRoute, this.createHeader());
   }
 
+  getOffersPage(page_number) {
+    let body = JSON.stringify({
+      'nb_offre': 25,
+      'num_page': page_number
+      }
+    );
+    return this.http.post(this.offersRoute + '/page', body, this.createHeader());
+  }
+
   addOfferAndPrediction(offer, id_field) {
     console.log(this._authentificationService.getConnectedUser().value);
     let body = JSON.stringify({
