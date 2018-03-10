@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { URL_API } from '../shared/constants';
 import {AuthentificationService} from './authentification.service';
 
 @Injectable()
 export class OfferService {
+
   private globalLink = URL_API;
   private offersRoute = URL_API + '/offers';
+
   constructor(
     private http: HttpClient,
     private _authentificationService: AuthentificationService
@@ -35,7 +36,6 @@ export class OfferService {
   }
 
   addOfferAndPrediction(offer, id_field) {
-    console.log(this._authentificationService.getConnectedUser().value);
     let body = JSON.stringify({
       'title' : offer.title,
       'content' : offer.content,

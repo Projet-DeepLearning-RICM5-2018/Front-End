@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FieldService } from '../../services/field.service';
 
@@ -22,9 +22,7 @@ export class FieldDetailsComponent implements OnInit {
     this.location.back();
   }
 
-
   ngOnInit() {
-    /**TODO requete HTTP*/
     this.route.params.subscribe(params => {this.index = +params['id'];});
     this.currentField = this._fieldservice.getField(this.index)
     .subscribe(

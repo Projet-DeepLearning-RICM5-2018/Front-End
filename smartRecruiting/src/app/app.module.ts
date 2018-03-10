@@ -25,6 +25,8 @@ import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 import { FieldService } from './services/field.service';
 import { ContactService } from './services/contact.service';
 import { OfferService } from './services/offer.service';
+import { UserOfferService } from './services/user-offer.service';
+import { MyParamsComponent } from './user/my-params/my-params.component';
 
 
 const appRoutes: Routes = [
@@ -53,6 +55,7 @@ const appRoutes: Routes = [
     AdminStatsComponent,
     AdminDataComponent,
     AdminFieldComponent,
+    MyParamsComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +74,7 @@ const appRoutes: Routes = [
     FieldService,
     ContactService,
     OfferService,
+    UserOfferService,
   ],
   bootstrap: [AppComponent]
 })

@@ -8,6 +8,7 @@ import { URL_API } from '../shared/constants';
 export class AuthentificationService {
 
   public admin = new BehaviorSubject<boolean>(this.initIsAdmin());
+  public isConnected = new BehaviorSubject<boolean>(this.initIsConnected());
   public connectedUser = new BehaviorSubject<any>(this.initConnectedUser());
   public tokenUser = new BehaviorSubject<string>(this.initTokenUser());
 
@@ -16,58 +17,67 @@ export class AuthentificationService {
   admin$ = this.admin.asObservable();
   connectedUser$ = this.connectedUser.asObservable();
   tokenUser$ = this.tokenUser.asObservable();
+  isConnected$ = this.isConnected.asObservable();
 
   constructor(private http: HttpClient) { }
 
   public getAdmin(): BehaviorSubject<boolean> {
     return this.admin;
   }
-
   public setAdmin(isAdmin: boolean): void {
     this.admin.next(isAdmin);
-    localStorage.setItem('isAdmin', this.admin.value);
+    localStorage.setItem('isAdmin', '' + this.admin.value);
   }
-
   private initIsAdmin(){
     if (localStorage.getItem('isAdmin')) {
-      return localStorage.getItem('isAdmin');
+       return (localStorage.getItem('isAdmin') == 'true');
     } else {
-      return this.admin;
+      return false;
     }
   }
 
   public getConnectedUser(): BehaviorSubject<any> {
     return this.connectedUser;
   }
-
   public setConnectedUser(user: User): void {
     this.connectedUser.next(user);
     localStorage.setItem('connectedUser', JSON.stringify(this.connectedUser.value));
   }
-
   private initConnectedUser() {
     if (localStorage.getItem('connectedUser')){
       let retrieveObject = localStorage.getItem('connectedUser');
       return JSON.parse(retrieveObject);
     } else {
-      return this.connectedUser;
+      return undefined;
     }
   }
 
   public getTokenUser(): BehaviorSubject<string> {
     return this.tokenUser;
   }
-
   public setTokenUser(token: string): void {
     this.tokenUser.next(token);
     localStorage.setItem('token', this.tokenUser.value);
   }
-
   private initTokenUser() {
     if (localStorage.getItem('token')) {
       return localStorage.getItem('token');
     } else {
-      return this.tokenUser;
+      return "";
+    }
+  }
+
+  public getIsConnected(): BehaviorSubject<boolean> {
+    return this.isConnected;
+  }
+  public setIsConnected(b: boolean): void {
+    this.isConnected.next(b);
+  }
+  private initIsConnected() {
+    if (localStorage.getItem('token')) {
+      return true
+    } else {
+      return false;
     }
   }
 
@@ -90,13 +100,15 @@ export class AuthentificationService {
     this.connectedUser.next(undefined);
     this.tokenUser.next('');
     this.admin.next(false);
+    this.setIsConnected(false);
   }
 
   // Set the different field of the service
   setConnexionUser(data) {
     this.setConnectedUser(data.user);
     this.setTokenUser(data.token);
-    this.setAdmin(data.user.is_admin === 1);
+    this.setAdmin(data.user.is_admin);
+    this.setIsConnected(true);
   }
 
   // Send a registration request to the back-end
