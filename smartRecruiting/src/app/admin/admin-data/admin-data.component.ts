@@ -41,8 +41,8 @@ export class AdminDataComponent implements OnInit {
     this._offerService.getOffersPage(this.pageNumber).subscribe(
       res => {
         console.log(res);
-        this.pagesNumbers = Array.from(new Array(res.nb_pages), (val, index) => index + 1);
-        this.data = res.data;
+        this.pagesNumbers = Array.from(new Array(res['nb_pages']), (val, index) => index + 1);
+        this.data = res['data'];
       }, error2 => {
         this.pagesNumbers = Array.from(new Array(5), (val, index) => index + 1);
       }
@@ -86,8 +86,8 @@ export class AdminDataComponent implements OnInit {
     console.log(this.pageNumber);
     this._offerService.getOffersPage(this.pageNumber).subscribe(
       res => {
-        this.pagesNumbers = Array.from(new Array(res.nb_pages), (val, index) => index + 1);
-        this.data = res.data;
+        this.pagesNumbers = Array.from(new Array(res['nb_pages']), (val, index) => index + 1);
+        this.data = res['data'];
         console.log(res);
       }, error2 => {
         this.pagesNumbers = Array.from(new Array(5), (val, index) => index + 1);
