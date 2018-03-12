@@ -22,15 +22,16 @@ export class AdminFieldComponent implements OnInit {
   private isNewField: boolean;
   private isNewContact: boolean;
 
-  form: FormGroup;
+  formField: FormGroup;
+  formContact: FormGroup;
 
   private modalDanger: NgbModalRef;
   private message : string;
 
   constructor(
-    private modalService: NgbModal,
-    private fieldService: FieldService,
-    private contactService: ContactService,
+    private _modalService: NgbModal,
+    private _fieldsService: FieldService,
+    private _contactService: ContactService,
   ) { }
 
 
@@ -40,7 +41,7 @@ export class AdminFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fieldService.getAllFields().subscribe(
+    this._fieldsService.getAllFields().subscribe(
       data => this.initFields(data)
     );
     this.selectedField = null;
@@ -52,10 +53,17 @@ export class AdminFieldComponent implements OnInit {
   }
 
   initForm() {
-    this.form = new FormGroup({
+    this.formField = new FormGroup({
       'name': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
       'website': new FormControl(null, Validators.required)
+    });
+    this.formContact = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'surname' : new FormControl(null, Validators.required),
+      'role': new FormControl(null, Validators.required),
+      'phone' : new FormControl(null, Validators.required),
+      'email': new FormControl(null, Validators.email)
     });
   }
 
@@ -69,9 +77,16 @@ export class AdminFieldComponent implements OnInit {
     }
   }
 
-  get name() {return this.form.get('name'); }
-  get description() {return this.form.get('description'); }
-  get website() {return this.form.get('website'); }
+  get name() {return this.formField.get('name'); }
+  get description() {return this.formField.get('description'); }
+  get website() {return this.formField.get('website'); }
+
+
+  get cname() {return this.formContact.get('name'); }
+  get surname() {return this.formContact.get('surname'); }
+  get role() {return this.formContact.get('role'); }
+  get phone() {return this.formContact.get('phone'); }
+  get email() {return this.formContact.get('email'); }
 
   addField() {
     this.selectedField = new Field();
@@ -109,15 +124,17 @@ export class AdminFieldComponent implements OnInit {
   saveContact(c) {
     if (this.isNewField) {
       if (!this.isNewContact) {
+        console.log('coucou2');
         this.updateContact(c);
       }
     } else {
       if (this.isNewContact) {
-        this.contactService.createContact(this.selectedField.id, c).subscribe(
+        this._contactService.createContact(this.selectedField.id, c).subscribe(
           contact => c = contact
         );
       } else {
-        this.contactService.updateContact(this.selectedField.id, c);
+        console.log('coucou');
+        this._contactService.updateContact(this.selectedField.id, c).subscribe();
       }
     }
     this.showContact = true;
@@ -135,7 +152,7 @@ export class AdminFieldComponent implements OnInit {
       this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c);
     } else {
       console.log(c);
-      this.contactService.deleteContact(c.id).subscribe(
+      this._contactService.deleteContact(c.id).subscribe(
         res => this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c)
       );
     }
@@ -157,18 +174,18 @@ export class AdminFieldComponent implements OnInit {
   saveField() {
     const f = this.selectedField;
     if (this.isNewField) {
-      this.fieldService.createField(f).subscribe(
+      this._fieldsService.createField(f).subscribe(
         field => this.addNewFieldToAll(field)
       );
     } else {
-      this.fieldService.updateField(f).subscribe(data => console.log('Saved'));
+      this._fieldsService.updateField(f).subscribe(data => console.log('Saved'));
     }
     this.clear();
   }
 
   deleteField() {
     const to_delete = this.selectedField;
-    this.fieldService.deleteField(to_delete).subscribe(
+    this._fieldsService.deleteField(to_delete).subscribe(
       data => this.deleteFieldToAll(to_delete)
     );
     this.clear();
@@ -181,20 +198,20 @@ export class AdminFieldComponent implements OnInit {
     this.isNewField = false;
   }
 
-  openDangerPopUp(danger,text,contact){
+  openDangerPopUp(danger, text, contact) {
     this.message = text;
-    this.modalDanger = this.modalService.open(danger);
+    this.modalDanger = this._modalService.open(danger);
     this.modalDanger.result.then(
       (result) => {
-        if(result=="yes"){
-          if(contact){
+        if (result === 'yes') {
+          if (contact) {
             this.removeContact(contact);
-          }else{
+          } else {
             this.deleteField();
           }
         }
       },
-      (reason) => {console.log('');}
+      (reason) => {console.log(''); }
     );
 
   }

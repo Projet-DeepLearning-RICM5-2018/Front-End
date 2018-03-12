@@ -45,7 +45,7 @@
             </div>
             <div class="row mb-2 col-12 d-flex justify-content-center">
               <div class="col-10">
-                <form  class="form-horizontal" [formGroup]="form" (ngSubmit)="validateRegistration()">
+                <form  class="form-horizontal" [formGroup]="formField" (ngSubmit)="validateRegistration()">
                   <div class="form-group">
                     <label>Nom de la formation*</label>
                     <input type="text" class="form-control"[(ngModel)]="selectedField.name" formControlName="name">
@@ -87,24 +87,37 @@
                       </div>
                     </div>
                     <ng-template #EditContact>
-                      <div class="row">
-                        <div class="col-9">
-                          Prénom
-                          <input class="form-control" [(ngModel)]="contact.name">
-                          Nom
-                          <input class="form-control" [(ngModel)]="contact.surname">
-                          Role
-                          <input class="form-control" [(ngModel)]="contact.role">
-                          Email
-                          <input class="form-control" [(ngModel)]="contact.email">
-                          Téléphone
-                          <input class="form-control" [(ngModel)]="contact.phone">
-                        </div>
-                        <div class="col-1 align-items-end">
-                          <div class="row mb-2 col-12 d-flex">
-                            <button class="btn btn-mysuccess" (click)="saveContact(contact)">Sauvegarder</button>
+                      <div class="row mb-2 col-12 d-flex justify-content-center">
+                        <form  class="form-horizontal" [formGroup]="formContact" (ngSubmit)="validateRegistration()">
+                          <div class="form-group">
+                            <label>Prénom*</label>
+                            <input type="text" class="form-control"[(ngModel)]="contact.name" formControlName="name">
+                            <div *ngIf="cname.invalid && (cname.dirty || cname.touched)" class="alert alert-danger"> Le champs est requis </div>
                           </div>
-                        </div>
+                          <div class="form-group">
+                            <label>Nom*</label>
+                            <input type="text" class="form-control" [(ngModel)]="contact.surname" formControlName="surname">
+                            <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger"> Le champs est requis </div>
+                          </div>
+                          <div class="form-group">
+                            <label>Role*</label>
+                            <input type="text" class="form-control" [(ngModel)]="contact.role" formControlName="role">
+                            <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger"> Le champs est requis </div>
+                          </div>
+                          <div class="form-group">
+                            <label>Email*</label>
+                            <input type="text" class="form-control" [(ngModel)]="contact.email" formControlName="email">
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger"> Ce champ doit être un email valide</div>
+                          </div>
+                          <div class="form-group">
+                            <label>Téléphone*</label>
+                            <input type="text" class="form-control" [(ngModel)]="contact.phone" formControlName="phone">
+                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert alert-danger"> Le champs est requis </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="row mb-2 col-12 d-flex justify-content-center">
+                        <button class="btn btn-mysuccess" (click)="saveContact(contact)" [disabled]="!formContact.valid">Sauvegarder</button>
                       </div>
                     </ng-template>
                   </a>
@@ -115,7 +128,7 @@
               <button class="btn btn-myprimary" (click)="addContact()">Ajouter un contact</button>
             </div>
             <div class="row mb-2 col-12 d-flex justify-content-center">
-              <button class="btn btn-mysuccess btn-margin-right" (click)="saveField()" [disabled]="!form.valid">Sauvegarder</button>
+              <button class="btn btn-mysuccess btn-margin-right" (click)="saveField()" [disabled]="!formField.valid">Sauvegarder</button>
               <button *ngIf="!isnew" class="btn btn-mydanger btn-margin-left" (click)="openDangerPopUp(danger,'cette formation',undefined)">Supprimer</button>
             </div>
           </div>
