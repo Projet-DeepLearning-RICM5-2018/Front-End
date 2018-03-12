@@ -33,9 +33,8 @@ export class MyOffersComponent implements OnInit {
   ngOnInit() {
     // subscribe and get saved data
     this.selectedOffer = this._userofferService.getSelectedOffer() ? this._userofferService.getSelectedOffer() : undefined;
-    this.selectedField = this._userofferService.getAssociatedField() ? this._userofferService.getAssociatedField() : undefined;
-    console.log(this.selectedOffer)
-    console.log(this.selectedField)
+    this.fields = this._userofferService.getAssociatedField() ? this._userofferService.getAssociatedField() : undefined;
+
     this.displayResults = !!this.selectedOffer;
 
     this._fieldService.getAllFieldsName().subscribe(
