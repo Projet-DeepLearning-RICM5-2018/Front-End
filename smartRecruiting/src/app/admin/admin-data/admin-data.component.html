@@ -14,11 +14,11 @@
             <!--<input type="text" class="form-control" placeholder="Rechercher une offre" aria-label="Barre de recherche"
                    aria-describedby="basic-addon2" [(ngModel)]="searchQuery">-->
             <select class="form-control" [(ngModel)]="searchField">
-              <option value="">Choisir une formation</option>
+              <option value="">Filtrer par une formation</option>
               <option *ngFor="let f of all_fields">{{f.name}}</option>
             </select>
             <div class="input-group-append">
-              <button class="btn btn-outline-mysecondary" type="button" (click)="search()">
+              <button class="btn btn-mysecondary" type="button" (click)="search()">
                 <i class="fas fa-search"></i>
               </button>
             </div>
