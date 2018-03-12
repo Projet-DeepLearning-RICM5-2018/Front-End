@@ -22,7 +22,7 @@ export class MyOffersComponent implements OnInit {
   public displayResults: boolean;
 
   private modalDanger: NgbModalRef;
-
+  private modalWarning: NgbModalRef;
   constructor(
     private modalService: NgbModal,
     private _offerService: OfferService,
@@ -34,6 +34,8 @@ export class MyOffersComponent implements OnInit {
     // subscribe and get saved data
     this.selectedOffer = this._userofferService.getSelectedOffer() ? this._userofferService.getSelectedOffer() : undefined;
     this.selectedField = this._userofferService.getAssociatedField() ? this._userofferService.getAssociatedField() : undefined;
+    console.log(this.selectedOffer)
+    console.log(this.selectedField)
     this.displayResults = !!this.selectedOffer;
 
     this._fieldService.getAllFieldsName().subscribe(
@@ -136,6 +138,19 @@ export class MyOffersComponent implements OnInit {
       (result) => {
         if(result=="yes"){
           this.deleteOffer(offer);
+        }
+      },
+      (reason) => {console.log('');}
+    );
+
+  }
+
+  openWarningPopUp(warning) {
+    this.modalWarning = this.modalService.open(warning);
+    this.modalWarning.result.then(
+      (result) => {
+        if(result=="yes"){
+          this.validatePrediction()
         }
       },
       (reason) => {console.log('');}
