@@ -124,7 +124,6 @@ export class AdminFieldComponent implements OnInit {
   saveContact(c) {
     if (this.isNewField) {
       if (!this.isNewContact) {
-        console.log('coucou2');
         this.updateContact(c);
       }
     } else {
@@ -133,7 +132,6 @@ export class AdminFieldComponent implements OnInit {
           contact => c = contact
         );
       } else {
-        console.log('coucou');
         this._contactService.updateContact(this.selectedField.id, c).subscribe();
       }
     }

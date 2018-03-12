@@ -20,6 +20,9 @@ export class AdminDataComponent implements OnInit {
   public selectedfield: string;
   public pagesNumbers: any;
 
+  public searchField: string;
+  public savedSearchField: string;
+
   public editingField: boolean;
   public modifiedField: boolean;
   public editingData: boolean;
@@ -38,14 +41,14 @@ export class AdminDataComponent implements OnInit {
 
   ngOnInit() {
     this.pageNumber = 1;
+    this.savedSearchField = '';
+    this.searchField = '';
     this._offerService.getOffersPage(this.pageNumber).subscribe(
       res => {
         console.log(res);
         this.pagesNumbers = Array.from(new Array(res['nb_pages']), (val, index) => index + 1);
         this.data = res['data'];
-      }, error2 => {
-        this.pagesNumbers = Array.from(new Array(5), (val, index) => index + 1);
-      }
+      }, error2 => {}
     );
     this._fieldService.getAllFieldsName().subscribe(data => this.all_fields = data);
     this.initForm();
@@ -61,7 +64,7 @@ export class AdminDataComponent implements OnInit {
   get title() {return this.form.get('title'); }
   get content() {return this.form.get('content'); }
 
-  // Gestion de pages //
+  // Gestion de pages et de recherche //
 
   previousPage() {
     if (this.pageNumber > 1) {
@@ -83,8 +86,12 @@ export class AdminDataComponent implements OnInit {
   }
 
   private goToCurrentPage() {
-    console.log(this.pageNumber);
-    this._offerService.getOffersPage(this.pageNumber).subscribe(
+    function isSelectedField(f) {
+      return f.name === this.savedSearchField;
+    }
+    const field = this.all_fields.find(isSelectedField, this);
+    const id = field ? field.id : null;
+    this._offerService.getOffersPageSearch(this.pageNumber, id).subscribe(
       res => {
         this.pagesNumbers = Array.from(new Array(res['nb_pages']), (val, index) => index + 1);
         this.data = res['data'];
@@ -187,6 +194,19 @@ export class AdminDataComponent implements OnInit {
     this.editingField = false;
     this.modifiedField = false;
     this.editingData = false;
+  }
+
+  search() {
+    this.pageNumber = 1;
+    this.savedSearchField = this.searchField;
+    this.goToCurrentPage();
+  }
+
+  cancelSearch() {
+    this.pageNumber = 1;
+    this.searchField = '';
+    this.savedSearchField = '';
+    this.goToCurrentPage();
   }
 
   openDangerPopUp(danger){

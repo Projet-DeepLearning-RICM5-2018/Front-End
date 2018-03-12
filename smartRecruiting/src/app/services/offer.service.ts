@@ -32,6 +32,16 @@ export class OfferService {
     return this.http.post(this.offersRoute + '/page', body, this.createHeader());
   }
 
+  getOffersPageSearch(page_number,id_field) {
+    let body = JSON.stringify({
+        'nb_offre': 25,
+        'num_page': page_number,
+        'id_field': id_field,
+      }
+    );
+    return this.http.post(this.offersRoute + '/page', body, this.createHeader());
+  }
+
 
   getAllOffers() {
     return this.http.get(this.offersRoute, this.createHeader());

@@ -85,11 +85,9 @@ export class MyOffersComponent implements OnInit {
 
   // Add prediction in learning base
   validatePrediction() {
-    // TODO
     this._offerService.putOfferInBase(this.selectedOffer.id).subscribe(
       res => this.selectedOffer.inbase = true
     );
-
   }
 
 
@@ -103,6 +101,7 @@ export class MyOffersComponent implements OnInit {
       this._offerService.updatePredictionOfOffer(this.selectedOffer.id, field.id).subscribe(
         res => {
           this.fields = [field];
+          this._userofferService.setAssociatedField(this.fields);
         }, error2 => {}
       );
       this.modifyingPrediction = false;
