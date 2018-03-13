@@ -16,6 +16,7 @@
 ## Fonctionnalité interesante à mettre en place
 
 * Une page pour permetre à l'administrateur d'ajouter des utilisateurs
+* Extraire les pop-ups d'inscription et de connexion du component header
 
 ## Installation 
 
