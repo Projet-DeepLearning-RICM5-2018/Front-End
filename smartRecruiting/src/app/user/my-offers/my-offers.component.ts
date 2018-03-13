@@ -24,6 +24,9 @@ export class MyOffersComponent implements OnInit {
 
   private modalDanger: NgbModalRef;
   private modalWarning: NgbModalRef;
+
+  public load = true;
+
   constructor(
     private _authentificationService: AuthentificationService,
     private modalService: NgbModal,
@@ -34,16 +37,18 @@ export class MyOffersComponent implements OnInit {
 
   ngOnInit() {
     this._authentificationService.connectedUser$.subscribe(item => {
+      this.load = true;
       if(item==undefined){
           this._userofferService.setCurrentOffersList(undefined);
           this._userofferService.setSelectedOffer(undefined);
           this._userofferService.setAssociatedField(undefined);
       }
+      else{
+        this.load = false;
+      }
     });
 
     // subscribe and get saved data
-
-
     this.displayResults = !!this.selectedOffer;
 
     this._fieldService.getAllFieldsName().subscribe(
@@ -54,12 +59,14 @@ export class MyOffersComponent implements OnInit {
 
     let list = this._userofferService.getCurrentOffersList();
     if (list) {
+      this.load = false;
       this.offers = list;
     } else {
       this._offerService.getOfferForConnectedClient().subscribe(
           data => {
             this.offers = data;
             this._userofferService.setCurrentOffersList(this.offers);
+            this.load = false;
           },
           error => {}
       );
@@ -98,7 +105,6 @@ export class MyOffersComponent implements OnInit {
       res => this.selectedOffer.inbase = true
     );
   }
-
 
   saveField() {
     function isSelectedField(f) {
