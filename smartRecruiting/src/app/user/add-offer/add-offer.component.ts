@@ -81,13 +81,9 @@ export class AddOfferComponent implements OnInit {
   initListenerUserConnexion(){
     this._authentificationservice.isConnected$.subscribe(item =>{
       this.isConnected = item
-      console.log("Connecté : " + this.isConnected)
       let isResult = (this.formations.length!=0)
-      console.log("Result : " + isResult)
       let isResultSaved = (this._predictionservice.getCurrentOfferIsSaved().value)
-      console.log("Dejà save? : " + isResultSaved)
       if(item && isResult && !isResultSaved){
-        console.log("Save")
         this.savePrediction();
       }
       else{console.log("Don't save")}

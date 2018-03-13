@@ -5,6 +5,7 @@ import { OfferService } from '../../services/offer.service';
 import { FieldService } from '../../services/field.service';
 import { UserOfferService } from '../../services/user-offer.service';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AuthentificationService} from '../../services/authentification.service';
 
 @Component({
   selector: 'app-my-offers',
@@ -24,6 +25,7 @@ export class MyOffersComponent implements OnInit {
   private modalDanger: NgbModalRef;
   private modalWarning: NgbModalRef;
   constructor(
+    private _authentificationService: AuthentificationService,
     private modalService: NgbModal,
     private _offerService: OfferService,
     private _fieldService: FieldService,
@@ -31,9 +33,16 @@ export class MyOffersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this._authentificationService.connectedUser$.subscribe(item => {
+      if(item==undefined){
+          this._userofferService.setCurrentOffersList(undefined);
+          this._userofferService.setSelectedOffer(undefined);
+          this._userofferService.setAssociatedField(undefined);
+      }
+    });
+
     // subscribe and get saved data
-    this.selectedOffer = this._userofferService.getSelectedOffer() ? this._userofferService.getSelectedOffer() : undefined;
-    this.fields = this._userofferService.getAssociatedField() ? this._userofferService.getAssociatedField() : undefined;
+
 
     this.displayResults = !!this.selectedOffer;
 
