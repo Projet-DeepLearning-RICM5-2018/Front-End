@@ -149,13 +149,12 @@ export class AuthentificationService {
             this.cleanUserConnexionData();
             this.router.navigate(['/']);
           },
-          error => {console.log(error);}
+          error => {console.log(error);});
       },
       error => {
         console.log(error);
       });
 
-    );
   }
 
 }

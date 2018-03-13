@@ -40,11 +40,11 @@ export class AddOfferComponent implements OnInit {
 
   //verify if the field or complete
   isValid(){
-    return ((this.uploadFile!=undefined || this.offerContent!="") && this.offerTitle!='')
+    return ((this.uploadFile!=undefined || this.offerContent.trim()!="") && this.offerTitle.trim()!='')
   }
 
   getPrediction(): void {
-    if((this.uploadFile!=undefined || this.offerContent!="") && this.offerTitle!=''){//if there is a pdf or string offer
+    if((this.uploadFile!=undefined || this.offerContent.trim()!="") && this.offerTitle.trim()!=''){//if there is a pdf or string offer
       var request = this._predictionservice.getPrediction(this.offerTitle,this.offerContent, this.uploadFile)
       .subscribe(
         data => {
