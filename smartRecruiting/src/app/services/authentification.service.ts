@@ -141,22 +141,20 @@ export class AuthentificationService {
   }
 
   eraseUser(){
-    this.disconnect().subscribe(
+    this.http.delete(this.globalLink +'/users/'+this.connectedUser.value.id, this.createHeader()).subscribe(
       data => {
-        console.log("Disconect");
-        this.http.delete(this.globalLink +'/users/'+this.connectedUser.value.id, this.createHeader()).subscribe(
+        this.disconnect().subscribe(
           data => {
-            console.log("Erased");
+            console.log("Disconect");
             this.cleanUserConnexionData();
             this.router.navigate(['/']);
           },
-          error => {
-            console.log(error);
-          });
+          error => {console.log(error);}
       },
       error => {
         console.log(error);
-      }
+      });
+
     );
   }
 
