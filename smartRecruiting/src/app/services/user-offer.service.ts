@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 
 @Injectable()
 export class UserOfferService {
@@ -9,6 +10,10 @@ export class UserOfferService {
   private associatedField = new BehaviorSubject<any>(undefined);
 
   constructor() { }
+
+  ngOnInit() {
+
+  }
 
   //Getter - setter
   getCurrentOffersList(): any{return this.currentOffersList.value;}
