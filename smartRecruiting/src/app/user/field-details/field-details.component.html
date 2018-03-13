@@ -14,7 +14,7 @@
               <p>{{currentField.description}}</p>
             </div>
           </div>
-          <div class="row mb-4 col-12 justify-content-center">
+          <div *ngIf="currentField.website!=''" class="row mb-4 col-12 justify-content-center">
               <a role="button" href="{{currentField.website}}"  target="_blank" class="btn btn-myprimary">Site de la formation</a>
           </div>
     </div>
