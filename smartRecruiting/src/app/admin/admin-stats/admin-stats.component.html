@@ -4,19 +4,30 @@
     <!--Colonne 1-->
     <div class="col-6 justify-content-center">
       <div class="row mt-4 mb-2 col-12 justify-content-center">
-        <h2>Statistiques diverses d'utilisation de l'appli</h2>
+        <h2>Statistiques d'efficacité du modèle de prédiction</h2>
       </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
-        coucou
+      <div *ngIf="accuracyData" class="row mb-2 col-12 d-flex justify-content-center">
+        <ul>
+          <li>
+            Nombre de données testées : {{accuracyData[0]}}
+          </li>
+          <li>
+            Accuracy : {{accuracyData[1]}}
+          </li>
+        </ul>
       </div>
     </div>
     <!--Colonne 2-->
     <div class="col-6" style="background:#eee">
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
-        <h2>Statistiques de charge ?</h2>
+        <h2>Statistiques de charge</h2>
       </div>
-      <div class="row mb-2 col-12 d-flex justify-content-center">
-        coucou2
+      <div *ngIf="todayPred" class="row mb-2 col-12 d-flex justify-content-center">
+        <ul>
+          <li>
+            Nombre de prédictions aujourd'hui : {{todayPred}}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
