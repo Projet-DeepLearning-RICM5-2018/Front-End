@@ -27,7 +27,7 @@ import { ContactService } from './services/contact.service';
 import { OfferService } from './services/offer.service';
 import { UserOfferService } from './services/user-offer.service';
 import { UserService } from './services/user.service';
-
+import { StatsService } from './services/stats.service';
 
 
 const appRoutes: Routes = [
@@ -77,6 +77,7 @@ const appRoutes: Routes = [
     OfferService,
     UserOfferService,
     UserService,
+    StatsService,
   ],
   bootstrap: [AppComponent]
 })
