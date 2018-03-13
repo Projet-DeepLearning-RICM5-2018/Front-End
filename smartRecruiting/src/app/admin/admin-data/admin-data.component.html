@@ -113,11 +113,11 @@
                 <form  class="form-horizontal" [formGroup]="form" (ngSubmit)="validateRegistration()">
                   <div class="form-group">
                     <input class="col-12 form-control" name="title" type="text" placeholder="Titre de l'offre" [(ngModel)]="selectedData.offer.title" formControlName="title">
-                    <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger"> Le champs est requis </div>
+                    <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger"> Le champ est requis </div>
                   </div>
                   <div class="form-group">
                     <textarea class="col-12 form-control" name="textarea" type="text" rows="20" placeholder="Texte de l'offre" [(ngModel)]="selectedData.offer.content" formControlName="content"></textarea>
-                    <div *ngIf="content.invalid && (content.dirty || content.touched)" class="alert alert-danger"> Le champs est requis </div>
+                    <div *ngIf="content.invalid && (content.dirty || content.touched)" class="alert alert-danger"> Le champ est requis </div>
                   </div>
                 </form>
               </div>
@@ -159,7 +159,7 @@
       </button>
     </div>
     <div class="modal-body">
-      Etes-vous sûre de vouloir supprimer cette offre?
+      Etes-vous sûr de vouloir supprimer cette offre ?
     </div>
     <div class="modal-footer">
       <div class="row col-12 d-flex justify-content-center">

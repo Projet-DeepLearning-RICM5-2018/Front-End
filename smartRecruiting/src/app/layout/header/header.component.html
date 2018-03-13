@@ -57,14 +57,14 @@
   </div>
   <div class="modal-body">
     <div class="alert alert-danger" *ngIf="logError" role="alert">
-      Cet utilisateur n'existe pas ou vous vous êtes trompez en rentrant vos identifiants.
+      Cet utilisateur n'existe pas ou vous vous êtes trompé en rentrant vos identifiants.
     </div>
     <div class="alert alert-danger" *ngIf="erreurServeur" role="alert">
-      Une erreur c'est produite sur le serveur reessayez plus tard.
+      Une erreur s'est produite sur le serveur, réessayez plus tard.
     </div>
     <form class="needs-validation" novalidate>
       <div class="alert alert-danger" role="alert" *ngIf="!validForm">
-        Des champs sont manquant
+        Des champs sont manquants
       </div>
       <div class="form-group">
         <label for="emailUser">Adresse mail</label>
@@ -98,36 +98,36 @@
   </div>
   <div class="modal-body">
     <div class="alert alert-danger" *ngIf="alreadyExist" role="alert">
-      Cet utilisateur exist déjà.
+      Cet utilisateur existe déjà.
     </div>
     <div class="alert alert-danger" *ngIf="erreurServeur" role="alert">
-      Une erreur c'est produite sur le serveur reessayez plus tard.
+      Une erreur s'est produite sur le serveur, réessayez plus tard.
     </div>
     <form  class="form-horizontal" [formGroup]="form" (ngSubmit)="validateRegistration()">
       <div class="form-group">
         <label>Nom*</label>
         <input type="text" class="form-control" [(ngModel)]="newUser.name" formControlName="name">
-        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger"> Le champs est requis </div>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger"> Le champ est requis </div>
       </div>
       <div class="form-group">
         <label>Prénom*</label>
         <input type="text" class="form-control" [(ngModel)]="newUser.surname" formControlName="surname">
-        <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger"> Le champs est requis </div>
+        <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger"> Le champ est requis </div>
       </div>
       <div class="form-group">
         <label>Rôle*</label>
         <input type="text" class="form-control" [(ngModel)]="newUser.role" formControlName="role">
-        <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger"> Le champs est requis </div>
+        <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger"> Le champ est requis </div>
       </div>
       <div class="form-group">
         <label >Email*</label>
         <input type="email" class="form-control" [(ngModel)]="newUser.email" formControlName="email">
-        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger"> Le champs est requis </div>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger"> Le champ est requis </div>
       </div>
       <div class="form-group">
         <label>Mot de passe*</label>
         <input type="password" class="form-control" [(ngModel)]="newUser.password" formControlName="password">
-        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger"> Le champs est requis </div>
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger"> Le champ est requis </div>
       </div>
       <div class="row col-12 justify-content-center">
         <button type="submit" class="btn btn-mysuccess col-4"  [disabled]="!form.valid">Valider</button>

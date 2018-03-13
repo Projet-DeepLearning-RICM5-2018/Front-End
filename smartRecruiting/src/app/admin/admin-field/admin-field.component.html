@@ -49,17 +49,17 @@
                   <div class="form-group">
                     <label>Nom de la formation*</label>
                     <input type="text" class="form-control"[(ngModel)]="selectedField.name" formControlName="name">
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger"> Le champs est requis </div>
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger"> Le champ est requis </div>
                   </div>
                   <div class="form-group">
                     <label>Description*</label>
                     <textarea type="text" class="form-control" [(ngModel)]="selectedField.description" formControlName="description"></textarea>
-                    <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger"> Le champs est requis </div>
+                    <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger"> Le champ est requis </div>
                   </div>
                   <div class="form-group">
                     <label>URL*</label>
                     <input type="text" class="form-control" [(ngModel)]="selectedField.website" formControlName="website">
-                    <div *ngIf="website.invalid && (website.dirty || website.touched)" class="alert alert-danger"> Le champs est requis </div>
+                    <div *ngIf="website.invalid && (website.dirty || website.touched)" class="alert alert-danger"> Le champ est requis </div>
                   </div>
                 </form>
               </div>
@@ -92,17 +92,17 @@
                           <div class="form-group">
                             <label>Prénom*</label>
                             <input type="text" class="form-control"[(ngModel)]="contact.name" formControlName="name">
-                            <div *ngIf="cname.invalid && (cname.dirty || cname.touched)" class="alert alert-danger"> Le champs est requis </div>
+                            <div *ngIf="cname.invalid && (cname.dirty || cname.touched)" class="alert alert-danger"> Le champ est requis </div>
                           </div>
                           <div class="form-group">
                             <label>Nom*</label>
                             <input type="text" class="form-control" [(ngModel)]="contact.surname" formControlName="surname">
-                            <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger"> Le champs est requis </div>
+                            <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger"> Le champ est requis </div>
                           </div>
                           <div class="form-group">
                             <label>Role*</label>
                             <input type="text" class="form-control" [(ngModel)]="contact.role" formControlName="role">
-                            <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger"> Le champs est requis </div>
+                            <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger"> Le champ est requis </div>
                           </div>
                           <div class="form-group">
                             <label>Email*</label>
@@ -112,7 +112,7 @@
                           <div class="form-group">
                             <label>Téléphone*</label>
                             <input type="text" class="form-control" [(ngModel)]="contact.phone" formControlName="phone">
-                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert alert-danger"> Le champs est requis </div>
+                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert alert-danger"> Le champ est requis </div>
                           </div>
                         </form>
                       </div>
@@ -146,7 +146,7 @@
     </button>
   </div>
   <div class="modal-body">
-    Etes-vous sûre de vouloir supprimer {{message}}?
+    Etes-vous sûr de vouloir supprimer {{message}} ?
   </div>
   <div class="modal-footer">
     <div class="row col-12 d-flex justify-content-center">
