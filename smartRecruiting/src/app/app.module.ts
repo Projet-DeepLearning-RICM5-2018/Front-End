@@ -19,7 +19,6 @@ import { FieldDetailsComponent } from './user/field-details/field-details.compon
 import { MyParamsComponent } from './user/my-params/my-params.component';
 
 import { PredictionService } from './services/prediction.service';
-import { FoundFieldService } from './services/found-field.service';
 import { AuthentificationService } from './services/authentification.service';
 import { UserAuthGuardService } from './services/user-auth-guard.service';
 import { AdminAuthGuardService } from './services/admin-auth-guard.service';
@@ -70,7 +69,6 @@ const appRoutes: Routes = [
   ],
   providers: [
     PredictionService,
-    FoundFieldService,
     AuthentificationService,
     UserAuthGuardService,
     AdminAuthGuardService,
