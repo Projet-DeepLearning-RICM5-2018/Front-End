@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {URL_API} from '../shared/constants';
+import {AuthentificationService} from './authentification.service';
 
 @Injectable()
 export class ContactService {
@@ -9,7 +10,16 @@ export class ContactService {
 
   constructor(
     private http: HttpClient,
+    private _authentificationservice: AuthentificationService,
   ) { }
+
+  createHeader() {
+    return {
+      headers: new HttpHeaders({
+        'Authorization' : 'Bearer ' + this._authentificationservice.getTokenUser().value
+      })
+    };
+  }
 
   createContact(fieldId, contact) {
     const body = JSON.stringify({
@@ -20,7 +30,7 @@ export class ContactService {
       'role': contact.role,
       'id_field': fieldId
     });
-    return this.http.post(this.contactsRoute, body);
+    return this.http.post(this.contactsRoute, body, this.createHeader());
   }
 
   updateContact(fieldId, contact) {
@@ -32,11 +42,11 @@ export class ContactService {
       'role': contact.role,
       'id_field': fieldId
     });
-    return this.http.put(this.contactsRoute + '/' + contact.id, body);
+    return this.http.put(this.contactsRoute + '/' + contact.id, body, this.createHeader());
   }
 
   deleteContact(contactId) {
-    return this.http.delete(this.contactsRoute + '/' + contactId);
+    return this.http.delete(this.contactsRoute + '/' + contactId, this.createHeader());
   }
 
 }
