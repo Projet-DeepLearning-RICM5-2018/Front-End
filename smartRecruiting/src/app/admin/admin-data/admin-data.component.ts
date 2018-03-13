@@ -175,12 +175,15 @@ export class AdminDataComponent implements OnInit {
       if (this.modifiedField) { // If the field changed
         // Update it
         this._offerService.updatePredictionOfOffer(this.selectedData.offer.id, this.selectedData.field.id).subscribe(
-          data => console.log(data)
+          data => {
+            this.goToCurrentPage();
+          }
         );
       }
       // Update the offer's text and title
       this._offerService.updateOffer(this.selectedData.offer).subscribe(
-        data => console.log(data)
+        data => {
+        }
       );
     }
     this.editingData = false;

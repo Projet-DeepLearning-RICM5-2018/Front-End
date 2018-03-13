@@ -53,7 +53,7 @@ export class MyParamsComponent implements OnInit {
       let copy = JSON.parse(JSON.stringify(this.userAccount));
       this._auth.updateDataUser(copy).subscribe(
         data => {
-          this.erreurServeur = true;
+          this.erreurServeur = false;
           this.modyfing = false;
           this.userAccount.password = "";
         },
