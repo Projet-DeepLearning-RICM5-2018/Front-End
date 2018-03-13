@@ -17,6 +17,7 @@
 
 * Une page pour permetre à l'administrateur d'ajouter des utilisateurs
 * Extraire les pop-ups d'inscription et de connexion du component header
+* Page mot de passe oublié
 
 ## Installation 
 
