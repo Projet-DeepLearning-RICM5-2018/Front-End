@@ -27,6 +27,14 @@ export class AdminDataComponent implements OnInit {
   public editingData: boolean;
   private isnew: boolean;
 
+  public dataLoadingError: boolean;
+  public dataSavingSuccess: boolean;
+  public dataSavingError: boolean;
+  public dataDeleteSuccess: boolean;
+  public dataDeleteError: boolean;
+  public predictionUpdateSuccess: boolean;
+  public predictionUpdateError: boolean;
+
   private modalDanger: NgbModalRef;
 
   public page: number;
@@ -41,6 +49,8 @@ export class AdminDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dataLoadingError = false;
+    this.clearDataAlerts();
     this.page = 1;
     this.savedSearchField = '';
     this.searchField = '';
@@ -49,7 +59,9 @@ export class AdminDataComponent implements OnInit {
         console.log(res);
         this.numberOfPages = res['nb_pages'];
         this.data = res['data'];
-      }, error2 => {}
+      }, error2 => {
+        this.dataLoadingError = true;
+      }
     );
     this._fieldService.getAllFieldsName().subscribe(data => this.all_fields = data);
     this.initForm();
@@ -68,6 +80,7 @@ export class AdminDataComponent implements OnInit {
   // Gestion de pages et de recherche //
 
   goToCurrentPage() {
+    this.dataLoadingError = false;
     function isSelectedField(f) {
       return f.name === this.savedSearchField;
     }
@@ -79,7 +92,7 @@ export class AdminDataComponent implements OnInit {
         this.data = res['data'];
         console.log(res);
       }, error2 => {
-        this.numberOfPages = 1;
+        this.dataLoadingError = true;
       }
     );
   }
@@ -104,6 +117,7 @@ export class AdminDataComponent implements OnInit {
 
   editData() {
     this.editingData = true;
+    this.clearDataAlerts();
   }
 
   deleteData() {
@@ -112,7 +126,8 @@ export class AdminDataComponent implements OnInit {
       res => {
         this.data = this.data.filter(obj => obj !== data);
         this.goToCurrentPage();
-      }
+        this.dataDeleteSuccess = true;
+      }, error2 => this.dataDeleteError = true
     );
     this.clear();
   }
@@ -150,7 +165,8 @@ export class AdminDataComponent implements OnInit {
           data.offer.id = id;
           this.data.unshift(data);
           this.goToCurrentPage();
-        }
+          this.dataSavingSuccess = true;
+        }, error2 => this.dataSavingError = true
       );
       this.isnew = false;
     } else {
@@ -159,17 +175,31 @@ export class AdminDataComponent implements OnInit {
         this._offerService.updatePredictionOfOffer(this.selectedData.offer.id, this.selectedData.field.id).subscribe(
           data => {
             this.goToCurrentPage();
-          }
+            this.predictionUpdateSuccess = true;
+          }, error2 => this.predictionUpdateError = true
         );
       }
       // Update the offer's text and title
       this._offerService.updateOffer(this.selectedData.offer).subscribe(
         data => {
+          this.dataSavingSuccess = true;
+        }, error2 => {
+          this.dataSavingError = true;
         }
       );
     }
     this.editingData = false;
     this.editingField = false;
+    this.modifiedField = false;
+  }
+
+  clearDataAlerts() {
+    this.dataSavingSuccess = false;
+    this.dataSavingError = false;
+    this.dataDeleteSuccess = false;
+    this.dataDeleteError = false;
+    this.predictionUpdateSuccess = false;
+    this.predictionUpdateError = false;
   }
 
   clear() {
@@ -179,6 +209,7 @@ export class AdminDataComponent implements OnInit {
     this.editingField = false;
     this.modifiedField = false;
     this.editingData = false;
+    this.clearDataAlerts();
   }
 
   search() {
@@ -194,7 +225,7 @@ export class AdminDataComponent implements OnInit {
     this.goToCurrentPage();
   }
 
-  openDangerPopUp(danger){
+  openDangerPopUp(danger) {
     this.modalDanger = this.modalService.open(danger);
     this.modalDanger.result.then(
       (result) => {

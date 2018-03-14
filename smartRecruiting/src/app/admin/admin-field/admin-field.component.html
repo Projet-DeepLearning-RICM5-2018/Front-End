@@ -44,10 +44,10 @@
         <div class="col-11">
           <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
             <div class="alert alert-danger col-10" *ngIf="savingError" role="alert">
-              Erreur lors de la sauvegarde de formation
+              Une erreur s'est produite lors de la sauvegarde de la formation sur le serveur
             </div>
             <div class="alert alert-success col-10" *ngIf="savingSuccess" role="alert">
-              Succés de la sauvegarde de la formation
+              La formation a bien été sauvegardée
             </div>
           </div>
           <div *ngIf="selectedField">
@@ -135,16 +135,16 @@
                 </div>
               </div>
               <div class="alert alert-success col-10" *ngIf="contactSavingSuccess" role="alert">
-                Succés de la sauvegarde du contact
+                Le contact a bien été sauvagardé
               </div>
               <div class="alert alert-danger col-10" *ngIf="contactSavingError" role="alert">
-                Erreur serveur lors de la sauvegarde du contact
+                Une erreur s'est produite lors de la sauvegarde du contact sur le serveur
               </div>
               <div class="alert alert-success col-10" *ngIf="contactDeleteSuccess" role="alert">
-                Succés de la suppression du contact
+                Le contact a bien été supprimé
               </div>
               <div class="alert alert-danger col-10" *ngIf="contactDeleteError" role="alert">
-                Erreur serveur lors de la suppression du contact
+                Une erreur s'est produite lors de la suppression de données sur le serveur
               </div>
             </div>
             <div class="row mb-2 col-12 d-flex justify-content-center">

@@ -34,6 +34,9 @@
         <ngb-pagination [collectionSize]="numberOfPages*10" [(page)]="page" [maxSize]="5" [rotate]="true" (pageChange)="goToCurrentPage()"></ngb-pagination>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
+        <div class="alert alert-danger col-10" *ngIf="dataLoadingError" role="alert">
+          Erreur lors du chargement des données
+        </div>
         <ul class="list-group col-10" style="overflow: auto; height:600px;">
           <li *ngFor="let d of data" class="list-group-item justify-content-between align-items-center">
             <div class="row">
@@ -59,6 +62,27 @@
           </div>
         </div>
         <div class="col-11">
+          <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
+            <div class="alert alert-success col-10" *ngIf="dataSavingSuccess" role="alert">
+              L'offre a bien été sauvegardée
+            </div>
+            <div class="alert alert-danger col-10" *ngIf="dataSavingError" role="alert">
+              <p>Une erreur s'est produite lors de la sauvegarde de l'offre sur le serveur</p>
+              Veuillez recharger la page
+            </div>
+            <div class="alert alert-success col-10" *ngIf="dataDeleteSuccess" role="alert">
+              Les données ont bien été supprimées
+            </div>
+            <div class="alert alert-danger col-10" *ngIf="dataDeleteError" role="alert">
+              Une erreur s'est produite lors de la suppression de données sur le serveur
+            </div>
+            <div class="alert alert-success col-10" *ngIf="predictionUpdateSuccess" role="alert">
+              La prédiction de cette offre a bien été mise à jour
+            </div>
+            <div class="alert alert-danger col-10" *ngIf="predictionUpdateError" role="alert">
+              Une erreur s'est produite, lors de la mise a jour de la prédiciton de cette offre, sur le serveur
+            </div>
+          </div>
           <div *ngIf="selectedData">
             <div *ngIf="!editingData">
               <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
@@ -123,7 +147,7 @@
                 </ul>
               </div>
               <div class="row mb-2 col-12 d-flex justify-content-center">
-                <button class="btn btn-mysuccess btn-margin-right" (click)="save()" [disabled]="!form.valid">Sauvegarder</button>
+                <button class="btn btn-mysuccess btn-margin-right" (click)="save()" [disabled]="!form.valid || !selectedData.field.id">Sauvegarder</button>
                 <button class="btn btn-mydanger btn-margin-left" *ngIf="!isnew" (click)="openDangerPopUp(danger)">Supprimer</button>
               </div>
             </div>
