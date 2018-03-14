@@ -13,9 +13,20 @@
         </a>
       </div>
 
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <div class="alert alert-danger col-10 mt-2" *ngIf="loadListIssue" role="alert">
+          Erreur de chargement de la liste d'offres
+        </div>
+        <div class="alert alert-danger col-10 mt-2" *ngIf="eraseOfferIssue" role="alert">
+          Une erreur s'est produite lors de la suppression de l'offre
+        </div>
+        <div class="alert alert-success col-10 mt-2" *ngIf="eraseOfferSuccess" role="success">
+          L'offre a bien été supprimée
+        </div>
+      </div>
       <div class="row mb-2 col-12 d-flex justify-content-center" style="overflow: auto; height:700px;">
-        <div *ngIf="load" class="mt-5" style="color:#00CECB"><i class="fas fa-spinner fa-pulse fa-5x"></i></div>
-        <ul *ngIf="!load" class="list-group col-12">
+        <div *ngIf="!offers" class="mt-5" style="color:#00CECB"><i class="fas fa-spinner fa-pulse fa-5x"></i></div>
+        <ul class="list-group col-12">
           <li *ngFor="let offer of offers"  class="list-group-item justify-content-between align-items-center">
             <div class="row">
               <div class="col-8">{{offer.title}}</div>
@@ -48,6 +59,11 @@
         <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
           <h4>Résultats</h4>
         </div>
+        <div class="row mt-2 col-12 d-flex justify-content-center">
+          <div class="alert alert-danger col-10" *ngIf="loadPredictionIssue" role="alert">
+            Une erreur s'est produite lors du chargement de la prediction
+          </div>
+        </div>
         <div *ngIf="selectedOffer.inbase != null">
           <div *ngIf="!modifyingPrediction">
             <div class="row mb-2 col-12 d-flex justify-content-center">
@@ -64,12 +80,23 @@
               </div>
               <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
                 <button class="btn btn-myprimary btn-margin-left" (click)="modifyPrediction()">Modifier</button>
+                <div class="alert alert-danger col-12 mt-2" *ngIf="modifPredictionIssue" role="alert">
+                  Une erreur s'est produite lors de la modification de la prédiction
+                </div>
+                <div class="alert alert-success col-12 mt-2" *ngIf="modifPredictionSuccess" role="success">
+                  La prédiction a bien été modifiée
+                </div>
               </div>
               <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
                 Donnez votre feedback sur cette prédiction ?
               </div>
               <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
                 <button class="btn btn-mysuccess btn-margin-right" (click)="openWarningPopUp(warning)">Bonne</button>
+              </div>
+              <div class="row mt-2 col-12 d-flex justify-content-center">
+                <div class="alert alert-danger col-10" *ngIf="inBaseIssue" role="alert">
+                  Une erreur s'est produite lors de la validation de la prédiction
+                </div>
               </div>
             </div>
             <div *ngIf="selectedOffer.inbase" class="row mt-4 mb-2 col-12 d-flex justify-content-center">
