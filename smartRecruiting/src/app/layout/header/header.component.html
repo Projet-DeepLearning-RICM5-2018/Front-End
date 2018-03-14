@@ -62,7 +62,7 @@
     <div class="alert alert-danger" *ngIf="erreurServeur" role="alert">
       Une erreur s'est produite sur le serveur, réessayez plus tard.
     </div>
-    <form class="needs-validation" novalidate>
+    <form (keyup.enter)="validateConnexion()" class="needs-validation" novalidate>
       <div class="alert alert-danger" role="alert" *ngIf="!validForm">
         Des champs sont manquants
       </div>
