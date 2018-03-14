@@ -31,25 +31,7 @@
         </div>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" aria-label="Previous" (click)="previousPage()">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-              </a>
-            </li>
-            <li class="page-item" *ngFor="let nbPage of pagesNumbers">
-              <a class="page-link" (click)="goToPage(nbPage)">{{nbPage}}</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" aria-label="Next" (click)="nextPage()">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <ngb-pagination [collectionSize]="numberOfPages*10" [(page)]="page" [maxSize]="5" [rotate]="true" (pageChange)="goToCurrentPage()"></ngb-pagination>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center">
         <ul class="list-group col-10" style="overflow: auto; height:600px;">

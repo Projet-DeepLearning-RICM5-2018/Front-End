@@ -18,7 +18,6 @@ export class AdminDataComponent implements OnInit {
   public selectedData: any;
   public all_fields: any;
   public selectedfield: string;
-  public pagesNumbers: any;
 
   public searchField: string;
   public savedSearchField: string;
@@ -29,7 +28,9 @@ export class AdminDataComponent implements OnInit {
   private isnew: boolean;
 
   private modalDanger: NgbModalRef;
-  private pageNumber: number;
+
+  public page: number;
+  public numberOfPages: number;
 
   form: FormGroup;
 
@@ -40,13 +41,13 @@ export class AdminDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pageNumber = 1;
+    this.page = 1;
     this.savedSearchField = '';
     this.searchField = '';
-    this._offerService.getOffersPage(this.pageNumber).subscribe(
+    this._offerService.getOffersPage(this.page).subscribe(
       res => {
         console.log(res);
-        this.pagesNumbers = Array.from(new Array(res['nb_pages']), (val, index) => index + 1);
+        this.numberOfPages = res['nb_pages'];
         this.data = res['data'];
       }, error2 => {}
     );
@@ -66,38 +67,19 @@ export class AdminDataComponent implements OnInit {
 
   // Gestion de pages et de recherche //
 
-  previousPage() {
-    if (this.pageNumber > 1) {
-      this.pageNumber = this.pageNumber - 1;
-      this.goToCurrentPage();
-    }
-  }
-
-  nextPage() {
-    if (this.pageNumber < this.pagesNumbers.length) {
-      this.pageNumber = this.pageNumber + 1;
-      this.goToCurrentPage();
-    }
-  }
-
-  goToPage(nbPage) {
-    this.pageNumber = nbPage;
-    this.goToCurrentPage();
-  }
-
-  private goToCurrentPage() {
+  goToCurrentPage() {
     function isSelectedField(f) {
       return f.name === this.savedSearchField;
     }
     const field = this.all_fields.find(isSelectedField, this);
     const id = field ? field.id : null;
-    this._offerService.getOffersPageSearch(this.pageNumber, id).subscribe(
+    this._offerService.getOffersPageSearch(this.page, id).subscribe(
       res => {
-        this.pagesNumbers = Array.from(new Array(res['nb_pages']), (val, index) => index + 1);
+        this.numberOfPages = res['nb_pages'];
         this.data = res['data'];
         console.log(res);
       }, error2 => {
-        this.pagesNumbers = Array.from(new Array(5), (val, index) => index + 1);
+        this.numberOfPages = 1;
       }
     );
   }
@@ -106,7 +88,7 @@ export class AdminDataComponent implements OnInit {
 
   addData() {
     this.clear();
-    this.selectedData = {'offer': new Offer(), 'field': new Field()}
+    this.selectedData = {'offer': new Offer(), 'field': new Field()};
     this.editingField = true;
     this.editingData = true;
     this.isnew = true;
@@ -200,13 +182,13 @@ export class AdminDataComponent implements OnInit {
   }
 
   search() {
-    this.pageNumber = 1;
+    this.page = 1;
     this.savedSearchField = this.searchField;
     this.goToCurrentPage();
   }
 
   cancelSearch() {
-    this.pageNumber = 1;
+    this.page = 1;
     this.searchField = '';
     this.savedSearchField = '';
     this.goToCurrentPage();

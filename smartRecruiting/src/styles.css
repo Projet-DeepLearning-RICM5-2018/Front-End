@@ -147,6 +147,21 @@ h1, h2, h3, h4, h5, h6{
   color: #9ECD43;
 }
 
+/*======================PAGINATION=============================*/
+a.page-link {
+
+}
+
+li.page-item.active .page-link {
+  background: #00CECB;
+  border-color: #00CECB;
+  color: #FFFFEA;
+}
+
+li.page-item .page-link {
+  color: #00CECB;
+}
+
 /*======================OTHERS=================================*/
 
 /*a*/
