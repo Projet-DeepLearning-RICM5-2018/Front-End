@@ -22,11 +22,20 @@ export class AdminFieldComponent implements OnInit {
   private isNewField: boolean;
   private isNewContact: boolean;
 
+  // Booleens pour les alertes
+  public fieldsLoadingError: boolean;
+  public savingSuccess: boolean;
+  public savingError: boolean;
+  public contactSavingSuccess: boolean;
+  public contactSavingError: boolean;
+  public contactDeleteSuccess: boolean;
+  public contactDeleteError: boolean;
+
   formField: FormGroup;
   formContact: FormGroup;
 
   private modalDanger: NgbModalRef;
-  private message : string;
+  private message: string;
 
   constructor(
     private _modalService: NgbModal,
@@ -41,8 +50,12 @@ export class AdminFieldComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fieldsLoadingError = false;
     this._fieldsService.getAllFields().subscribe(
-      data => this.initFields(data)
+      data => this.initFields(data),
+      error2 => {
+        this.fieldsLoadingError = true;
+      }
     );
     this.selectedField = null;
     this.currentContact = null;
@@ -96,11 +109,13 @@ export class AdminFieldComponent implements OnInit {
   }
 
   selectField(f) {
+    this.clear();
     this.selectedField = f;
     this.showContact = (f.contacts && f.contacts.length > 0);
   }
 
   addContact() {
+    this.clearContactAlerts();
     this.isNewContact = true;
     this.showContact = true;
     const newcontact = new Contact();
@@ -112,6 +127,7 @@ export class AdminFieldComponent implements OnInit {
   }
 
   editContact(c) {
+    this.clearContactAlerts();
     this.isNewContact = false;
     this.currentContact = c;
     console.log(c);
@@ -122,6 +138,8 @@ export class AdminFieldComponent implements OnInit {
   }
 
   saveContact(c) {
+    this.clearContactAlerts();
+    const index = this.selectedField.contacts.indexOf(c);
     if (this.isNewField) {
       if (!this.isNewContact) {
         this.updateContact(c);
@@ -129,10 +147,16 @@ export class AdminFieldComponent implements OnInit {
     } else {
       if (this.isNewContact) {
         this._contactService.createContact(this.selectedField.id, c).subscribe(
-          contact => c = contact
+          contact => {
+            this.selectedField.contacts[index] = contact;
+            this.contactSavingSuccess = true;
+          }, error2 => this.contactSavingError = true
         );
       } else {
-        this._contactService.updateContact(this.selectedField.id, c).subscribe();
+        this._contactService.updateContact(this.selectedField.id, c).subscribe(
+          res => this.contactSavingSuccess = true,
+          error2 => this.contactSavingError = true
+        );
       }
     }
     this.showContact = true;
@@ -146,12 +170,15 @@ export class AdminFieldComponent implements OnInit {
   }
 
   removeContact(c) {
+    this.clearContactAlerts();
     if (this.isNewField) {
       this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c);
     } else {
-      console.log(c);
       this._contactService.deleteContact(c.id).subscribe(
-        res => this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c)
+        res => {
+          this.selectedField.contacts = this.selectedField.contacts.filter(obj => obj !== c);
+          this.contactDeleteSuccess = true;
+          }, error2 => this.contactDeleteError = true
       );
     }
     if (this.selectedField.contacts.length <= 0) {
@@ -171,12 +198,21 @@ export class AdminFieldComponent implements OnInit {
 
   saveField() {
     const f = this.selectedField;
+    this.savingError = false;
+    this.savingSuccess = false;
     if (this.isNewField) {
       this._fieldsService.createField(f).subscribe(
-        field => this.addNewFieldToAll(field)
+        field => {
+          this.addNewFieldToAll(field);
+          this.savingSuccess = true;
+        },
+        error2 => this.savingError = true
       );
     } else {
-      this._fieldsService.updateField(f).subscribe(data => console.log('Saved'));
+      this._fieldsService.updateField(f).subscribe(
+        data => this.savingSuccess = true,
+        error2 => this.savingError = true
+      );
     }
     this.clear();
   }
@@ -184,16 +220,29 @@ export class AdminFieldComponent implements OnInit {
   deleteField() {
     const to_delete = this.selectedField;
     this._fieldsService.deleteField(to_delete).subscribe(
-      data => this.deleteFieldToAll(to_delete)
+      data => {
+        this.deleteFieldToAll(to_delete);
+      }
     );
     this.clear();
   }
+
+   private clearContactAlerts() {
+    this.contactSavingError = false;
+    this.contactSavingSuccess = false;
+    this.contactDeleteError = false;
+    this.contactDeleteSuccess = false;
+  }
+
 
   clear() {
     this.selectedField = null;
     this.currentContact = null;
     this.showContact = false;
     this.isNewField = false;
+    this.savingSuccess = false;
+    this.savingError = false;
+    this.clearContactAlerts();
   }
 
   openDangerPopUp(danger, text, contact) {
@@ -203,6 +252,7 @@ export class AdminFieldComponent implements OnInit {
       (result) => {
         if (result === 'yes') {
           if (contact) {
+            console.log(contact);
             this.removeContact(contact);
           } else {
             this.deleteField();

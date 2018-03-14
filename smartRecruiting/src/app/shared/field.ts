@@ -6,5 +6,5 @@ export class Field {
   description: string;
   descriptor: string;
   website: string;
-  contacts: Contact[];
+  contacts: any;
 }

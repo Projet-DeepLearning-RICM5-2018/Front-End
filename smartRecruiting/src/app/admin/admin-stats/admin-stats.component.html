@@ -6,15 +6,20 @@
       <div class="row mt-4 mb-2 col-12 justify-content-center">
         <h2>Statistiques d'efficacité</h2>
       </div>
-      <div *ngIf="accuracyData" class="row mb-2 col-12 d-flex justify-content-center">
-        <ul>
-          <li>
-            Nombre de données testées : {{accuracyData[0]}}
-          </li>
-          <li>
-            Accuracy : {{accuracyData[1]}}
-          </li>
-        </ul>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <div *ngIf="accuracyData">
+          <ul>
+            <li>
+              Nombre de données testées : {{accuracyData[0]}}
+            </li>
+            <li>
+              Accuracy : {{accuracyData[1]}}
+            </li>
+          </ul>
+        </div>
+        <div class="alert alert-danger col-10" *ngIf="accuracyError" role="alert">
+          Erreur de communication avec le serveur.
+        </div>
       </div>
     </div>
     <!--Colonne 2-->
@@ -22,12 +27,17 @@
       <div class="row mt-4 mb-2 col-12 d-flex justify-content-center">
         <h2>Statistiques de charge</h2>
       </div>
-      <div *ngIf="todayPred" class="row mb-2 col-12 d-flex justify-content-center">
-        <ul>
-          <li>
-            Nombre de prédictions aujourd'hui : {{todayPred}}
-          </li>
-        </ul>
+      <div class="row mb-2 col-12 d-flex justify-content-center">
+        <div *ngIf="todayPred >= 0">
+          <ul>
+            <li>
+              Nombre de prédictions aujourd'hui : {{todayPred}}
+            </li>
+          </ul>
+        </div>
+        <div class="alert alert-danger col-10" *ngIf="todayError" role="alert">
+          Erreur de communication avec le serveur.
+        </div>
       </div>
     </div>
   </div>
