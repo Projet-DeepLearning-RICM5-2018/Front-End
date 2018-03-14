@@ -15,7 +15,7 @@
                    aria-describedby="basic-addon2" [(ngModel)]="search" (input)="filterFields(searchWords.value)">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button">
-                <img src="assets/open-iconic/svg/search.svg" height="30">
+                <img src="assets/open-iconic/svg/search.svg" height="30" alt="search">
               </button>
             </div>
           </div>
@@ -38,7 +38,7 @@
       <div class="row">
         <div class="col-1 align-self-center">
           <div *ngIf="selectedField">
-            <a role="button" (click)="clear()"><img src="assets/open-iconic/svg/next.svg" height="25"></a>
+            <a role="button" (click)="clear()"><img src="assets/open-iconic/svg/next.svg" height="25" alt="right arrow"></a>
           </div>
         </div>
         <div class="col-11">

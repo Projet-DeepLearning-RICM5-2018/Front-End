@@ -3,13 +3,13 @@
   <div class="row">
     <!--Colonne 1-->
     <div class="mt-2 col-1 ">
-      <a role="button" routerLink="" class="col-1"><img src="assets/open-iconic/svg/back.svg" height="25"></a>
+      <a role="button" routerLink="" class="col-1"><img src="assets/open-iconic/svg/back.svg" alt="left arrow" height="25"></a>
     </div>
     <div class="col-5 justify-content-center">
       <div class="row mt-4 mb-2 col-12 justify-content-center">
         <h2>Mes offres</h2>
         <a role="button" class="btn btn-outline-myprimary ml-5 align-self-center" routerLink="/offre" data-toggle="tooltip" data-placement="bottom" title="Ajouter une nouvelle offre">
-          <i class="fas fa-plus"></i>
+          <em class="fas fa-plus"></em>
         </a>
       </div>
 
@@ -25,16 +25,16 @@
         </div>
       </div>
       <div class="row mb-2 col-12 d-flex justify-content-center" style="overflow: auto; height:700px;">
-        <div *ngIf="!offers" class="mt-5" style="color:#00CECB"><i class="fas fa-spinner fa-pulse fa-5x"></i></div>
+        <div *ngIf="!offers" class="mt-5" style="color:#00CECB"><em class="fas fa-spinner fa-pulse fa-5x"></em></div>
         <ul class="list-group col-12">
           <li *ngFor="let offer of offers"  class="list-group-item justify-content-between align-items-center">
             <div class="row">
               <div class="col-8">{{offer.title}}</div>
               <div class="col-2">
-                <span class="badge btn-myprimary badge-pill mr-2" (click)="selectOffer(offer)"><a role="button" class="btn"><i class="fas fa-eye"></i></a></span>
+                <span class="badge btn-myprimary badge-pill mr-2" (click)="selectOffer(offer)"><a role="button" class="btn"><em class="fas fa-eye"></em></a></span>
               </div>
               <div class="col-2">
-                <span class="badge btn-mydanger badge-pill" (click)="openDangerPopUp(danger,offer)"><a role="button" class="btn"><i class="fas fa-trash-alt"></i></a></span>
+                <span class="badge btn-mydanger badge-pill" (click)="openDangerPopUp(danger,offer)"><a role="button" class="btn"><em class="fas fa-trash-alt"></em></a></span>
               </div>
             </div>
           </li>

@@ -19,14 +19,14 @@
             </select>
             <div class="input-group-append">
               <button class="btn btn-mysecondary" type="button" (click)="search()">
-                <i class="fas fa-search"></i>
+                <em class="fas fa-search"></em>
               </button>
             </div>
           </div>
         </div>
         <div *ngIf="savedSearchField != ''" class="col-1">
           <button class="btn btn-outline-mydanger" type="button" (click)="cancelSearch()">
-            <i class="fas fa-times"></i>
+            <em class="fas fa-times"></em>
           </button>
         </div>
       </div>
@@ -55,7 +55,7 @@
       <div class="row">
         <div class="col-1 align-self-center">
           <div *ngIf="selectedData">
-            <a role="button" (click)="clear()"><img src="assets/open-iconic/svg/next.svg" height="25"></a>
+            <a role="button" (click)="clear()"><img src="assets/open-iconic/svg/next.svg" alt="right arrow" height="25"></a>
           </div>
         </div>
         <div class="col-11">

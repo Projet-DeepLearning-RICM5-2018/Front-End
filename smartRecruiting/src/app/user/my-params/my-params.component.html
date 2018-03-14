@@ -7,16 +7,16 @@
       <h1 class="offset-1 col-7"> Paramètres du compte </h1>
       <div class="col-4 d-flex justify-content-end mt-2">
         <button class="btn mr-2 btn-mywarning" *ngIf="!modyfing" (click)="modifierUser()" data-toggle="tooltip" data-placement="bottom" title="Modifier">
-          <i class="fas fa-pencil-alt"></i>
+          <em class="fas fa-pencil-alt"></em>
         </button>
         <button class="btn mr-2 btn-mydanger"  *ngIf="!modyfing" (click)="openDangerPopUp(danger)" data-toggle="tooltip" data-placement="bottom" title="Supprimer">
-          <i class="fas fa-eraser"></i>
+          <em class="fas fa-eraser"></em>
         </button>
         <button class="btn mr-2 btn-mysuccess" *ngIf="modyfing" (click)="save()" data-toggle="tooltip" data-placement="bottom" title="Sauvegarder">
-          <i class="fas fa-save"></i>
+          <em class="fas fa-save"></em>
         </button>
         <button class="btn mr-2 btn-mysecondary" *ngIf="modyfing" (click)="annuler()" data-toggle="tooltip" data-placement="bottom" title="Annuler">
-           <i class="fas fa-times"></i>
+           <em class="fas fa-times"></em>
         </button>
       </div>
     </div>
