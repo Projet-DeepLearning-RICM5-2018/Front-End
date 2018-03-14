@@ -48,9 +48,11 @@ export class MyOffersComponent implements OnInit {
           this._userofferService.setCurrentOffersList(undefined);
           this._userofferService.setSelectedOffer(undefined);
           this._userofferService.setAssociatedField(undefined);
+      }else{
+        this.fields = this._userofferService.getAssociatedField();
+        this.selectedOffer = this._userofferService.getSelectedOffer();
       }
     });
-
     // subscribe and get saved data
     this.displayResults = !!this.selectedOffer;
     this._fieldService.getAllFieldsName().subscribe(
@@ -62,17 +64,28 @@ export class MyOffersComponent implements OnInit {
     else {
       this._offerService.getOfferForConnectedClient().subscribe(
           data => {
-            this.loadListIssue = false;
+            this.reinitAlert();
             this.offers = data;
             this._userofferService.setCurrentOffersList(this.offers);
           },
           error => {
+            this.reinitAlert();
             this.loadListIssue = true;
           }
       );
     }
     this.modifyingPrediction = false;
     this.selectedField = '';
+  }
+
+  reinitAlert(){
+    this.loadListIssue = false;
+    this.loadPredictionIssue = false;
+    this.modifPredictionIssue = false;
+    this.modifPredictionSuccess = false;
+    this.inBaseIssue = false;
+    this.eraseOfferIssue = false;
+    this.eraseOfferSuccess = false;
   }
 
   // Select an offer and get the associated field
@@ -85,12 +98,13 @@ export class MyOffersComponent implements OnInit {
     this._fieldService.getFieldByOffer(this.selectedOffer.id)
     .subscribe(
       data => {
-        this.loadPredictionIssue = false
+        this.reinitAlert();
         this.selectedOffer.inbase = data[0].inbase;
         this.fields = data;
         this._userofferService.setAssociatedField(this.fields);
       },
       error => {
+        this.reinitAlert();
         this.loadPredictionIssue = true;
         this.fields = [];
     });
@@ -107,10 +121,11 @@ export class MyOffersComponent implements OnInit {
   //modifPredictionIssue
     this._offerService.putOfferInBase(this.selectedOffer.id).subscribe(
       res => {
-        this.inBaseIssue = false;
+        this.reinitAlert();
         this.selectedOffer.inbase = true;
       },
       error => {
+        this.reinitAlert();
         this.inBaseIssue = true;
       }
     );
@@ -125,15 +140,15 @@ export class MyOffersComponent implements OnInit {
       const field = this.allFields.find(isSelectedField, this);
       this._offerService.updatePredictionOfOffer(this.selectedOffer.id, field.id).subscribe(
         res => {
-          this.modifPredictionIssue = false;
+          this.reinitAlert();
           this.modifPredictionSuccess = true;
           this.fields = [field];
           this._userofferService.setAssociatedField(this.fields);
 
         },
         error => {
+          this.reinitAlert();
           this.modifPredictionIssue = true;
-          this.modifPredictionSuccess = false;
         }
       );
       this.modifyingPrediction = false;
@@ -154,14 +169,15 @@ export class MyOffersComponent implements OnInit {
     }
     this._offerService.deleteOffer(offer.id).subscribe(
       data => {
-        this.eraseOfferIssue = false;
+        this.reinitAlert();
         this.eraseOfferSuccess = true;
         var index = this.offers.findIndex(it => it.id === offer.id);
         this.offers.splice(index, 1);
       },
       error => {
+        this.reinitAlert();
         this.eraseOfferIssue = true
-        this.eraseOfferSuccess = false;
+
       }
     );
   }
