@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
       'name': new FormControl(null, Validators.required),
       'surname': new FormControl(null, Validators.required),
       'role': new FormControl(null, Validators.required),
-      'email': new FormControl(null, Validators.required),
+      'email': new FormControl(null, Validators.email),
       'password': new FormControl(null, Validators.required)
     });
   }
