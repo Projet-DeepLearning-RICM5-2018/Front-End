@@ -25,7 +25,13 @@ export class MyOffersComponent implements OnInit {
   private modalDanger: NgbModalRef;
   private modalWarning: NgbModalRef;
 
-  public load = true;
+  public loadListIssue = false;
+  public loadPredictionIssue = false;
+  public modifPredictionIssue = false;
+  public modifPredictionSuccess = false;
+  public inBaseIssue = false;
+  public eraseOfferIssue = false;
+  public eraseOfferSuccess = false;
 
   constructor(
     private _authentificationService: AuthentificationService,
@@ -36,39 +42,33 @@ export class MyOffersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.offers = undefined;
     this._authentificationService.connectedUser$.subscribe(item => {
-      this.load = true;
       if(item==undefined){
           this._userofferService.setCurrentOffersList(undefined);
           this._userofferService.setSelectedOffer(undefined);
           this._userofferService.setAssociatedField(undefined);
       }
-      else{
-        this.load = false;
-      }
     });
 
     // subscribe and get saved data
     this.displayResults = !!this.selectedOffer;
-
     this._fieldService.getAllFieldsName().subscribe(
-      res => {
-        this.allFields = res;
-      }
+      res => {this.allFields = res;}
     )
 
     let list = this._userofferService.getCurrentOffersList();
-    if (list) {
-      this.load = false;
-      this.offers = list;
-    } else {
+    if (list) {this.offers = list;}
+    else {
       this._offerService.getOfferForConnectedClient().subscribe(
           data => {
+            this.loadListIssue = false;
             this.offers = data;
             this._userofferService.setCurrentOffersList(this.offers);
-            this.load = false;
           },
-          error => {}
+          error => {
+            this.loadListIssue = true;
+          }
       );
     }
     this.modifyingPrediction = false;
@@ -85,12 +85,15 @@ export class MyOffersComponent implements OnInit {
     this._fieldService.getFieldByOffer(this.selectedOffer.id)
     .subscribe(
       data => {
+        this.loadPredictionIssue = false
         this.selectedOffer.inbase = data[0].inbase;
         this.fields = data;
         this._userofferService.setAssociatedField(this.fields);
       },
-      error => {console.log(error); this.fields = [];}
-    );
+      error => {
+        this.loadPredictionIssue = true;
+        this.fields = [];
+    });
   }
 
   // Allow user to modify the field
@@ -101,8 +104,15 @@ export class MyOffersComponent implements OnInit {
 
   // Add prediction in learning base
   validatePrediction() {
+  //modifPredictionIssue
     this._offerService.putOfferInBase(this.selectedOffer.id).subscribe(
-      res => this.selectedOffer.inbase = true
+      res => {
+        this.inBaseIssue = false;
+        this.selectedOffer.inbase = true;
+      },
+      error => {
+        this.inBaseIssue = true;
+      }
     );
   }
 
@@ -115,9 +125,16 @@ export class MyOffersComponent implements OnInit {
       const field = this.allFields.find(isSelectedField, this);
       this._offerService.updatePredictionOfOffer(this.selectedOffer.id, field.id).subscribe(
         res => {
+          this.modifPredictionIssue = false;
+          this.modifPredictionSuccess = true;
           this.fields = [field];
           this._userofferService.setAssociatedField(this.fields);
-        }, error2 => {}
+
+        },
+        error => {
+          this.modifPredictionIssue = true;
+          this.modifPredictionSuccess = false;
+        }
       );
       this.modifyingPrediction = false;
     }
@@ -135,13 +152,17 @@ export class MyOffersComponent implements OnInit {
       this.selectedOffer = undefined;
       this.fields = undefined;
     }
-    console.log(offer);
     this._offerService.deleteOffer(offer.id).subscribe(
       data => {
+        this.eraseOfferIssue = false;
+        this.eraseOfferSuccess = true;
         var index = this.offers.findIndex(it => it.id === offer.id);
         this.offers.splice(index, 1);
       },
-      error => {}
+      error => {
+        this.eraseOfferIssue = true
+        this.eraseOfferSuccess = false;
+      }
     );
   }
 
