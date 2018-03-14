@@ -1,25 +1,28 @@
-# Front-End
+
+# Généralités du projet
 
 ## Fonctionnalités implémentées
 
-* Fonctionnalité utilisateur non connecté
+* Fonctionnalités utilisateur non connecté
     * Obtenir une prédiction en entrant le texte d'une offre
 
-* Fonctionnalité utilisateur connecté
+* Fonctionnalités utilisateur connecté
     * Consulter ses anciennes prédictions réalisées
 
-* Fonctionnalité administrateur
-    * Consulter la liste des formations présente dans la base de données, possibilité de les modifier et de les supprimer
+* Fonctionnalités administrateur
+    * Consulter la liste des formations présentes dans la base de données, possibilité de les modifier et de les supprimer
     * Consulter la liste des offres présentes dans la base de données, possibilité de les modifier et de les supprimer
     * Possibilité de trier les offres 
 
-## Fonctionnalité interesante à mettre en place
+## Fonctionnalités intéressantes à mettre en place
 
 * Une page pour permetre à l'administrateur d'ajouter des utilisateurs
+* Transformer l'algorithme de prédiction CNN pour prédire des équipes et non une filère
 * Extraire les pop-ups d'inscription et de connexion du component header
+* Validation du compte par email
 * Page mot de passe oublié
 
-## Installation 
+## Installation
 
 ### Windows
 
@@ -51,9 +54,11 @@
 ```
 
 ## Lancement
+
 ```shell
      ng serve --open
 ```
+
 
 ## Déploiement
 
@@ -62,4 +67,6 @@
 ```
      ng build
 ```
-3. l'ensemble du site web se situe dans le dossier dist généré par la commande précédente. Il vous suffit donc de copier le contenu du dossier dist dans le dossier publique de votre serveur.
+3. l'ensemble du site web se situe dans le dossier dist généré par la commande précédente. Il vous suffit donc de copier le contenu du dossier dist dans le dossier public de votre serveur.
+
+
